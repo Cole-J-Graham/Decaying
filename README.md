@@ -1,0 +1,1 @@
+A simple project with the purpose of keeping a simple yet effective startup solution for creating a game with the up to date SFML library. This will be for personal use and for whoever would like access to such a repository.
