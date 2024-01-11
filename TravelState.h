@@ -1,5 +1,4 @@
 #pragma once
-#include<SFML/Graphics.hpp>
 #include"State.h"
 
 class TravelState : public State
@@ -12,7 +11,7 @@ public:
 	//Core Travel Functions
 	void loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, std::vector<std::vector<int>> tiles, sf::Texture& tex1, sf::Texture& tex2, sf::Texture& tex3, sf::Texture& tex4);
 	void checkForMovement();
-	void loadMap(sf::RenderWindow& window);
+	void loadMap(sf::RenderTarget* target);
 	void loadCollisionMap(sf::RenderWindow& window);
 
 	//State Functions

@@ -129,7 +129,7 @@ void TravelState::checkForMovement()
 	}
 }
 
-void TravelState::loadMap(sf::RenderWindow& window)
+void TravelState::loadMap(sf::RenderTarget* target)
 {
 	//Create Level
 	std::vector<std::vector<int>> level{
@@ -164,7 +164,7 @@ void TravelState::loadMap(sf::RenderWindow& window)
 	//Draw the 2d vector aka tilemap
 	for (int x = 0; x < col; x++) {
 		for (int y = 0; y < row; y++) {
-			window.draw(tileMap[x][y]);
+			target->draw(tileMap[x][y]);
 		}
 	}
 }
@@ -254,12 +254,6 @@ void TravelState::loadCollisionMap(sf::RenderWindow& window)
 			}
 		}
 	}
-	//Draw the 2d vector aka tilemap
-	for (int x = 0; x < col; x++) {
-		for (int y = 0; y < row; y++) {
-			window.draw(collisionMap[x][y]);
-		}
-	}
 }
 
 //State Functions
@@ -276,6 +270,7 @@ void TravelState::update(const float& dt)
 
 void TravelState::render(sf::RenderTarget* target)
 {
+	loadMap(target);
 	target->draw(zinPixelSprite);
 }
 
