@@ -1,5 +1,6 @@
 #pragma once
 #include"State.h"
+#include"TileMap.h"
 
 class TravelState : public State
 {
@@ -9,10 +10,8 @@ public:
 	~TravelState();
 
 	//Core Travel Functions
-	void loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, std::vector<std::vector<int>> tiles, sf::Texture& tex1, sf::Texture& tex2, sf::Texture& tex3, sf::Texture& tex4);
+	void setLocation();
 	void checkForMovement();
-	void loadMap(sf::RenderTarget* target);
-	void loadCollisionMap(sf::RenderWindow& window);
 
 	//State Functions
 	void endState();
@@ -22,24 +21,13 @@ public:
 
 	//Assets
 	void setAssets();
+	void loadAssets();
 	void animateTimer();
 	void animateFourFrames(sf::Sprite& inSprite, int xOffset, float posX, float posY);
 
 private:
-	std::vector<std::vector<sf::Sprite>> tileMap;
-	std::vector<std::vector<sf::RectangleShape>> collisionMap;
-
-	sf::Texture forestTile1;
-	sf::Texture forestTile2;
-	sf::Texture forestTile3;
-	sf::Texture forestTile4;
-	//sf::RectangleShape playerDetection;
-
 	//Core Variables
-	float gridSizeF;
-	int col;
-	int row;
-
+	int location;
 	int frame;
 	bool frameInit;
 
