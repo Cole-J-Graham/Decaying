@@ -124,8 +124,8 @@ void TravelState::update(const float& dt)
 void TravelState::render(sf::RenderTarget* target)
 {
 	TileMap tilemap;
-	tilemap.loadForest(*target);
-	tilemap.loadCollisionMap(*target, zinPixelSprite);
+	tilemap.loadForest(*target, zinPixelSprite);
+	//tilemap.loadCollisionMap(*target, zinPixelSprite);
 	target->draw(zinPixelSprite);
 }
 

@@ -6,15 +6,14 @@ class TileMap
 public:
 	//Constructors and Destructors
 	TileMap();
-	TileMap(unsigned width, unsigned height, sf::Texture& tile_sheet, unsigned tile_size);
 	~TileMap();
 
 	//Core Functions
 	void loadMap(std::vector<std::vector<sf::Sprite>>& map, sf::Texture& mapSpriteSheet, std::vector<std::vector<int>>& tileData);
-	void detectCollision(std::vector<std::vector<sf::RectangleShape>>& colRect, std::vector<std::vector<int>>& inData, sf::Sprite& inSprite);
+	void detectCollision(std::vector<std::vector<sf::Sprite>>& colSprite, std::vector<std::vector<int>>& inData, sf::Sprite& inSprite);
 
 	//Load Functions
-	void loadForest(sf::RenderTarget& target);
+	void loadForest(sf::RenderTarget& target, sf::Sprite& sprite);
 	void loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite);
 
 	//State Fucntions
@@ -26,8 +25,6 @@ public:
 
 private:
 	std::vector<std::vector<sf::Sprite>> tileMap;
-	std::vector<std::vector<sf::RectangleShape>> collisionMap;
-	std::vector<std::vector<int>> collisionData;
 
 	//Map data
 	std::vector<std::vector<int>> forest;

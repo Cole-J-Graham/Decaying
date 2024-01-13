@@ -48,17 +48,17 @@ void TileMap::loadMap(std::vector<std::vector<sf::Sprite>>& map, sf::Texture& ma
 	}
 }
 
-void TileMap::detectCollision(std::vector<std::vector<sf::RectangleShape>>& colRect, std::vector<std::vector<int>>& inData, sf::Sprite& inSprite)
+void TileMap::detectCollision(std::vector<std::vector<sf::Sprite>>& colSprite, std::vector<std::vector<int>>& inData, sf::Sprite& inSprite)
 {
 	//Collision Function
-	for (int x = 0; x < colRect.size(); x++) {
-		for (int y = 0; y < colRect.size(); y++) {
-			if (inSprite.getGlobalBounds().intersects(colRect[x][y].getGlobalBounds())) {
+	for (int x = 0; x < colSprite.size(); x++) {
+		for (int y = 0; y < colSprite.size(); y++) {
+			if (inSprite.getGlobalBounds().intersects(colSprite[x][y].getGlobalBounds())) {
 				if (inData[x][y] == 1) {
 					sf::FloatRect playerBounds = inSprite.getGlobalBounds();
-					sf::FloatRect wallBounds = colRect[x][y].getGlobalBounds();
+					sf::FloatRect wallBounds = colSprite[x][y].getGlobalBounds();
 					sf::FloatRect area;
-					if (inSprite.getGlobalBounds().intersects(colRect[x][y].getGlobalBounds(), area))
+					if (inSprite.getGlobalBounds().intersects(colSprite[x][y].getGlobalBounds(), area))
 					{
 						// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
 						if (area.width > area.height)
@@ -95,10 +95,8 @@ void TileMap::detectCollision(std::vector<std::vector<sf::RectangleShape>>& colR
 }
 
 //Load Functions
-void TileMap::loadForest(sf::RenderTarget& target)
+void TileMap::loadForest(sf::RenderTarget& target, sf::Sprite& sprite)
 {
-	/*Inserted map data must change to allow for mass produced levels with varying collision
-	based off of what is needed for the game which will allow for scalability...*/
 	//Create Level
 	std::vector<std::vector<int>> forest{
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -121,60 +119,13 @@ void TileMap::loadForest(sf::RenderTarget& target)
 
 	//Resize the 2d vector to rows and columns of a specific size
 	this->loadMap(tileMap, forestSheet, forest);
+	this->detectCollision(tileMap, forest, sprite);
 	//Draw the 2d vector aka tilemap
 	for (int x = 0; x < col; x++) {
 		for (int y = 0; y < row; y++) {
 			target.draw(tileMap[x][y]);
 		}
 	}
-}
-
-void TileMap::loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite)
-{
-	std::vector<std::vector<int>> collisionData = {
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	};
-
-	//Resize the 2d vector to rows and columns of a specific size
-	collisionMap.resize(row, std::vector<sf::RectangleShape>(col));
-	//Set attributes for the 2d vector
-	for (int x = 0; x < col; x++) {
-		for (int y = 0; y < row; y++) {
-			collisionMap[x][y].setScale(sf::Vector2f(0.4f, 0.4f));
-			collisionMap[x][y].setPosition(x * gridSizeF + 440, y * gridSizeF);
-			collisionMap[x][y].setSize(sf::Vector2f(160.f, 160.f));
-			if (collisionData[x][y] == 0) {
-				collisionMap[x][y].setFillColor(sf::Color::Transparent);
-			}
-			else if (collisionData[x][y] == 1) {
-				collisionMap[x][y].setFillColor(sf::Color::Transparent);
-			}
-		}
-	}
-
-	//Draw the 2d vector aka tilemap
-	for (int x = 0; x < col; x++) {
-		for (int y = 0; y < row; y++) {
-			target.draw(collisionMap[x][y]);
-		}
-	}
-
-	this->detectCollision(collisionMap, collisionData, sprite);
 }
 
 //State Functions
