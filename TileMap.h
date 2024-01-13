@@ -10,7 +10,7 @@ public:
 	~TileMap();
 
 	//Core Functions
-	void loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, std::vector<std::vector<int>> tiles, sf::Texture& tex1, sf::Texture& tex2, sf::Texture& tex3, sf::Texture& tex4);
+	void loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, sf::Texture& spriteSheet, std::vector<std::vector<int>>& tileData);
 	void loadForest(sf::RenderTarget& target);
 	void loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite);
 
@@ -35,10 +35,9 @@ private:
 	float gridSizeF;
 	int col;
 	int row;
+	int sheetX;
+	int sheetY;
 
-	sf::Texture forestTile1;
-	sf::Texture forestTile2;
-	sf::Texture forestTile3;
-	sf::Texture forestTile4;
+	sf::Texture forestSheet;
 };
 

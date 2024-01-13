@@ -6,6 +6,8 @@ TileMap::TileMap()
 	this->gridSizeF = 64.f;
 	this->col = 16;
 	this->row = 16;
+	this->sheetX;
+	this->sheetY;
 
 	//Assets
 	this->loadAssets();
@@ -17,22 +19,27 @@ TileMap::~TileMap()
 }
 
 //Core Functions
-void TileMap::loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, std::vector<std::vector<int>> tiles, sf::Texture& tex1, sf::Texture& tex2, sf::Texture& tex3, sf::Texture& tex4)
+void TileMap::loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, sf::Texture& spriteSheet, std::vector<std::vector<int>>& tileData)
 {
 	//Draw a specific set texture tile based on which input is recieved from a tilemap vector
 	for (int x = 0; x < col; x++) {
 		for (int y = 0; y < row; y++) {
-			if (tiles[x][y] == 0) {
-				inSprite[x][y].setTexture(tex1);
+			inSprite[x][y].setTexture(spriteSheet);
+			if (tileData[x][y] == 0) {
+				this->sheetX = 0;
+				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
-			else if (tiles[x][y] == 1) {
-				inSprite[x][y].setTexture(tex2);
+			else if (tileData[x][y] == 1) {
+				this->sheetX = 16;
+				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
-			else if (tiles[x][y] == 2) {
-				inSprite[x][y].setTexture(tex3);
+			else if (tileData[x][y] == 2) {
+				this->sheetX = 32;
+				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
-			else if (tiles[x][y] == 3) {
-				inSprite[x][y].setTexture(tex4);
+			else if (tileData[x][y] == 3) {
+				this->sheetX = 48;
+				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
 		}
 	}
@@ -40,6 +47,8 @@ void TileMap::loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, std:
 
 void TileMap::loadForest(sf::RenderTarget& target)
 {
+	/*Inserted map data must change to allow for mass produced levels with varying collision
+	based off of what is needed for the game which will allow for scalability...*/
 	//Create Level
 	std::vector<std::vector<int>> forest{
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -65,9 +74,9 @@ void TileMap::loadForest(sf::RenderTarget& target)
 	//Set attributes for the 2d vector
 	for (int x = 0; x < col; x++) {
 		for (int y = 0; y < row; y++) {
-			tileMap[x][y].setScale(sf::Vector2f(0.4f, 0.4f));
+			tileMap[x][y].setScale(sf::Vector2f(4.0f, 4.0f));
 			tileMap[x][y].setPosition(x * gridSizeF + 440, y * gridSizeF);
-			loadingOnTile(tileMap, forest, forestTile1, forestTile2, forestTile3, forestTile4);
+			loadingOnTile(tileMap, forestSheet, forest);
 		}
 	}
 	//Draw the 2d vector aka tilemap
@@ -106,7 +115,6 @@ void TileMap::loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite)
 		for (int y = 0; y < row; y++) {
 			collisionMap[x][y].setScale(sf::Vector2f(0.4f, 0.4f));
 			collisionMap[x][y].setPosition(x * gridSizeF + 440, y * gridSizeF);
-			//loadingOnTile(tileMap, level, forestTile1, forestTile2, forestTile3, forestTile4);
 		}
 	}
 	for (int x = 0; x < col; x++) {
@@ -116,7 +124,7 @@ void TileMap::loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite)
 				collisionMap[x][y].setFillColor(sf::Color::Transparent);
 			}
 			else if (collisionData[x][y] == 1) {
-				collisionMap[x][y].setFillColor(sf::Color::Red);
+				collisionMap[x][y].setFillColor(sf::Color::Transparent);
 			}
 		}
 	}
@@ -187,8 +195,5 @@ void TileMap::render(sf::RenderTarget& target)
 //Assets
 void TileMap::loadAssets()
 {
-	this->forestTile1.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/Sprite-0001.png");
-	this->forestTile2.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/Sprite-0002.png");
-	this->forestTile3.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/Sprite-0003.png");
-	this->forestTile4.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/Sprite-0004.png");
+	this->forestSheet.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/landSpriteSheet.png");
 }

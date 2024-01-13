@@ -132,8 +132,8 @@ void TravelState::render(sf::RenderTarget* target)
 //Assets
 void TravelState::setAssets()
 {
-	mapImage.loadFromFile("Assets/Wallpapers/Forest/forest1.jpeg");
-	mapSprite.setTexture(mapImage);
+	//mapImage.loadFromFile("Assets/Wallpapers/Forest/forest1.jpeg");
+	//mapSprite.setTexture(mapImage);
 }
 
 void TravelState::loadAssets()
