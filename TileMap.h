@@ -10,7 +10,10 @@ public:
 	~TileMap();
 
 	//Core Functions
-	void loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, sf::Texture& spriteSheet, std::vector<std::vector<int>>& tileData);
+	void loadMap(std::vector<std::vector<sf::Sprite>>& map, sf::Texture& mapSpriteSheet, std::vector<std::vector<int>>& tileData);
+	void detectCollision(std::vector<std::vector<sf::RectangleShape>>& colRect, std::vector<std::vector<int>>& inData, sf::Sprite& inSprite);
+
+	//Load Functions
 	void loadForest(sf::RenderTarget& target);
 	void loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite);
 

@@ -19,32 +19,82 @@ TileMap::~TileMap()
 }
 
 //Core Functions
-void TileMap::loadingOnTile(std::vector<std::vector<sf::Sprite>>& inSprite, sf::Texture& spriteSheet, std::vector<std::vector<int>>& tileData)
+void TileMap::loadMap(std::vector<std::vector<sf::Sprite>>& map, sf::Texture& mapSpriteSheet, std::vector<std::vector<int>>& tileData)
 {
 	//Draw a specific set texture tile based on which input is recieved from a tilemap vector
+	map.resize(row, std::vector<sf::Sprite>(col));
 	for (int x = 0; x < col; x++) {
 		for (int y = 0; y < row; y++) {
-			inSprite[x][y].setTexture(spriteSheet);
+			map[x][y].setScale(sf::Vector2f(4.0f, 4.0f));
+			map[x][y].setPosition(x * gridSizeF + 440, y * gridSizeF);
+			map[x][y].setTexture(mapSpriteSheet);
 			if (tileData[x][y] == 0) {
 				this->sheetX = 0;
-				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
 			else if (tileData[x][y] == 1) {
 				this->sheetX = 16;
-				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
 			else if (tileData[x][y] == 2) {
 				this->sheetX = 32;
-				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
 			else if (tileData[x][y] == 3) {
 				this->sheetX = 48;
-				inSprite[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
 			}
 		}
 	}
 }
 
+void TileMap::detectCollision(std::vector<std::vector<sf::RectangleShape>>& colRect, std::vector<std::vector<int>>& inData, sf::Sprite& inSprite)
+{
+	//Collision Function
+	for (int x = 0; x < colRect.size(); x++) {
+		for (int y = 0; y < colRect.size(); y++) {
+			if (inSprite.getGlobalBounds().intersects(colRect[x][y].getGlobalBounds())) {
+				if (inData[x][y] == 1) {
+					sf::FloatRect playerBounds = inSprite.getGlobalBounds();
+					sf::FloatRect wallBounds = colRect[x][y].getGlobalBounds();
+					sf::FloatRect area;
+					if (inSprite.getGlobalBounds().intersects(colRect[x][y].getGlobalBounds(), area))
+					{
+						// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
+						if (area.width > area.height)
+						{
+							if (area.contains({ area.left, inSprite.getPosition().y }))
+							{
+								// Up side crash
+								inSprite.setPosition({ inSprite.getPosition().x, inSprite.getPosition().y + area.height });
+							}
+							else
+							{
+								// Down side crash
+								inSprite.setPosition({ inSprite.getPosition().x, inSprite.getPosition().y - area.height });
+							}
+						}
+						else if (area.width < area.height)
+						{
+							if (area.contains({ inSprite.getPosition().x + inSprite.getGlobalBounds().width - 1.f, area.top + 1.f }))
+							{
+								//Right side crash
+								inSprite.setPosition({ inSprite.getPosition().x - area.width, inSprite.getPosition().y });
+							}
+							else
+							{
+								//Left side crash
+								inSprite.setPosition({ inSprite.getPosition().x + area.width, inSprite.getPosition().y });
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+//Load Functions
 void TileMap::loadForest(sf::RenderTarget& target)
 {
 	/*Inserted map data must change to allow for mass produced levels with varying collision
@@ -70,15 +120,7 @@ void TileMap::loadForest(sf::RenderTarget& target)
 	};
 
 	//Resize the 2d vector to rows and columns of a specific size
-	tileMap.resize(row, std::vector<sf::Sprite>(col));
-	//Set attributes for the 2d vector
-	for (int x = 0; x < col; x++) {
-		for (int y = 0; y < row; y++) {
-			tileMap[x][y].setScale(sf::Vector2f(4.0f, 4.0f));
-			tileMap[x][y].setPosition(x * gridSizeF + 440, y * gridSizeF);
-			loadingOnTile(tileMap, forestSheet, forest);
-		}
-	}
+	this->loadMap(tileMap, forestSheet, forest);
 	//Draw the 2d vector aka tilemap
 	for (int x = 0; x < col; x++) {
 		for (int y = 0; y < row; y++) {
@@ -115,10 +157,6 @@ void TileMap::loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite)
 		for (int y = 0; y < row; y++) {
 			collisionMap[x][y].setScale(sf::Vector2f(0.4f, 0.4f));
 			collisionMap[x][y].setPosition(x * gridSizeF + 440, y * gridSizeF);
-		}
-	}
-	for (int x = 0; x < col; x++) {
-		for (int y = 0; y < row; y++) {
 			collisionMap[x][y].setSize(sf::Vector2f(160.f, 160.f));
 			if (collisionData[x][y] == 0) {
 				collisionMap[x][y].setFillColor(sf::Color::Transparent);
@@ -136,49 +174,7 @@ void TileMap::loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite)
 		}
 	}
 
-	//Collision Function
-	for (int x = 0; x < collisionMap.size(); x++) {
-		for (int y = 0; y < collisionMap.size(); y++) {
-			if (sprite.getGlobalBounds().intersects(collisionMap[x][y].getGlobalBounds())) {
-				if (collisionData[x][y] == 1) {
-					sf::FloatRect playerBounds = sprite.getGlobalBounds();
-					sf::FloatRect wallBounds = collisionMap[x][y].getGlobalBounds();
-
-					sf::FloatRect area;
-					if (sprite.getGlobalBounds().intersects(collisionMap[x][y].getGlobalBounds(), area))
-					{
-						// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
-						if (area.width > area.height)
-						{
-							if (area.contains({ area.left, sprite.getPosition().y }))
-							{
-								// Up side crash
-								sprite.setPosition({ sprite.getPosition().x, sprite.getPosition().y + area.height });
-							}
-							else
-							{
-								// Down side crash
-								sprite.setPosition({ sprite.getPosition().x, sprite.getPosition().y - area.height });
-							}
-						}
-						else if (area.width < area.height)
-						{
-							if (area.contains({ sprite.getPosition().x + sprite.getGlobalBounds().width - 1.f, area.top + 1.f }))
-							{
-								//Right side crash
-								sprite.setPosition({ sprite.getPosition().x - area.width, sprite.getPosition().y });
-							}
-							else
-							{
-								//Left side crash
-								sprite.setPosition({ sprite.getPosition().x + area.width, sprite.getPosition().y });
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	this->detectCollision(collisionMap, collisionData, sprite);
 }
 
 //State Functions
