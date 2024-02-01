@@ -1,14 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Game.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
       <Filter>States</Filter>
     </ClCompile>
     <ClCompile Include="TravelState.cpp">
@@ -17,21 +10,36 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>States</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="TravelState.h">
       <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
+      <Filter>Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
       <Filter>Assets</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,6 +49,9 @@
     </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>{513ff15a-00e1-4d0f-b6b3-59ba67505ad8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{5fb67664-b76e-4a4a-951c-e80791f5c0bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

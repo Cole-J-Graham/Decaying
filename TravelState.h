@@ -1,6 +1,9 @@
 #pragma once
+//States
 #include"State.h"
+//Assets
 #include"TileMap.h"
+#include"Sprite.h"
 
 class TravelState : public State
 {
@@ -11,47 +14,35 @@ public:
 
 	//Core Travel Functions
 	void setLocation();
-	void checkForMovement();
 
 	//State Functions
 	void endState();
 	void updateKeybinds(const float& dt);
 	void update(const float& dt);
-	void render(sf::RenderTarget* target = nullptr);
+	void render(sf::RenderTarget* target);
+
+	//Sprite Functions
+	void initSprites();
+	void renderSprites(sf::RenderTarget* target);
 
 	//Assets
 	void setAssets();
 	void loadAssets();
-	void animateTimer();
-	void animateFourFrames(sf::Sprite& inSprite, int xOffset, float posX, float posY);
 
 private:
 	//Core Variables
 	int location;
-	int frame;
-	bool frameInit;
+
+	std::map<std::string, Sprite*> sprites;
 
 	//Assets
 	sf::Texture mapImage;
 	sf::Sprite mapSprite;
 
-	sf::Sprite zinPixelSprite;
-	sf::Texture zinWalkDown;
-	sf::Texture zinWalkLeft;
-	sf::Texture zinWalkRight;
-	sf::Texture zinWalkUp;
-
-	//Animation Variables
-	int sheetX;
-	int sheetY;
-
-	bool playerMoving;
-	int animationFrame;
-	float movementSpeed;
-	sf::Vector2f velocity;
-
-	sf::Clock timer;
-	sf::Time elapsed;
+	sf::Texture zin_up;
+	sf::Texture zin_down;
+	sf::Texture zin_left;
+	sf::Texture zin_right;
 
 
 
