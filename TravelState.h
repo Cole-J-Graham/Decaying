@@ -25,19 +25,23 @@ public:
 	void initSprites();
 	void renderSprites(sf::RenderTarget* target);
 
+	//TileMap Functions
+	void initTileMaps();
+	void renderTileMaps(sf::RenderTarget* target);
+
 	//Assets
-	void setAssets();
 	void loadAssets();
 
 private:
 	//Core Variables
 	int location;
 
+	std::map<std::string, TileMap*> tile_maps;
 	std::map<std::string, Sprite*> sprites;
 
 	//Assets
-	sf::Texture mapImage;
-	sf::Sprite mapSprite;
+	sf::Texture forest_sheet;
+	sf::Texture map_image;
 
 	sf::Texture zin_up;
 	sf::Texture zin_down;

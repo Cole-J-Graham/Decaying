@@ -5,10 +5,12 @@ TravelState::TravelState()
 	//Core Variables
 	this->location = 0;
 
+	//Initialization
+	this->initSprites();
+	this->initTileMaps();
+
 	//Assets
 	this->loadAssets();
-	this->setAssets();
-	this->initSprites();
 }
 
 TravelState::~TravelState()
@@ -17,6 +19,12 @@ TravelState::~TravelState()
 	auto is = this->sprites.begin();
 	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
 		delete is->second;
+	}
+
+	//Deconstruct TileMaps
+	auto it = this->tile_maps.begin();
+	for (it = this->tile_maps.begin(); it != this->tile_maps.end(); ++it) {
+		delete it->second;
 	}
 }
 
@@ -50,20 +58,20 @@ void TravelState::updateKeybinds(const float& dt)
 void TravelState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
+	this->tile_maps["FOREST"]->loadMap(forest_sheet);
+	this->tile_maps["FOREST"]->detectCollision(this->sprites["ZIN"]->getSprite());
 }
 
 void TravelState::render(sf::RenderTarget* target)
 {
-	TileMap tilemap;
-	tilemap.loadForest(*target, zinPixelSprite);
-	//tilemap.loadCollisionMap(*target, this->sprites["ZIN"]);
+	this->renderTileMaps(target);
 	this->renderSprites(target);
 }
 
 //Sprite Functions
 void TravelState::initSprites()
 {
-	this->sprites["ZIN"] = new Sprite(0.f, 0.f, 16.f, 16.f, 4.0f, zin_down);
+	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin_down);
 }
 
 void TravelState::renderSprites(sf::RenderTarget* target)
@@ -73,17 +81,27 @@ void TravelState::renderSprites(sf::RenderTarget* target)
 	}
 }
 
-//Assets
-void TravelState::setAssets()
+//TileMap Functions
+void TravelState::initTileMaps()
 {
-	//mapImage.loadFromFile("Assets/Wallpapers/Forest/forest1.jpeg");
-	//mapSprite.setTexture(mapImage);
+	this->tile_maps["FOREST"] = new TileMap(440.f, 0.f, 16, 16, 64.f);
 }
 
+void TravelState::renderTileMaps(sf::RenderTarget* target)
+{
+	for (auto& it : this->tile_maps) {
+		it.second->render(target);
+	}
+}
+
+//Assets
 void TravelState::loadAssets()
 {
-	zin_up.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/zinWalkUpSpriteSheet.png");
-	zin_down.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/zinWalkSpriteSheet.png");
-	zin_left.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/zinWalkLeftSpriteSheet.png");
-	zin_right.loadFromFile("C:/Users/Cole/source/repos/Decaying/Assets/SpriteSheets/zinWalkRightSpriteSheet.png");
+	this->forest_sheet.loadFromFile("Assets/SpriteSheets/landSpriteSheet.png");
+	this->map_image.loadFromFile("Assets/Wallpapers/Forest/forest1.jpeg");
+
+	this->zin_up.loadFromFile("Assets/SpriteSheets/zinWalkUpSpriteSheet.png");
+	this->zin_down.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
+	this->zin_left.loadFromFile("Assets/SpriteSheets/zinWalkLeftSpriteSheet.png");
+	this->zin_right.loadFromFile("Assets/SpriteSheets/zinWalkRightSpriteSheet.png");
 }

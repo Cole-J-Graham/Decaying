@@ -16,6 +16,8 @@ public:
 	void animateFourFrames(sf::Sprite& inSprite, int xOffset, float posX, float posY);
 	void animateTimer();
 
+	sf::Sprite& getSprite() { return this->sprite; };
+
 private:
 	//Core Variables
 	sf::Sprite sprite;

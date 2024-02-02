@@ -96,7 +96,6 @@ void Sprite::render(sf::RenderTarget* target)
 	target->draw(this->sprite);
 }
 
-
 //Animation Functions
 void Sprite::animateTimer()
 {

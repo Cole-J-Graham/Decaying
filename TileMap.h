@@ -1,43 +1,54 @@
 #pragma once
 #include<SFML/Graphics.hpp>
+#include"iostream"
 
 class TileMap
 {
 public:
 	//Constructors and Destructors
-	TileMap();
+	TileMap(float x, float y, int col, int row, float grid_size_f);
 	~TileMap();
 
 	//Core Functions
-	void loadMap(std::vector<std::vector<sf::Sprite>>& map, sf::Texture& mapSpriteSheet, std::vector<std::vector<int>>& tileData);
-	void detectCollision(std::vector<std::vector<sf::Sprite>>& colSprite, std::vector<std::vector<int>>& inData, sf::Sprite& inSprite);
-
-	//Load Functions
-	void loadForest(sf::RenderTarget& target, sf::Sprite& sprite);
-	void loadCollisionMap(sf::RenderTarget& target, sf::Sprite& sprite);
+	void loadMap(sf::Texture& tile_sheet);
+	void detectCollision(sf::Sprite& in_sprite);
 
 	//State Fucntions
-	void update();
-	void render(sf::RenderTarget& target);
-
-	//Assets
-	void loadAssets();
+	void render(sf::RenderTarget* target);
 
 private:
-	std::vector<std::vector<sf::Sprite>> tileMap;
+	//Core Map
+	std::vector<std::vector<sf::Sprite>> tile_map;
+	sf::Texture tile_sheet;
 
-	//Map data
-	std::vector<std::vector<int>> forest;
-
-	sf::Texture tileSheet;
+	//Core Map Variables
 	unsigned tileSize;
-
-	float gridSizeF;
+	float grid_size_f;
+	float x;
+	float y;
 	int col;
 	int row;
 	int sheetX;
 	int sheetY;
 
-	sf::Texture forestSheet;
+	//Map data
+	std::vector<std::vector<int>> tile_map_data {
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 3, 3, 0, 0, 0, 1},
+		{1, 1, 1, 0, 3, 3, 0, 0, 3, 3, 0, 0, 3, 0, 3, 1},
+		{1, 1, 2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0, 1},
+		{1, 0, 3, 3, 3, 0, 2, 0, 0, 0, 3, 3, 0, 3, 0, 1},
+		{1, 0, 0, 3, 3, 0, 0, 0, 3, 3, 3, 3, 0, 3, 3, 1},
+		{1, 0, 3, 2, 0, 3, 0, 3, 3, 3, 0, 0, 3, 0, 0, 1},
+		{1, 0, 3, 0, 2, 0, 0, 3, 3, 0, 0, 3, 0, 3, 0, 1},
+		{1, 0, 3, 0, 3, 0, 3, 0, 3, 3, 3, 0, 3, 0, 0, 1},
+		{1, 0, 0, 0, 3, 3, 0, 3, 0, 0, 0, 3, 0, 0, 0, 1},
+		{1, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1},
+		{1, 3, 0, 3, 3, 0, 3, 3, 0, 0, 0, 3, 0, 0, 0, 1},
+		{1, 0, 0, 3, 0, 0, 0, 0, 3, 0, 3, 0, 0, 3, 3, 1},
+		{1, 1, 0, 0, 3, 3, 0, 3, 0, 0, 3, 0, 0, 0, 3, 1},
+		{1, 1, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 0, 3, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	};
 };
 
