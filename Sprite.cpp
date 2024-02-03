@@ -61,26 +61,26 @@ void Sprite::checkForMovement(sf::Texture& up, sf::Texture& down, sf::Texture& l
 
 	//Movement
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		velocity.y += -movementSpeed;
+		//velocity.y += -movementSpeed;
 		this->playerMoving = true;
 		this->sprite.setTexture(up);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		velocity.y += movementSpeed;
+		//velocity.y += movementSpeed;
 		this->playerMoving = true;
 		this->sprite.setTexture(down);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		velocity.x += -movementSpeed;
+		//velocity.x += -movementSpeed;
 		this->playerMoving = true;
 		this->sprite.setTexture(left);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		velocity.x += movementSpeed;
+		//velocity.x += movementSpeed;
 		this->playerMoving = true;
 		this->sprite.setTexture(right);
 	}
-	this->sprite.move(velocity);
+	//this->sprite.move(velocity);
 
 	//Character stops moving
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
@@ -96,7 +96,6 @@ void Sprite::render(sf::RenderTarget* target)
 	target->draw(this->sprite);
 }
 
-//Animation Functions
 void Sprite::animateTimer()
 {
 	elapsed = timer.getElapsedTime();
@@ -117,30 +116,5 @@ void Sprite::animateTimer()
 			this->animationFrame = -1;
 			timer.restart();
 		}
-	}
-}
-
-void Sprite::animateFourFrames(sf::Sprite& inSprite, int xOffset, float x, float y)
-{
-	inSprite.setTextureRect(sf::IntRect(sheet_x, sheet_y, xOffset, xOffset));
-	inSprite.setPosition(x, y);
-	this->animateTimer();
-	switch (this->animationFrame) {
-	case -1:
-		sheet_x = 0;
-		sheet_y = 0;
-		break;
-	case 0:
-		sheet_x = xOffset;
-		sheet_y = 0;
-		break;
-	case 1:
-		sheet_x = xOffset * 2;
-		sheet_y = 0;
-		break;
-	case 2:
-		sheet_x = xOffset * 3;
-		sheet_y = 0;
-		break;
 	}
 }

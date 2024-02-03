@@ -1,6 +1,6 @@
 #include "TileMap.h"
 //Constructors and Destructors
-TileMap::TileMap(float x, float y, int col, int row, float grid_size_f)
+TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Texture& tile_sheet)
 {
 	//Core Variables
 	this->tile_sheet = tile_sheet;
@@ -12,6 +12,13 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f)
 
 	this->sheetX;
 	this->sheetY;
+
+	//Movement
+	this->movementSpeed = 1.5f;
+	this->velocity.x = 0;
+	this->velocity.y = 0;
+
+	this->loadMap(tile_sheet);
 }
 
 TileMap::~TileMap()
@@ -49,43 +56,84 @@ void TileMap::loadMap(sf::Texture& tile_sheet)
 	}
 }
 
+void TileMap::detectMovement()
+{
+	this->velocity.x = 0;
+	this->velocity.y = 0;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		velocity.y += movementSpeed;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		velocity.y += -movementSpeed;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		velocity.x += movementSpeed;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		velocity.x += -movementSpeed;
+	}
+
+	for (int x = 0; x < col; x++) {
+		for (int y = 0; y < row; y++) {
+			this->tile_map[x][y].move(velocity);
+		}
+	}
+}
+
 void TileMap::detectCollision(sf::Sprite& in_sprite)
 {
 	//Collision Function
 	for (int x = 0; x < tile_map.size(); x++) {
 		for (int y = 0; y < tile_map.size(); y++) {
-			if (in_sprite.getGlobalBounds().intersects(tile_map[x][y].getGlobalBounds())) {
+			if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds())) {
 				if (tile_map_data[x][y] == 1) {
 					sf::FloatRect playerBounds = in_sprite.getGlobalBounds();
 					sf::FloatRect wallBounds = tile_map[x][y].getGlobalBounds();
 					sf::FloatRect area;
-					if (in_sprite.getGlobalBounds().intersects(tile_map[x][y].getGlobalBounds(), area))
+					if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
 					{
 						// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
 						if (area.width > area.height)
 						{
-							if (area.contains({ area.left, in_sprite.getPosition().y }))
+							if (area.contains({ area.left, tile_map[x][y].getPosition().y }))
 							{
-								// Up side crash
-								in_sprite.setPosition({ in_sprite.getPosition().x, in_sprite.getPosition().y + area.height });
+								//Down side crash
+								for (int x = 0; x < col; x++) {
+									for (int y = 0; y < row; y++) {
+										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y + area.height });
+									}
+								}
 							}
 							else
 							{
-								// Down side crash
-								in_sprite.setPosition({ in_sprite.getPosition().x, in_sprite.getPosition().y - area.height });
+								//Up side crash
+								for (int x = 0; x < col; x++) {
+									for (int y = 0; y < row; y++) {
+										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y - area.height });
+									}
+								}
 							}
 						}
 						else if (area.width < area.height)
 						{
-							if (area.contains({ in_sprite.getPosition().x + in_sprite.getGlobalBounds().width - 1.f, area.top + 1.f }))
+							if (area.contains({ tile_map[x][y].getPosition().x + tile_map[x][y].getGlobalBounds().width - 1.f, area.top + 1.f }))
 							{
-								//Right side crash
-								in_sprite.setPosition({ in_sprite.getPosition().x - area.width, in_sprite.getPosition().y });
+								//Left side crash
+								for (int x = 0; x < col; x++) {
+									for (int y = 0; y < row; y++) {
+										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x - area.width, tile_map[x][y].getPosition().y });
+									}
+								}
 							}
 							else
 							{
-								//Left side crash
-								in_sprite.setPosition({ in_sprite.getPosition().x + area.width, in_sprite.getPosition().y });
+								//Right side crash
+								for (int x = 0; x < col; x++) {
+									for (int y = 0; y < row; y++) {
+										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x + area.width, tile_map[x][y].getPosition().y });
+									}
+								}
 							}
 						}
 					}

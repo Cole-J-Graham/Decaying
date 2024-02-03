@@ -50,7 +50,6 @@ void TravelState::setLocation()
 //State Functions
 void TravelState::updateKeybinds(const float& dt)
 {
-	//this->checkForMovement();
 	this->sprites["ZIN"]->checkForMovement(zin_up, zin_down, zin_left, zin_right);
 	this->checkForQuit();
 }
@@ -58,8 +57,8 @@ void TravelState::updateKeybinds(const float& dt)
 void TravelState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
-	this->tile_maps["FOREST"]->loadMap(forest_sheet);
 	this->tile_maps["FOREST"]->detectCollision(this->sprites["ZIN"]->getSprite());
+	this->tile_maps["FOREST"]->detectMovement();
 }
 
 void TravelState::render(sf::RenderTarget* target)
@@ -84,7 +83,7 @@ void TravelState::renderSprites(sf::RenderTarget* target)
 //TileMap Functions
 void TravelState::initTileMaps()
 {
-	this->tile_maps["FOREST"] = new TileMap(440.f, 0.f, 16, 16, 64.f);
+	this->tile_maps["FOREST"] = new TileMap(0.f, 0.f, 30, 30, 64.f, forest_sheet);
 }
 
 void TravelState::renderTileMaps(sf::RenderTarget* target)

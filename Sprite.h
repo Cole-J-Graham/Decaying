@@ -11,9 +11,6 @@ public:
 	//Core Functions
 	void checkForMovement(sf::Texture& up, sf::Texture& down, sf::Texture& left, sf::Texture& right);
 	void render(sf::RenderTarget* target);
-
-	//Animation Functions
-	void animateFourFrames(sf::Sprite& inSprite, int xOffset, float posX, float posY);
 	void animateTimer();
 
 	sf::Sprite& getSprite() { return this->sprite; };
