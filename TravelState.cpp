@@ -70,6 +70,7 @@ void TravelState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
 	this->renderSprites(target);
+	this->inventory->render(target);
 }
 
 //Sprite Functions

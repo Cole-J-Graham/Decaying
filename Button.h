@@ -8,7 +8,8 @@ class Button
 public:
 	//Constructors and Destructors
 	Button(float x, float y, float width, float height, sf::Font font,
-		std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor);
+		std::string text, sf::Color idleColor, sf::Color hoverColor, 
+		sf::Color activeColor, bool hidden);
 	~Button();
 
 	//Core Functions
@@ -19,12 +20,20 @@ public:
 	const bool isPressed() const;
 	const bool isHovered() const;
 
+	//Getters
+	bool& getHidden() { return this->hidden; };
+
+	//Setters
+	bool& setHidden() { return this->hidden = true; };
+	bool& setShown() { return this->hidden = false; };
+
 	//Sfx Functions
 	void initSounds();
 
 private:
 	//Core Booleans
 	short unsigned buttonState;
+	bool hidden;
 
 	sf::RectangleShape shape;
 	sf::Text text;

@@ -18,6 +18,9 @@ public:
 	void renderRects(sf::RenderTarget* target);
 
 private:
+	sf::Clock timer;
+	sf::Time elapsed;
+
 	std::map<std::string, Rectangle*> rectangles;
 
 };

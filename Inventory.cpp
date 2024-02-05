@@ -23,16 +23,24 @@ void Inventory::render(sf::RenderTarget* target)
 
 void Inventory::checkForInput()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab)) {
-		std::cout << "Opening inventory" << "\n";
+	elapsed = timer.getElapsedTime();
+	if (elapsed.asSeconds() >= 1) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && this->rectangles["INV_BORDER"]->getHidden()) {
+			this->rectangles["INV_BORDER"]->setShown();
+			this->timer.restart();
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && !this->rectangles["INV_BORDER"]->getHidden()) {
+			this->rectangles["INV_BORDER"]->setHidden();
+			this->timer.restart();
+		}
 	}
 }
 
 //Rectangle Functions
 void Inventory::initRects()
 {
-	this->rectangles["INV_BORDER"] = new Rectangle(322, 131, 890, 400, sf::Color::Transparent,
-		sf::Color::White, 1.f);
+	this->rectangles["INV_BORDER"] = new Rectangle(100, 100, 890, 400, sf::Color::Transparent,
+		sf::Color::White, 1.f, true);
 }
 
 void Inventory::renderRects(sf::RenderTarget* target)
