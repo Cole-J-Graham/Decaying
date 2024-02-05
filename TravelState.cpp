@@ -11,10 +11,14 @@ TravelState::TravelState()
 
 	//Assets
 	this->loadAssets();
+
+	this->inventory = new Inventory();
 }
 
 TravelState::~TravelState()
 {
+	delete this->inventory;
+
 	//Deconstruct Sprites
 	auto is = this->sprites.begin();
 	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
@@ -51,6 +55,7 @@ void TravelState::setLocation()
 void TravelState::updateKeybinds(const float& dt)
 {
 	this->sprites["ZIN"]->checkForMovement(zin_up, zin_down, zin_left, zin_right);
+	this->inventory->checkForInput();
 	this->checkForQuit();
 }
 
@@ -83,7 +88,7 @@ void TravelState::renderSprites(sf::RenderTarget* target)
 //TileMap Functions
 void TravelState::initTileMaps()
 {
-	this->tile_maps["FOREST"] = new TileMap(0.f, 0.f, 30, 30, 64.f, forest_sheet);
+	this->tile_maps["FOREST"] = new TileMap(0.f, 0.f, 30, 30, 64.f, forest_sheet, "Assets/SpriteData/forest.txt");
 }
 
 void TravelState::renderTileMaps(sf::RenderTarget* target)

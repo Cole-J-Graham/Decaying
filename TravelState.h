@@ -1,6 +1,8 @@
 #pragma once
 //States
 #include"State.h"
+//Components
+#include"Inventory.h"
 //Assets
 #include"TileMap.h"
 #include"Sprite.h"
@@ -38,6 +40,8 @@ private:
 
 	std::map<std::string, TileMap*> tile_maps;
 	std::map<std::string, Sprite*> sprites;
+
+	Inventory* inventory;
 
 	//Assets
 	sf::Texture forest_sheet;

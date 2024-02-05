@@ -44,7 +44,6 @@ void Button::update(const sf::Vector2f mousePos)
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             //Pressed
             this->buttonState = BTN_ACTIVE;
-            this->sounds["SELECT"]->play();
         }
     }
 

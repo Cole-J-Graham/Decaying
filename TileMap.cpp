@@ -1,6 +1,7 @@
 #include "TileMap.h"
 //Constructors and Destructors
-TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Texture& tile_sheet)
+TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Texture& tile_sheet,
+	std::string map_data_string)
 {
 	//Core Variables
 	this->tile_sheet = tile_sheet;
@@ -9,6 +10,7 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 	this->row = row;
 	this->x = x;
 	this->y = y;
+	this->map_data_string = map_data_string;
 
 	this->sheetX;
 	this->sheetY;
@@ -18,6 +20,7 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 	this->velocity.x = 0;
 	this->velocity.y = 0;
 
+	this->loadMapData();
 	this->loadMap(tile_sheet);
 }
 
@@ -54,6 +57,24 @@ void TileMap::loadMap(sf::Texture& tile_sheet)
 			}
 		}
 	}
+}
+
+void TileMap::loadMapData()
+{
+	map_data.open(map_data_string);
+
+	if (map_data.is_open()) {
+		for (int x = 0; x < col; x++) {
+			for (int y = 0; y < row; y++) {
+				map_data >> tile_map_data[x][y];
+			}
+		}
+	}
+	else {
+		std::cout << "ERROR LOADING FILE..." << "\n";
+	}
+
+	map_data.close();
 }
 
 void TileMap::detectMovement()

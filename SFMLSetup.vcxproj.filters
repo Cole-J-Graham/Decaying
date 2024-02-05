@@ -28,6 +28,9 @@
     <ClCompile Include="Button.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -54,6 +57,9 @@
     <ClInclude Include="Button.h">
       <Filter>Assets</Filter>
     </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="States">
@@ -64,6 +70,9 @@
     </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{5fb67664-b76e-4a4a-951c-e80791f5c0bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{b80448ff-6501-4f00-b856-6b898cf78d42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
