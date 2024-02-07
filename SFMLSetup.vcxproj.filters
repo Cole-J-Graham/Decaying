@@ -7,9 +7,6 @@
     <ClCompile Include="TravelState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Assets</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -25,11 +22,14 @@
     <ClCompile Include="Rectangle.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Assets</Filter>
-    </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,9 +38,6 @@
     </ClInclude>
     <ClInclude Include="TravelState.h">
       <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Assets</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Source</Filter>
@@ -54,11 +51,14 @@
     <ClInclude Include="Rectangle.h">
       <Filter>Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Assets</Filter>
-    </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +73,9 @@
     </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{b80448ff-6501-4f00-b856-6b898cf78d42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{444cc355-a3a1-45b9-a1f1-61ceb67aa9eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

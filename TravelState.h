@@ -46,13 +46,5 @@ private:
 	//Assets
 	sf::Texture forest_sheet;
 	sf::Texture map_image;
-
-	sf::Texture zin_up;
-	sf::Texture zin_down;
-	sf::Texture zin_left;
-	sf::Texture zin_right;
-
-
-
-
+	sf::Texture zin;
 };

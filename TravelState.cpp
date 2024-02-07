@@ -54,7 +54,7 @@ void TravelState::setLocation()
 //State Functions
 void TravelState::updateKeybinds(const float& dt)
 {
-	this->sprites["ZIN"]->checkForMovement(zin_up, zin_down, zin_left, zin_right);
+	this->sprites["ZIN"]->animateMovement();
 	this->inventory->checkForInput();
 	this->checkForQuit();
 }
@@ -76,7 +76,7 @@ void TravelState::render(sf::RenderTarget* target)
 //Sprite Functions
 void TravelState::initSprites()
 {
-	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin_down);
+	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin);
 }
 
 void TravelState::renderSprites(sf::RenderTarget* target)
@@ -105,8 +105,5 @@ void TravelState::loadAssets()
 	this->forest_sheet.loadFromFile("Assets/SpriteSheets/landSpriteSheet.png");
 	this->map_image.loadFromFile("Assets/Wallpapers/Forest/forest1.jpeg");
 
-	this->zin_up.loadFromFile("Assets/SpriteSheets/zinWalkUpSpriteSheet.png");
-	this->zin_down.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
-	this->zin_left.loadFromFile("Assets/SpriteSheets/zinWalkLeftSpriteSheet.png");
-	this->zin_right.loadFromFile("Assets/SpriteSheets/zinWalkRightSpriteSheet.png");
+	this->zin.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
 }

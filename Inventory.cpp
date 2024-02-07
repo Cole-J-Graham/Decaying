@@ -39,8 +39,8 @@ void Inventory::checkForInput()
 //Rectangle Functions
 void Inventory::initRects()
 {
-	this->rectangles["INV_BORDER"] = new Rectangle(100, 100, 890, 400, sf::Color::Transparent,
-		sf::Color::White, 1.f, true);
+	this->rectangles["INV_BORDER"] = new Rectangle(100, 100, 400, 600, sf::Color::Black,
+		sf::Color::White, 8.f, true);
 }
 
 void Inventory::renderRects(sf::RenderTarget* target)

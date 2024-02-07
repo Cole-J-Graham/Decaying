@@ -39,6 +39,7 @@ void TileMap::loadMap(sf::Texture& tile_sheet)
 			this->tile_map[x][y].setScale(sf::Vector2f(4.0f, 4.0f));
 			this->tile_map[x][y].setPosition(x * grid_size_f + this->x, y * grid_size_f + this->y);
 			this->tile_map[x][y].setTexture(tile_sheet);
+
 			if (this->tile_map_data[x][y] == 0) {
 				this->sheetX = 0;
 				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
@@ -75,31 +76,6 @@ void TileMap::loadMapData()
 	}
 
 	map_data.close();
-}
-
-void TileMap::detectMovement()
-{
-	this->velocity.x = 0;
-	this->velocity.y = 0;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		velocity.y += movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		velocity.y += -movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		velocity.x += movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		velocity.x += -movementSpeed;
-	}
-
-	for (int x = 0; x < col; x++) {
-		for (int y = 0; y < row; y++) {
-			this->tile_map[x][y].move(velocity);
-		}
-	}
 }
 
 void TileMap::detectCollision(sf::Sprite& in_sprite)
@@ -171,5 +147,51 @@ void TileMap::render(sf::RenderTarget* target)
 		for (int y = 0; y < row; y++) {
 			target->draw(tile_map[x][y]);
 		}
+	}
+}
+
+//Movement Functions
+void TileMap::detectMovement()
+{
+	//Detect Movement
+	this->detectWalk();
+	this->detectDodgeRoll();
+
+	//Move based on movement function
+	for (int x = 0; x < col; x++) {
+		for (int y = 0; y < row; y++) {
+			this->tile_map[x][y].move(velocity);
+		}
+	}
+}
+
+void TileMap::detectWalk()
+{
+	this->velocity.x = 0;
+	this->velocity.y = 0;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		velocity.y += movementSpeed;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		velocity.y += -movementSpeed;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		velocity.x += movementSpeed;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		velocity.x += -movementSpeed;
+	}
+}
+
+void TileMap::detectDodgeRoll()
+{
+	dodge_elapsed = dodge_timer.getElapsedTime();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= 0.5) {
+		movementSpeed += 5;
+		dodge_timer.restart();
+	}
+	else if (dodge_elapsed.asSeconds() >= 0.4) {
+		movementSpeed = 1.5f;
 	}
 }

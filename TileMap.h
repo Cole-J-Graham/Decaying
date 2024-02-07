@@ -15,10 +15,14 @@ public:
 	void loadMap(sf::Texture& tile_sheet);
 	void loadMapData();
 	void detectCollision(sf::Sprite& in_sprite);
-	void detectMovement();
 
 	//State Fucntions
 	void render(sf::RenderTarget* target);
+
+	//Movement Functions
+	void detectMovement();
+	void detectWalk();
+	void detectDodgeRoll();
 
 private:
 	//Core Map
@@ -38,6 +42,8 @@ private:
 	//Movement
 	sf::Vector2f velocity;
 	float movementSpeed;
+	sf::Clock dodge_timer;
+	sf::Time dodge_elapsed;
 
 	//Map data
 	std::string map_data_string;
