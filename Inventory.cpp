@@ -36,6 +36,17 @@ void Inventory::checkForInput()
 	}
 }
 
+//Item Functions
+void Inventory::addItem(Item* item)
+{
+	this->item_vector.push_back(item);
+}
+
+void Inventory::deleteItem()
+{
+	this->item_vector.pop_back();
+}
+
 //Rectangle Functions
 void Inventory::initRects()
 {

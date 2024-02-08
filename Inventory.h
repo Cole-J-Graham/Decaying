@@ -1,7 +1,7 @@
 #pragma once
+#include"Item.h"
 #include"Rectangle.h"
 #include<map>
-#include<iostream>
 class Inventory
 {
 public:
@@ -13,6 +13,10 @@ public:
 	void render(sf::RenderTarget* target);
 	void checkForInput();
 
+	//Item Functions
+	void addItem(Item* item);
+	void deleteItem();
+
 	//Rectangle Functions
 	void initRects();
 	void renderRects(sf::RenderTarget* target);
@@ -22,6 +26,7 @@ private:
 	sf::Time elapsed;
 
 	std::map<std::string, Rectangle*> rectangles;
+	std::vector<Item*> item_vector;
 
 };
 

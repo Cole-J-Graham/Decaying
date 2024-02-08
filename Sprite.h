@@ -12,11 +12,7 @@ public:
 	void render(sf::RenderTarget* target);
 
 	//Animation Functions
-	void animateTimer(float speed);
-	void animateSheet(float speed, bool movement, int sheet_x);
 	void animateMovement();
-	void animateWalk(sf::Texture& walk_up, sf::Texture& walk_down, sf::Texture& walk_left, sf::Texture& walk_right);
-	void animateRoll(sf::Texture& roll_up, sf::Texture& roll_down, sf::Texture& roll_left, sf::Texture& roll_right);
 
 	//Assets
 	void loadAssets();
@@ -24,6 +20,12 @@ public:
 	sf::Sprite& getSprite() { return this->sprite; };
 
 private:
+	//Private Animation Functions
+	void animateSheet(float speed, bool movement, int sheet_x);
+	void animateTimer(float speed);
+	void animateWalk(sf::Texture& walk_up, sf::Texture& walk_down, sf::Texture& walk_left, sf::Texture& walk_right);
+	void animateRoll(sf::Texture& roll_up, sf::Texture& roll_down, sf::Texture& roll_left, sf::Texture& roll_right);
+
 	//Core Variables
 	sf::Sprite sprite;
 	sf::Texture sprite_texture;
@@ -64,6 +66,10 @@ private:
 	sf::Texture zin_walk_down;
 	sf::Texture zin_walk_left;
 	sf::Texture zin_walk_right;
+	sf::Texture zin_walk_diagnol_left_down;
+	sf::Texture zin_walk_diagnol_right_down;
+	sf::Texture zin_walk_diagnol_left_up;
+	sf::Texture zin_walk_diagnol_right_up;
 
 	sf::Texture zin_roll_up;
 	sf::Texture zin_roll_down;

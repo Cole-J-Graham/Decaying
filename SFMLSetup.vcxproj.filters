@@ -31,6 +31,12 @@
     <ClCompile Include="Button.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Staff.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -60,6 +66,12 @@
     <ClInclude Include="Button.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Staff.h">
+      <Filter>Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="States">
@@ -76,6 +88,9 @@
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{444cc355-a3a1-45b9-a1f1-61ceb67aa9eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{81911fe9-5180-4ef0-b0b8-00ccd3381e54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
