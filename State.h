@@ -21,22 +21,33 @@ class State
 {
 public:
 	//Constructors and Destructors
-	State();
+	State(sf::RenderWindow* window);
 	virtual ~State();
 
 	const bool& getQuit() const;
 
 	virtual void checkForQuit();
 	virtual void endState() = 0;
+	virtual void updateMousePositions();
 
 	//Pure Virtual Functions
 	virtual void updateKeybinds(const float& dt) = 0;
 	virtual void update(const float& dt) = 0;
 	virtual void render(sf::RenderTarget* target = nullptr) = 0;
 
+	sf::RenderWindow* window;
+
+	//Getters
+	sf::Vector2f getMousePosView() { return this->mousePosView; };
+
 private:
 	std::vector<sf::Texture> textures;
 	bool quit;
+
+	//Mouse Position
+	sf::Vector2i mousePosScreen;
+	sf::Vector2i mousePosWindow;
+	sf::Vector2f mousePosView;
 };
 
 #endif

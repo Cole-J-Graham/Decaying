@@ -3,7 +3,7 @@
 #include"GameState.h"
 #include"TravelState.h"
 
-class Game : public GameState
+class Game
 {
 public:
 	//Constructors and Destructors

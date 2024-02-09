@@ -11,22 +11,29 @@ public:
 
 	//Core Functions
 	void render(sf::RenderTarget* target);
+	void update(const sf::Vector2f mousePos);
 	void checkForInput();
 
+	//Inventory Functions
+	//void addItem(Item* item);
+	void deleteItem(std::string input);
+
 	//Item Functions
-	void addItem(Item* item);
-	void deleteItem();
+	void initItems();
+	void renderItems(sf::RenderTarget* target);
 
 	//Rectangle Functions
 	void initRects();
 	void renderRects(sf::RenderTarget* target);
 
 private:
+
+	std::string item_name;
 	sf::Clock timer;
 	sf::Time elapsed;
 
 	std::map<std::string, Rectangle*> rectangles;
-	std::vector<Item*> item_vector;
+	std::map<std::string, Item*> items;
 
 };
 

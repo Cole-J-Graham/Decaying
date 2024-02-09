@@ -11,7 +11,7 @@ class TravelState : public State
 {
 public:
 	//Constructors and Destructors
-	TravelState();
+	TravelState(sf::RenderWindow* window);
 	~TravelState();
 
 	//Core Travel Functions
@@ -31,8 +31,13 @@ public:
 	void initTileMaps();
 	void renderTileMaps(sf::RenderTarget* target);
 
+	//Inventory Functions
+	void renderInventory(sf::RenderTarget* target);
+
 	//Assets
 	void loadAssets();
+
+	sf::RenderWindow* window;
 
 private:
 	//Core Variables
@@ -41,7 +46,7 @@ private:
 	std::map<std::string, TileMap*> tile_maps;
 	std::map<std::string, Sprite*> sprites;
 
-	Inventory* inventory;
+	std::map<std::string, Inventory*> inventory;
 
 	//Assets
 	sf::Texture forest_sheet;

@@ -4,6 +4,7 @@ Inventory::Inventory()
 {
 	//Init
 	this->initRects();
+	this->initItems();
 }
 
 Inventory::~Inventory()
@@ -13,12 +14,26 @@ Inventory::~Inventory()
 	for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
 		delete ir->second;
 	}
+
+	//Deconstruct Items
+	auto it = this->items.begin();
+	for (it = this->items.begin(); it != this->items.end(); ++it) {
+		delete it->second;
+	}
 }
 
 //Core Functions
 void Inventory::render(sf::RenderTarget* target)
 {
 	this->renderRects(target);
+	this->renderItems(target);
+}
+
+void Inventory::update(const sf::Vector2f mousePos)
+{
+	for (auto& it : this->items) {
+		it.second->updateInventory(mousePos);
+	}
 }
 
 void Inventory::checkForInput()
@@ -26,25 +41,54 @@ void Inventory::checkForInput()
 	elapsed = timer.getElapsedTime();
 	if (elapsed.asSeconds() >= 1) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && this->rectangles["INV_BORDER"]->getHidden()) {
-			this->rectangles["INV_BORDER"]->setShown();
+			for (auto& it : this->rectangles) {
+				it.second->setShown();
+			}
+			for (auto& it : this->items) {
+				it.second->setShown();
+			}
 			this->timer.restart();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && !this->rectangles["INV_BORDER"]->getHidden()) {
-			this->rectangles["INV_BORDER"]->setHidden();
+			for (auto& it : this->rectangles) {
+				it.second->setHidden();
+			}
+			for (auto& it : this->items) {
+				it.second->setHidden();
+			}
 			this->timer.restart();
 		}
 	}
 }
 
-//Item Functions
-void Inventory::addItem(Item* item)
+//Inventory Functions
+//void Inventory::addItem(Item* item)
+//{
+//	this->items.emplace(item);
+//}
+
+void Inventory::deleteItem(std::string input)
 {
-	this->item_vector.push_back(item);
+	std::map<std::string, Item*>::iterator itr = items.find(input);
+	if (itr != items.end())
+	{
+		// found it - delete it
+		delete itr->second;
+		items.erase(itr);
+	}
 }
 
-void Inventory::deleteItem()
+//Item Functions
+void Inventory::initItems()
 {
-	this->item_vector.pop_back();
+	this->items["Staff"] = new Item("Staff", "Assets/Items/zin_staff.png", true);
+}
+
+void Inventory::renderItems(sf::RenderTarget* target)
+{
+	for (auto& it : this->items) {
+		it.second->render(target);
+	}
 }
 
 //Rectangle Functions

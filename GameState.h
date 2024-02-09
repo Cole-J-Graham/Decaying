@@ -6,7 +6,7 @@ class GameState : public State
 {
 public:
 	//Constructors and Destructors
-	GameState();
+	GameState(sf::RenderWindow* window);
 	virtual ~GameState();
 
 	//Functions
@@ -16,6 +16,8 @@ public:
 	void updateKeybinds(const float& dt);
 	void update(const float& dt);
 	void render(sf::RenderTarget* target = nullptr);
+
+	sf::RenderWindow* window;
 
 private:
 

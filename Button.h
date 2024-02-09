@@ -13,8 +13,8 @@ public:
 	~Button();
 
 	//Core Functions
-	void update(const sf::Vector2f mousePos);
 	void render(sf::RenderTarget* target = nullptr);
+	void update(const sf::Vector2f mousePos);
 
 	//Accessors
 	const bool isPressed() const;

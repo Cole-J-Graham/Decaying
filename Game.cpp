@@ -50,8 +50,8 @@ void Game::initWindow()
 
 void Game::initStates()
 {
-	this->states.push(new GameState());
-	this->states.push(new TravelState());
+	this->states.push(new GameState(window));
+	this->states.push(new TravelState(window));
 }
 
 //Update

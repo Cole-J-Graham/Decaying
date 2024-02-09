@@ -1,7 +1,10 @@
 #include "TravelState.h"
 //Constructors and Destructors
-TravelState::TravelState()
+TravelState::TravelState(sf::RenderWindow* window) : State(window)
 {
+	//State
+	this->window = window;
+
 	//Core Variables
 	this->location = 0;
 
@@ -12,13 +15,11 @@ TravelState::TravelState()
 	//Assets
 	this->loadAssets();
 
-	this->inventory = new Inventory();
+	this->inventory["PLAYER_INVENTORY"] = new Inventory();
 }
 
 TravelState::~TravelState()
 {
-	delete this->inventory;
-
 	//Deconstruct Sprites
 	auto is = this->sprites.begin();
 	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
@@ -29,6 +30,12 @@ TravelState::~TravelState()
 	auto it = this->tile_maps.begin();
 	for (it = this->tile_maps.begin(); it != this->tile_maps.end(); ++it) {
 		delete it->second;
+	}
+
+	//Deconstruct Inventory
+	auto in = this->inventory.begin();
+	for (in = this->inventory.begin(); in != this->inventory.end(); ++in) {
+		delete in->second;
 	}
 }
 
@@ -55,7 +62,8 @@ void TravelState::setLocation()
 void TravelState::updateKeybinds(const float& dt)
 {
 	this->sprites["ZIN"]->animateMovement();
-	this->inventory->checkForInput();
+	this->inventory["PLAYER_INVENTORY"]->checkForInput();
+	this->updateMousePositions();
 	this->checkForQuit();
 }
 
@@ -64,13 +72,14 @@ void TravelState::update(const float& dt)
 	this->updateKeybinds(dt);
 	this->tile_maps["FOREST"]->detectCollision(this->sprites["ZIN"]->getSprite());
 	this->tile_maps["FOREST"]->detectMovement();
+	this->inventory["PLAYER_INVENTORY"]->update(this->getMousePosView());
 }
 
 void TravelState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
 	this->renderSprites(target);
-	this->inventory->render(target);
+	this->renderInventory(target);
 }
 
 //Sprite Functions
@@ -99,11 +108,18 @@ void TravelState::renderTileMaps(sf::RenderTarget* target)
 	}
 }
 
+//INventory Functions
+void TravelState::renderInventory(sf::RenderTarget* target)
+{
+	for (auto& it : this->inventory) {
+		it.second->render(target);
+	}
+}
+
 //Assets
 void TravelState::loadAssets()
 {
 	this->forest_sheet.loadFromFile("Assets/SpriteSheets/landSpriteSheet.png");
-	this->map_image.loadFromFile("Assets/Wallpapers/Forest/forest1.jpeg");
 
 	this->zin.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
 }

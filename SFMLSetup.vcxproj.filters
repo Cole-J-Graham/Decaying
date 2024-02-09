@@ -34,9 +34,6 @@
     <ClCompile Include="Item.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="Staff.cpp">
-      <Filter>Item</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -67,9 +64,6 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Staff.h">
       <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>

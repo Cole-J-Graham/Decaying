@@ -1,9 +1,9 @@
 #include "GameState.h"
 
 //Constructors and Destructors
-GameState::GameState()
+GameState::GameState(sf::RenderWindow* window) : State(window)
 {
-
+	this->window = window;
 }
 
 GameState::~GameState()
