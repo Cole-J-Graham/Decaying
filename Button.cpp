@@ -24,7 +24,7 @@ Button::Button(float x, float y, float width, float height, sf::Font font,
 
     this->shape.setFillColor(this->idleColor);
 
-    font.loadFromFile("Assets/Fonts/Ac437_IBM_Model3x_Alt1.ttf");
+    font.loadFromFile("Assets/Fonts/tickerbit font/Tickerbit-regular.otf");
 }
 
 Button::~Button()

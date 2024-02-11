@@ -15,7 +15,7 @@ public:
 	void checkForInput();
 
 	//Inventory Functions
-	//void addItem(Item* item);
+	void addItem(Item* item);
 	void deleteItem(std::string input);
 
 	//Item Functions
@@ -26,6 +26,10 @@ public:
 	void initRects();
 	void renderRects(sf::RenderTarget* target);
 
+	//Accessor Functions
+	void addStaff() { this->addItem(this->items["Staff"]); };
+	void addStiff() { this->addItem(this->items["Stiff"]); };
+
 private:
 
 	std::string item_name;
@@ -33,7 +37,9 @@ private:
 	sf::Time elapsed;
 
 	std::map<std::string, Rectangle*> rectangles;
+	
 	std::map<std::string, Item*> items;
+	std::vector<Item*> inventory_items;
 
 };
 

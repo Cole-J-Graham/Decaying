@@ -1,5 +1,6 @@
 #pragma once
-#include<SFML/Graphics.hpp>
+#include"Rectangle.h"
+#include<map>
 #include<iostream>
 #include<string>
 enum item_states { ITM_UNTOUCHED = 0, ITM_COLLIDING, ITM_INTERACTED };
@@ -9,7 +10,8 @@ class Item
 
 public:
 	//Constructors and Destructors
-	Item(std::string item_name, std::string texture_input, bool hidden);
+	Item(float x, float y, std::string item_name, std::string item_description,
+		std::string texture_input, bool hidden, bool in_inventory);
 	~Item();
 
 	//Core Functions
@@ -17,11 +19,18 @@ public:
 	void update(const sf::Vector2f player_pos);
 	void updateInventory(const sf::Vector2f mousePos);
 
+	//Modifiers
+	void setPosition(float x, float y);
+
 	//Accessors
 	const bool isInteracted() const;
 	const bool isColliding() const;
 	const bool isPressed() const;
 	const bool isHovered() const;
+
+	//Rectangle Functions
+	void renderRects(sf::RenderTarget* target);
+	void initRects();
 
 	//Setters
 	bool& setHidden() { return this->hidden = true; };
@@ -32,13 +41,18 @@ public:
 
 private:
 
-	bool hidden;
+	std::map<std::string, Rectangle*> rectangles;
+
 	sf::Sprite item;
 	sf::Texture item_texture;
+	std::string item_description;
 	std::string item_name;
 	std::string texture_input;
+
 	float x;
 	float y;
+	bool hidden;
+	bool in_inventory;
 	bool colliding;
 	short unsigned item_state;
 	short unsigned item_inv_state;

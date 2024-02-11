@@ -1,27 +1,39 @@
 #include "Item.h"
 //Constructors and Destructors
-Item::Item(std::string item_name, std::string texture_input, bool hidden)
+Item::Item(float x, float y, std::string item_name, std::string item_description, 
+    std::string texture_input, bool hidden, bool in_inventory)
 {
 	this->item_state = ITM_UNTOUCHED;
     this->item_inv_state = ITM_IDLE;
+    this->x = x;
+    this->y = y;
     this->texture_input = texture_input;
+    this->item_name = item_name;
+    this->item_description = item_description;
     this->item.setScale(3.f, 3.f);
-    this->item.setPosition(100, 100);
+    this->item.setPosition(x, y);
     this->hidden = hidden;
 
     this->loadAsset();
+    this->initRects();
 }
 
 Item::~Item()
 {
-
+    //Deconstruct Rectangles
+    auto ir = this->rectangles.begin();
+    for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
+        delete ir->second;
+    }
 }
 
 //Core Functions
 void Item::render(sf::RenderTarget* target)
 {
-    if(!this->hidden)
-    target->draw(this->item);
+    if (!this->hidden) {
+        target->draw(this->item);
+        this->renderRects(target);
+    }
 }
 
 void Item::update(const sf::Vector2f player_pos)
@@ -71,10 +83,12 @@ void Item::updateInventory(sf::Vector2f mousePos)
 
     switch (this->item_inv_state) {
     case ITM_IDLE:
-        std::cout << "Item Idle in inventory..." << "\n";
+        this->rectangles["POP_BOX"]->setHidden();
+        this->item.setColor(sf::Color(255, 255, 255, 255));
         break;
     case ITM_HOVER:
-        std::cout << "Item Hovering in inventory..." << "\n";
+        this->rectangles["POP_BOX"]->setShown();
+        this->item.setColor(sf::Color(255, 255, 255, 155));
         break;
     case ITM_ACTIVE:
         std::cout << "Item Active in inventory..." << "\n";
@@ -82,6 +96,12 @@ void Item::updateInventory(sf::Vector2f mousePos)
     default:
         break;
     }
+}
+
+//Modifiers
+void Item::setPosition(float x, float y)
+{
+    this->item.setPosition(x, y);
 }
 
 //Accessors
@@ -115,6 +135,19 @@ const bool Item::isHovered() const
         return true;
 
     return false;
+}
+
+//Rectangle Functions
+void Item::renderRects(sf::RenderTarget* target)
+{
+    for (auto& it : this->rectangles) {
+        it.second->render(target);
+    }
+}
+
+void Item::initRects()
+{
+    this->rectangles["POP_BOX"] = new Rectangle(this->x + 425, this->y, 250.f, 400.f, sf::Color::Black, sf::Color::White, 1.f, this->item_name + "\n\n" + this->item_description, 16.f, true);
 }
 
 //Assets

@@ -62,10 +62,10 @@ void Inventory::checkForInput()
 }
 
 //Inventory Functions
-//void Inventory::addItem(Item* item)
-//{
-//	this->items.emplace(item);
-//}
+void Inventory::addItem(Item* item)
+{
+	this->inventory_items.push_back(item);
+}
 
 void Inventory::deleteItem(std::string input)
 {
@@ -81,13 +81,18 @@ void Inventory::deleteItem(std::string input)
 //Item Functions
 void Inventory::initItems()
 {
-	this->items["Staff"] = new Item("Staff", "Assets/Items/zin_staff.png", true);
+	this->items["Staff"] = new Item(0.f, 100.f, "STAFF",
+		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.", "Assets/Items/zin_staff.png", true, false);
+	this->items["Stiff"] = new Item(0.f, 100.f, "STIFF",
+		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.", "Assets/Items/zin_staff.png", true, false);
 }
 
 void Inventory::renderItems(sf::RenderTarget* target)
 {
-	for (auto& it : this->items) {
-		it.second->render(target);
+	int x = 50;
+	for (auto& it : this->inventory_items) {
+		it->setPosition(x += 50, 100);
+		it->render(target);
 	}
 }
 
@@ -95,7 +100,7 @@ void Inventory::renderItems(sf::RenderTarget* target)
 void Inventory::initRects()
 {
 	this->rectangles["INV_BORDER"] = new Rectangle(100, 100, 400, 600, sf::Color::Black,
-		sf::Color::White, 8.f, true);
+		sf::Color::White, 1.f, true);
 }
 
 void Inventory::renderRects(sf::RenderTarget* target)

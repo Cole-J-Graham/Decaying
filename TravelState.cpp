@@ -16,6 +16,9 @@ TravelState::TravelState(sf::RenderWindow* window) : State(window)
 	this->loadAssets();
 
 	this->inventory["PLAYER_INVENTORY"] = new Inventory();
+	//Must be in constructor
+	this->inventory["PLAYER_INVENTORY"]->addStaff();
+	this->inventory["PLAYER_INVENTORY"]->addStiff();
 }
 
 TravelState::~TravelState()
