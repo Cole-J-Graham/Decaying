@@ -81,6 +81,15 @@ void Inventory::deleteItem(std::string input)
 }
 
 //Item Functions
+void Inventory::pickupItem()
+{
+	for (auto& it : this->items) {
+		if (it.second->isInteracted()) {
+			this->addItem(it.second);
+		}
+	}
+}
+
 void Inventory::initItems()
 {
 	this->items["Staff"] = new Item(250.f, 250.f, 0.f, 100.f, "STAFF",

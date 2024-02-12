@@ -76,6 +76,7 @@ void TravelState::update(const float& dt)
 	this->tile_maps["FOREST"]->detectCollision(this->sprites["ZIN"]->getSprite());
 	this->tile_maps["FOREST"]->detectMovement(this->inventory["PLAYER_INVENTORY"]);
 	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getPosition(), this->getMousePosView());
+	this->inventory["PLAYER_INVENTORY"]->pickupItem();
 }
 
 void TravelState::render(sf::RenderTarget* target)
@@ -111,7 +112,7 @@ void TravelState::renderTileMaps(sf::RenderTarget* target)
 	}
 }
 
-//INventory Functions
+//Inventory Functions
 void TravelState::renderInventory(sf::RenderTarget* target)
 {
 	for (auto& it : this->inventory) {

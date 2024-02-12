@@ -19,6 +19,7 @@ public:
 	void deleteItem(std::string input);
 
 	//Item Functions
+	void pickupItem();
 	void initItems();
 	void renderInventoryItems(sf::RenderTarget* target);
 	void renderMapItems(sf::RenderTarget* target);

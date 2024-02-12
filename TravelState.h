@@ -29,7 +29,7 @@ public:
 	void initTileMaps();
 	void renderTileMaps(sf::RenderTarget* target);
 
-	//Inventory Functions
+	//Inventory && Item Functions
 	void renderInventory(sf::RenderTarget* target);
 
 	//Assets
