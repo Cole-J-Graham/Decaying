@@ -2,6 +2,9 @@
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include"fstream"
+#include<map>
+//Components
+#include"Inventory.h"
 
 class TileMap
 {
@@ -20,9 +23,12 @@ public:
 	void render(sf::RenderTarget* target);
 
 	//Movement Functions
-	void detectMovement();
+	void detectMovement(Inventory* inventory);
 	void detectWalk();
 	void detectDodgeRoll();
+
+	//Item Functions
+	void renderMapItems(sf::RenderTarget* target);
 
 private:
 	//Core Map

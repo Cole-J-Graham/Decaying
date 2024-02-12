@@ -11,7 +11,7 @@ public:
 
 	//Core Functions
 	void render(sf::RenderTarget* target);
-	void update(const sf::Vector2f mousePos);
+	void update(const sf::Vector2f player_pos, const sf::Vector2f mousePos);
 	void checkForInput();
 
 	//Inventory Functions
@@ -20,7 +20,8 @@ public:
 
 	//Item Functions
 	void initItems();
-	void renderItems(sf::RenderTarget* target);
+	void renderInventoryItems(sf::RenderTarget* target);
+	void renderMapItems(sf::RenderTarget* target);
 
 	//Rectangle Functions
 	void initRects();
@@ -29,6 +30,7 @@ public:
 	//Accessor Functions
 	void addStaff() { this->addItem(this->items["Staff"]); };
 	void addStiff() { this->addItem(this->items["Stiff"]); };
+	std::map<std::string, Item*> getItems() { return this->items; };
 
 private:
 

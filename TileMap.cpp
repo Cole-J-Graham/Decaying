@@ -22,6 +22,7 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 
 	this->loadMapData();
 	this->loadMap(tile_sheet);
+
 }
 
 TileMap::~TileMap()
@@ -151,7 +152,7 @@ void TileMap::render(sf::RenderTarget* target)
 }
 
 //Movement Functions
-void TileMap::detectMovement()
+void TileMap::detectMovement(Inventory* inventory)
 {
 	//Detect Movement
 	this->detectWalk();
@@ -162,6 +163,11 @@ void TileMap::detectMovement()
 		for (int y = 0; y < row; y++) {
 			this->tile_map[x][y].move(velocity);
 		}
+	}
+
+	//Move Items with map
+	for (auto& it : inventory->getItems()) {
+		it.second->moveItem(velocity);
 	}
 }
 
@@ -194,4 +200,10 @@ void TileMap::detectDodgeRoll()
 	else if (dodge_elapsed.asSeconds() >= 0.4) {
 		movementSpeed = 1.5f;
 	}
+}
+
+//Item Functions
+void TileMap::renderMapItems(sf::RenderTarget* target)
+{
+
 }

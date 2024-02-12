@@ -25,14 +25,15 @@ Inventory::~Inventory()
 //Core Functions
 void Inventory::render(sf::RenderTarget* target)
 {
+	this->renderMapItems(target);
 	this->renderRects(target);
-	this->renderItems(target);
+	this->renderInventoryItems(target);
 }
 
-void Inventory::update(const sf::Vector2f mousePos)
+void Inventory::update(const sf::Vector2f player_pos, const sf::Vector2f mousePos)
 {
 	for (auto& it : this->items) {
-		it.second->updateInventory(mousePos);
+		it.second->update(player_pos, mousePos);
 	}
 }
 
@@ -64,6 +65,7 @@ void Inventory::checkForInput()
 //Inventory Functions
 void Inventory::addItem(Item* item)
 {
+	item->getInInventory() = true;
 	this->inventory_items.push_back(item);
 }
 
@@ -81,18 +83,29 @@ void Inventory::deleteItem(std::string input)
 //Item Functions
 void Inventory::initItems()
 {
-	this->items["Staff"] = new Item(0.f, 100.f, "STAFF",
+	this->items["Staff"] = new Item(250.f, 250.f, 0.f, 100.f, "STAFF",
 		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.", "Assets/Items/zin_staff.png", true, false);
-	this->items["Stiff"] = new Item(0.f, 100.f, "STIFF",
+	this->items["Stiff"] = new Item(300.f, 300.f, 0.f, 100.f, "STIFF",
 		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.", "Assets/Items/zin_staff.png", true, false);
 }
 
-void Inventory::renderItems(sf::RenderTarget* target)
+void Inventory::renderInventoryItems(sf::RenderTarget* target)
 {
 	int x = 50;
 	for (auto& it : this->inventory_items) {
-		it->setPosition(x += 50, 100);
-		it->render(target);
+		if (it->getInInventory()) {
+			it->setPosition(x += 50, 100);
+			it->render(target);
+		}
+	}
+}
+
+void Inventory::renderMapItems(sf::RenderTarget* target)
+{
+	for (auto& it : this->items) {
+		if (!it.second->getInInventory()) {
+			it.second->render(target);
+		}
 	}
 }
 

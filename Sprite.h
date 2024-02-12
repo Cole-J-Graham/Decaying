@@ -14,6 +14,9 @@ public:
 	//Animation Functions
 	void animateMovement();
 
+	//Accessor Functions
+	sf::Vector2f getPosition() { return this->sprite.getPosition(); };
+
 	//Assets
 	void loadAssets();
 

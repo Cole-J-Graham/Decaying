@@ -1,18 +1,27 @@
 #include "Item.h"
 //Constructors and Destructors
-Item::Item(float x, float y, std::string item_name, std::string item_description, 
-    std::string texture_input, bool hidden, bool in_inventory)
+Item::Item(float map_x, float map_y, float inv_x, float inv_y, std::string item_name, 
+    std::string item_description, std::string texture_input, bool hidden, bool in_inventory)
 {
-	this->item_state = ITM_UNTOUCHED;
+    //Item on Map
+    this->item_state = ITM_UNTOUCHED;
+    this->map_x = map_x;
+    this->map_y = map_y;
+    this->in_inventory = in_inventory;
+
+    //Item in Inventory
     this->item_inv_state = ITM_IDLE;
-    this->x = x;
-    this->y = y;
+    this->inv_x = inv_x;
+    this->inv_y = inv_y;
     this->texture_input = texture_input;
     this->item_name = item_name;
     this->item_description = item_description;
     this->item.setScale(3.f, 3.f);
-    this->item.setPosition(x, y);
     this->hidden = hidden;
+
+    if (this->in_inventory) { this->item.setPosition(inv_x, inv_y); };
+
+    if (!this->in_inventory) { this->item.setPosition(map_x, map_y); };
 
     this->loadAsset();
     this->initRects();
@@ -30,13 +39,26 @@ Item::~Item()
 //Core Functions
 void Item::render(sf::RenderTarget* target)
 {
-    if (!this->hidden) {
+    //Draw if item is in inventory
+    if (!this->hidden && this->in_inventory) {
+        target->draw(this->item);
+        this->renderRects(target);
+    }
+
+    //Draw if item is on ground
+    if (!this->in_inventory) {
         target->draw(this->item);
         this->renderRects(target);
     }
 }
 
-void Item::update(const sf::Vector2f player_pos)
+void Item::update(const sf::Vector2f player_pos, const sf::Vector2f mousePos)
+{
+    this->updateMapItems(player_pos);
+    this->updateInventory(mousePos);
+}
+
+void Item::updateMapItems(const sf::Vector2f player_pos)
 {
     /*Update the booleans for the item state*/
 
@@ -53,13 +75,15 @@ void Item::update(const sf::Vector2f player_pos)
 
     switch (this->item_state) {
     case ITM_UNTOUCHED:
-        std::cout << "Item Idle..." << "\n";
+        this->rectangles["INTERACT_BOX"]->setHidden();
         break;
     case ITM_COLLIDING:
-        std::cout << "Item colliding..." << "\n";
+        this->rectangles["INTERACT_BOX"]->setShown();
+        std::cout << "Player Colliding with item..." << "\n";
         break;
     case ITM_INTERACTED:
-        std::cout << "Item Interacted with" << "\n";
+        this->rectangles["INTERACT_BOX"]->setHidden();
+        std::cout << "Player Interacting with item..." << "\n";
         break;
     default:
         break;
@@ -102,6 +126,17 @@ void Item::updateInventory(sf::Vector2f mousePos)
 void Item::setPosition(float x, float y)
 {
     this->item.setPosition(x, y);
+}
+
+void Item::setMapPosition()
+{
+    this->setPosition(this->map_x, this->map_y);
+}
+
+void Item::moveItem(sf::Vector2f move)
+{
+    if(!this->in_inventory)
+    this->item.setPosition(map_x += move.x, map_y += move.y);
 }
 
 //Accessors
@@ -147,7 +182,8 @@ void Item::renderRects(sf::RenderTarget* target)
 
 void Item::initRects()
 {
-    this->rectangles["POP_BOX"] = new Rectangle(this->x + 425, this->y, 250.f, 400.f, sf::Color::Black, sf::Color::White, 1.f, this->item_name + "\n\n" + this->item_description, 16.f, true);
+    this->rectangles["POP_BOX"] = new Rectangle(this->inv_x + 425, this->inv_y, 250.f, 400.f, sf::Color::Black, sf::Color::White, 1.f, this->item_name + "\n\n" + this->item_description, 16.f, true);
+    this->rectangles["INTERACT_BOX"] = new Rectangle(10, 10, 150.f, 25.f, sf::Color::Black, sf::Color::White, 1.f, "[E] INTERACT", 16.f, true);
 }
 
 //Assets

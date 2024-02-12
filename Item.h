@@ -10,17 +10,20 @@ class Item
 
 public:
 	//Constructors and Destructors
-	Item(float x, float y, std::string item_name, std::string item_description,
-		std::string texture_input, bool hidden, bool in_inventory);
+	Item(float map_x, float map_y, float inv_x, float inv_y, std::string item_name,
+		std::string item_description, std::string texture_input, bool hidden, bool in_inventory);
 	~Item();
 
 	//Core Functions
 	void render(sf::RenderTarget* target);
-	void update(const sf::Vector2f player_pos);
+	void update(const sf::Vector2f player_pos, const sf::Vector2f mousePos);
+	void updateMapItems(const sf::Vector2f player_pos);
 	void updateInventory(const sf::Vector2f mousePos);
 
 	//Modifiers
 	void setPosition(float x, float y);
+	void setMapPosition();
+	void moveItem(sf::Vector2f move);
 
 	//Accessors
 	const bool isInteracted() const;
@@ -35,6 +38,7 @@ public:
 	//Setters
 	bool& setHidden() { return this->hidden = true; };
 	bool& setShown() { return this->hidden = false; };
+	bool& getInInventory() { return this->in_inventory; };
 
 	//Assets
 	void loadAsset();
@@ -49,8 +53,10 @@ private:
 	std::string item_name;
 	std::string texture_input;
 
-	float x;
-	float y;
+	float inv_x;
+	float inv_y;
+	float map_x;
+	float map_y;
 	bool hidden;
 	bool in_inventory;
 	bool colliding;

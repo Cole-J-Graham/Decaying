@@ -1,8 +1,6 @@
 #pragma once
 //States
 #include"State.h"
-//Components
-#include"Inventory.h"
 //Assets
 #include"TileMap.h"
 #include"Sprite.h"
