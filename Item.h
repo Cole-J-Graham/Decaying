@@ -16,8 +16,8 @@ public:
 
 	//Core Functions
 	void render(sf::RenderTarget* target);
-	void update(const sf::Vector2f player_pos, const sf::Vector2f mousePos);
-	void updateMapItems(const sf::Vector2f player_pos);
+	void update(sf::Sprite sprite, const sf::Vector2f mousePos);
+	void updateMapItems(sf::Sprite sprite);
 	void updateInventory(const sf::Vector2f mousePos);
 
 	//Modifiers
@@ -62,4 +62,6 @@ private:
 	bool colliding;
 	short unsigned item_state;
 	short unsigned item_inv_state;
+	int sheetx;
+	int sheety;
 };

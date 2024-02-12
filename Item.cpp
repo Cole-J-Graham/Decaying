@@ -52,19 +52,19 @@ void Item::render(sf::RenderTarget* target)
     }
 }
 
-void Item::update(const sf::Vector2f player_pos, const sf::Vector2f mousePos)
+void Item::update(const sf::Sprite sprite, const sf::Vector2f mousePos)
 {
-    this->updateMapItems(player_pos);
+    this->updateMapItems(sprite);
     this->updateInventory(mousePos);
 }
 
-void Item::updateMapItems(const sf::Vector2f player_pos)
+void Item::updateMapItems(sf::Sprite sprite)
 {
     /*Update the booleans for the item state*/
 
     //Idle
     this->item_state = ITM_UNTOUCHED;
-    if (this->item.getGlobalBounds().contains(player_pos)) {
+    if (this->item.getGlobalBounds().intersects(sprite.getGlobalBounds())) {
         //Hover
         this->item_state = ITM_COLLIDING;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {

@@ -16,9 +16,6 @@ TravelState::TravelState(sf::RenderWindow* window) : State(window)
 	this->loadAssets();
 
 	this->inventory["PLAYER_INVENTORY"] = new Inventory();
-	//Must be in constructor
-	//this->inventory["PLAYER_INVENTORY"]->addStaff();
-	this->inventory["PLAYER_INVENTORY"]->addStiff();
 }
 
 TravelState::~TravelState()
@@ -75,7 +72,7 @@ void TravelState::update(const float& dt)
 	this->updateKeybinds(dt);
 	this->tile_maps["FOREST"]->detectCollision(this->sprites["ZIN"]->getSprite());
 	this->tile_maps["FOREST"]->detectMovement(this->inventory["PLAYER_INVENTORY"]);
-	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getPosition(), this->getMousePosView());
+	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
 	this->inventory["PLAYER_INVENTORY"]->pickupItem();
 }
 

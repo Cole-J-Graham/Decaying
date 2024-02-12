@@ -53,6 +53,11 @@ void Sprite::animateMovement()
 	this->animateRoll(zin_roll_up, zin_roll_down, zin_roll_left, zin_roll_right);
 }
 
+const sf::Vector2f Sprite::getPosition() const
+{
+	return this->sprite.getPosition();
+}
+
 //Private Animation Functions
 void Sprite::animateTimer(float speed)
 {

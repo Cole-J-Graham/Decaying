@@ -30,10 +30,10 @@ void Inventory::render(sf::RenderTarget* target)
 	this->renderInventoryItems(target);
 }
 
-void Inventory::update(const sf::Vector2f player_pos, const sf::Vector2f mousePos)
+void Inventory::update(sf::Sprite sprite, const sf::Vector2f mousePos)
 {
 	for (auto& it : this->items) {
-		it.second->update(player_pos, mousePos);
+		it.second->update(sprite, mousePos);
 	}
 }
 

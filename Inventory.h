@@ -11,7 +11,7 @@ public:
 
 	//Core Functions
 	void render(sf::RenderTarget* target);
-	void update(const sf::Vector2f player_pos, const sf::Vector2f mousePos);
+	void update(sf::Sprite sprite, const sf::Vector2f mousePos);
 	void checkForInput();
 
 	//Inventory Functions
