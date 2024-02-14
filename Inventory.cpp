@@ -103,7 +103,7 @@ void Inventory::renderInventoryItems(sf::RenderTarget* target)
 	int x = 50;
 	for (auto& it : this->inventory_items) {
 		if (it->getInInventory()) {
-			it->setPosition(x += 50, 100);
+			it->setInventoryPosition(x += 50, 100);
 			it->render(target);
 		}
 	}

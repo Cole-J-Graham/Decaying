@@ -17,7 +17,8 @@ public:
 	//Core Functions
 	void loadMap(sf::Texture& tile_sheet);
 	void loadMapData();
-	void detectCollision(sf::Sprite& in_sprite);
+	void detectCollision(Inventory* inventory, sf::Sprite& in_sprite);
+	void resetPosition();
 
 	//State Fucntions
 	void render(sf::RenderTarget* target);
@@ -44,6 +45,8 @@ private:
 	int row;
 	int sheetX;
 	int sheetY;
+	bool colliding;
+	int current_map_data;
 
 	//Movement
 	sf::Vector2f velocity;
@@ -52,6 +55,7 @@ private:
 	sf::Time dodge_elapsed;
 
 	//Map data
+	sf::FloatRect area;
 	std::string map_data_string;
 	std::ifstream map_data;
 	std::vector<std::vector<int>> tile_map_data{

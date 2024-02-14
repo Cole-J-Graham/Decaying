@@ -123,14 +123,16 @@ void Item::updateInventory(sf::Vector2f mousePos)
 }
 
 //Modifiers
-void Item::setPosition(float x, float y)
+void Item::setInventoryPosition(float x, float y)
 {
     this->item.setPosition(x, y);
 }
 
-void Item::setMapPosition()
+void Item::setMapPosition(sf::Vector2f position)
 {
-    this->setPosition(this->map_x, this->map_y);
+    this->item.setPosition(map_x += position.x, map_y += position.y);
+    std::cout << "map_x: " << map_x << "\n";
+    std::cout << "map_y: " << map_y << "\n";
 }
 
 void Item::moveItem(sf::Vector2f move)

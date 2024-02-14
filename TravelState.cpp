@@ -70,7 +70,7 @@ void TravelState::updateKeybinds(const float& dt)
 void TravelState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
-	this->tile_maps["FOREST"]->detectCollision(this->sprites["ZIN"]->getSprite());
+	this->tile_maps["FOREST"]->detectCollision(this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
 	this->tile_maps["FOREST"]->detectMovement(this->inventory["PLAYER_INVENTORY"]);
 	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
 	this->inventory["PLAYER_INVENTORY"]->pickupItem();

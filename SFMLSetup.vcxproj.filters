@@ -86,5 +86,8 @@
     <Filter Include="Item">
       <UniqueIdentifier>{81911fe9-5180-4ef0-b0b8-00ccd3381e54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{e14499aa-70fa-4148-b6c0-7d9090d14c3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

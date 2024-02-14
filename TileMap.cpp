@@ -19,6 +19,7 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 	this->movementSpeed = 1.5f;
 	this->velocity.x = 0;
 	this->velocity.y = 0;
+	this->colliding = false;
 
 	this->loadMapData();
 	this->loadMap(tile_sheet);
@@ -79,59 +80,70 @@ void TileMap::loadMapData()
 	map_data.close();
 }
 
-void TileMap::detectCollision(sf::Sprite& in_sprite)
+void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
 {
 	//Collision Function
 	for (int x = 0; x < tile_map.size(); x++) {
 		for (int y = 0; y < tile_map.size(); y++) {
-			if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds())) {
-				if (tile_map_data[x][y] == 1) {
-					sf::FloatRect playerBounds = in_sprite.getGlobalBounds();
-					sf::FloatRect wallBounds = tile_map[x][y].getGlobalBounds();
-					sf::FloatRect area;
-					if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
+			if (tile_map_data[x][y] == 1) {
+				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
+				{
+					// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
+					if (area.width > area.height)
 					{
-						// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
-						if (area.width > area.height)
+						if (area.contains({ area.left, tile_map[x][y].getPosition().y }))
 						{
-							if (area.contains({ area.left, tile_map[x][y].getPosition().y }))
-							{
-								//Down side crash
-								for (int x = 0; x < col; x++) {
-									for (int y = 0; y < row; y++) {
-										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y + area.height });
-									}
+							//Down side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y + area.height });
 								}
 							}
-							else
-							{
-								//Up side crash
-								for (int x = 0; x < col; x++) {
-									for (int y = 0; y < row; y++) {
-										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y - area.height });
-									}
-								}
+
+							for (auto& it : inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
 							}
 						}
-						else if (area.width < area.height)
+						else
 						{
-							if (area.contains({ tile_map[x][y].getPosition().x + tile_map[x][y].getGlobalBounds().width - 1.f, area.top + 1.f }))
-							{
-								//Left side crash
-								for (int x = 0; x < col; x++) {
-									for (int y = 0; y < row; y++) {
-										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x - area.width, tile_map[x][y].getPosition().y });
-									}
+							//Up side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y - area.height });
 								}
 							}
-							else
-							{
-								//Right side crash
-								for (int x = 0; x < col; x++) {
-									for (int y = 0; y < row; y++) {
-										tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x + area.width, tile_map[x][y].getPosition().y });
-									}
+
+							for (auto& it : inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
+							}
+						}
+					}
+					else if (area.width < area.height)
+					{
+						if (area.contains({ tile_map[x][y].getPosition().x + tile_map[x][y].getGlobalBounds().width - 1.f, area.top + 1.f }))
+						{
+							//Left side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x - area.width, tile_map[x][y].getPosition().y });
 								}
+							}
+
+							for (auto& it : inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y});
+							}
+						}
+						else
+						{
+							//Right side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x + area.width, tile_map[x][y].getPosition().y });
+								}
+							}
+
+							for (auto& it : inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
 							}
 						}
 					}

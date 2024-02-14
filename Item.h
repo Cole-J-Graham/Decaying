@@ -5,7 +5,7 @@
 #include<string>
 enum item_states { ITM_UNTOUCHED = 0, ITM_COLLIDING, ITM_INTERACTED };
 enum item_inv_states { ITM_IDLE = 0, ITM_HOVER, ITM_ACTIVE };
-class Item
+class Item : public sf::Sprite
 {
 
 public:
@@ -21,8 +21,8 @@ public:
 	void updateInventory(const sf::Vector2f mousePos);
 
 	//Modifiers
-	void setPosition(float x, float y);
-	void setMapPosition();
+	void setInventoryPosition(float x, float y);
+	void setMapPosition(sf::Vector2f position);
 	void moveItem(sf::Vector2f move);
 
 	//Accessors
