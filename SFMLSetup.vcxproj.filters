@@ -34,6 +34,12 @@
     <ClCompile Include="Item.cpp">
       <Filter>Item</Filter>
     </ClCompile>
+    <ClCompile Include="Skills.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerGUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -66,6 +72,12 @@
     <ClInclude Include="Item.h">
       <Filter>Item</Filter>
     </ClInclude>
+    <ClInclude Include="Skills.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="States">
@@ -86,8 +98,8 @@
     <Filter Include="Item">
       <UniqueIdentifier>{81911fe9-5180-4ef0-b0b8-00ccd3381e54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Character">
-      <UniqueIdentifier>{e14499aa-70fa-4148-b6c0-7d9090d14c3a}</UniqueIdentifier>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{3b87a209-6ac0-4f8e-9829-51c963d6ec01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

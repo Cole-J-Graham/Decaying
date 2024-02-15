@@ -162,7 +162,9 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PlayerGUI.cpp" />
     <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Skills.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -174,7 +176,9 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="PlayerGUI.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Skills.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TileMap.h" />

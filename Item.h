@@ -3,15 +3,21 @@
 #include<map>
 #include<iostream>
 #include<string>
+//Item States
 enum item_states { ITM_UNTOUCHED = 0, ITM_COLLIDING, ITM_INTERACTED };
 enum item_inv_states { ITM_IDLE = 0, ITM_HOVER, ITM_ACTIVE };
+//Item Definitions
+enum item_type { GENERIC, WEAPON, RELIC };
+enum item_rarity {COMMON, UNCOMMON, RARE, UNIQUE};
+
 class Item : public sf::Sprite
 {
 
 public:
 	//Constructors and Destructors
 	Item(float map_x, float map_y, float inv_x, float inv_y, std::string item_name,
-		std::string item_description, std::string texture_input, bool hidden, bool in_inventory);
+		std::string item_description, std::string texture_input, bool hidden, bool in_inventory,
+		enum item_type, enum item_rarity);
 	~Item();
 
 	//Core Functions

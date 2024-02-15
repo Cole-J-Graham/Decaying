@@ -3,17 +3,14 @@
 Inventory::Inventory()
 {
 	//Init
-	this->initRects();
 	this->initItems();
+
+	this->GUI = new PlayerGUI();
 }
 
 Inventory::~Inventory()
 {
-	//Deconstruct Rectangles
-	auto ir = this->rectangles.begin();
-	for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
-		delete ir->second;
-	}
+	delete this->GUI;
 
 	//Deconstruct Items
 	auto it = this->items.begin();
@@ -26,7 +23,7 @@ Inventory::~Inventory()
 void Inventory::render(sf::RenderTarget* target)
 {
 	this->renderMapItems(target);
-	this->renderRects(target);
+	this->GUI->render(target);
 	this->renderInventoryItems(target);
 }
 
@@ -41,8 +38,8 @@ void Inventory::checkForInput()
 {
 	elapsed = timer.getElapsedTime();
 	if (elapsed.asSeconds() >= 1) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && this->rectangles["INV_BORDER"]->getHidden()) {
-			for (auto& it : this->rectangles) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && GUI->getRectangles()["INV_BORDER"]->getHidden()) {
+			for (auto& it : GUI->getRectangles()) {
 				it.second->setShown();
 			}
 			for (auto& it : this->items) {
@@ -50,8 +47,8 @@ void Inventory::checkForInput()
 			}
 			this->timer.restart();
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && !this->rectangles["INV_BORDER"]->getHidden()) {
-			for (auto& it : this->rectangles) {
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && !GUI->getRectangles()["INV_BORDER"]->getHidden()) {
+			for (auto& it : GUI->getRectangles()) {
 				it.second->setHidden();
 			}
 			for (auto& it : this->items) {
@@ -92,10 +89,12 @@ void Inventory::pickupItem()
 
 void Inventory::initItems()
 {
-	this->items["Staff"] = new Item(250.f, 250.f, 0.f, 100.f, "STAFF",
-		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.", "Assets/Items/zin_staff.png", true, false);
-	this->items["Stiff"] = new Item(300.f, 300.f, 0.f, 100.f, "STIFF",
-		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.", "Assets/Items/zin_staff.png", true, false);
+	this->items["Staff"] = new Item(250.f, 250.f, 0.f, 100.f, "Staff",
+		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.\n\nWEAPON\nCOMMON", "Assets/Items/zin_staff.png", true, false,
+		WEAPON, COMMON);
+	this->items["Eternal Dust"] = new Item(400.f, 400.f, 0.f, 100.f, "Eternal Dust",
+		"A strange unending pile of\ndust, seeming capable\nof replenishing itself\n\nRELIC\nUNIQUE", "Assets/Items/eternal_dust.png", true, false,
+		RELIC, UNIQUE);
 }
 
 void Inventory::renderInventoryItems(sf::RenderTarget* target)
@@ -115,19 +114,5 @@ void Inventory::renderMapItems(sf::RenderTarget* target)
 		if (!it.second->getInInventory()) {
 			it.second->render(target);
 		}
-	}
-}
-
-//Rectangle Functions
-void Inventory::initRects()
-{
-	this->rectangles["INV_BORDER"] = new Rectangle(100, 100, 400, 600, sf::Color::Black,
-		sf::Color::White, 1.f, true);
-}
-
-void Inventory::renderRects(sf::RenderTarget* target)
-{
-	for (auto& it : this->rectangles) {
-		it.second->render(target);
 	}
 }

@@ -1,7 +1,8 @@
 #include "Item.h"
 //Constructors and Destructors
 Item::Item(float map_x, float map_y, float inv_x, float inv_y, std::string item_name, 
-    std::string item_description, std::string texture_input, bool hidden, bool in_inventory)
+    std::string item_description, std::string texture_input, bool hidden, bool in_inventory,
+    enum item_type, enum item_rarity)
 {
     //Item on Map
     this->item_state = ITM_UNTOUCHED;
@@ -184,7 +185,7 @@ void Item::renderRects(sf::RenderTarget* target)
 
 void Item::initRects()
 {
-    this->rectangles["POP_BOX"] = new Rectangle(this->inv_x + 425, this->inv_y, 250.f, 400.f, sf::Color::Black, sf::Color::White, 1.f, this->item_name + "\n\n" + this->item_description, 16.f, true);
+    this->rectangles["POP_BOX"] = new Rectangle(this->inv_x + 525, this->inv_y, 250.f, 400.f, sf::Color::Black, sf::Color::White, 1.f, this->item_name + "\n\n" + this->item_description, 16.f, true);
     this->rectangles["INTERACT_BOX"] = new Rectangle(10, 10, 150.f, 25.f, sf::Color::Black, sf::Color::White, 1.f, "[E] INTERACT", 16.f, true);
 }
 
