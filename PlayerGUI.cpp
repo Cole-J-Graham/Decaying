@@ -26,6 +26,15 @@ void PlayerGUI::initRects()
 	this->rectangles["INV_BORDER"] = new Rectangle(50, 100, 400, 600, sf::Color::Black,
 		sf::Color::White, 1.f, true);
 	this->rectangles["SKILLS_MENU"] = new Rectangle(1650, 100, 200, 600, sf::Color::Black,
+		sf::Color::White, 1.f, "example", 16, true);
+
+	this->rectangles["EQUIPSLOT_MAINHAND"] = new Rectangle(50, 725, 50, 50, sf::Color::Black,
+		sf::Color::White, 1.f, true);
+	this->rectangles["EQUIPSLOT_OFFHAND"] = new Rectangle(110, 725, 50, 50, sf::Color::Black,
+		sf::Color::White, 1.f, true);
+	this->rectangles["EQUIPSLOT_OUTFIT"] = new Rectangle(170, 725, 50, 50, sf::Color::Black,
+		sf::Color::White, 1.f, true);
+	this->rectangles["EQUIPSLOT_HAT"] = new Rectangle(170, 776, 50, 50, sf::Color::Black,
 		sf::Color::White, 1.f, true);
 }
 

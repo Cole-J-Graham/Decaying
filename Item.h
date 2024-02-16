@@ -1,5 +1,6 @@
 #pragma once
-#include"Rectangle.h"
+#include"PlayerGUI.h"
+#include"Skills.h"
 #include<map>
 #include<iostream>
 #include<string>
@@ -44,7 +45,7 @@ public:
 	//Setters
 	bool& setHidden() { return this->hidden = true; };
 	bool& setShown() { return this->hidden = false; };
-	bool& getInInventory() { return this->in_inventory; };
+	bool& inInventory() { return this->in_inventory; };
 
 	//Assets
 	void loadAsset();

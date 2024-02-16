@@ -15,6 +15,9 @@ public:
 	//Core Functions
 	void render(sf::RenderTarget* target = nullptr);
 
+	//Modifiers
+	void setString(std::string input);
+
 	//Getters
 	bool& getHidden() { return this->hidden; };
 

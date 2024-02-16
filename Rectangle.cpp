@@ -45,3 +45,9 @@ void Rectangle::render(sf::RenderTarget* target)
 		target->draw(this->text);
 	}
 }
+
+//Modifiers
+void Rectangle::setString(std::string input)
+{
+	this->text.setString(input);
+}

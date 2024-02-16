@@ -9,12 +9,12 @@ public:
 
 	//Core Functions
 	void render(sf::RenderTarget* target);
-	void levelUp();
+	void update();
+	void checkForLevelUp();
 	void skillUp(float skill);
 
-	//Rectangle Functions
-	void initRects();
-	void renderRects(sf::RenderTarget* target);
+	//Display Functions
+	std::string& displayStats();
 
 private:
 	int level;
@@ -26,5 +26,7 @@ private:
 	float strength;
 	float agility;
 	float intelligence;
+
+	std::string display;
 
 };

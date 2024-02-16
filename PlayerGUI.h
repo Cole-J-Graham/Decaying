@@ -9,7 +9,6 @@ public:
 
 	//Core Functions
 	void render(sf::RenderTarget* target);
-	void checkForTab();
 
 	//Rectangle Functions
 	void initRects();

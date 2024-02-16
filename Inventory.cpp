@@ -5,11 +5,13 @@ Inventory::Inventory()
 	//Init
 	this->initItems();
 
+	this->skills = new Skills();
 	this->GUI = new PlayerGUI();
 }
 
 Inventory::~Inventory()
 {
+	delete this->skills;
 	delete this->GUI;
 
 	//Deconstruct Items
@@ -23,7 +25,7 @@ Inventory::~Inventory()
 void Inventory::render(sf::RenderTarget* target)
 {
 	this->renderMapItems(target);
-	this->GUI->render(target);
+	GUI->render(target);
 	this->renderInventoryItems(target);
 }
 
@@ -32,15 +34,24 @@ void Inventory::update(sf::Sprite sprite, const sf::Vector2f mousePos)
 	for (auto& it : this->items) {
 		it.second->update(sprite, mousePos);
 	}
+
+	this->skills->update();
 }
 
+//Input Functions
 void Inventory::checkForInput()
 {
+	this->checkForTab();
+}
+
+void Inventory::checkForTab()
+{
 	elapsed = timer.getElapsedTime();
-	if (elapsed.asSeconds() >= 1) {
+	if (elapsed.asSeconds() >= 0.5) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && GUI->getRectangles()["INV_BORDER"]->getHidden()) {
 			for (auto& it : GUI->getRectangles()) {
 				it.second->setShown();
+				GUI->getRectangles()["SKILLS_MENU"]->setString(skills->displayStats());
 			}
 			for (auto& it : this->items) {
 				it.second->setShown();
@@ -62,19 +73,16 @@ void Inventory::checkForInput()
 //Inventory Functions
 void Inventory::addItem(Item* item)
 {
-	item->getInInventory() = true;
+	item->inInventory() = true;
 	this->inventory_items.push_back(item);
 }
 
-void Inventory::deleteItem(std::string input)
+void Inventory::deleteItem(Item* item)
 {
-	std::map<std::string, Item*>::iterator itr = items.find(input);
-	if (itr != items.end())
-	{
-		// found it - delete it
-		delete itr->second;
-		items.erase(itr);
-	}
+	//TEST TO SEE IF FUNCTIONAL
+	this->inventory_items.emplace_back(item);
+	this->inventory_items.pop_back();
+	delete item;
 }
 
 //Item Functions
@@ -99,9 +107,9 @@ void Inventory::initItems()
 
 void Inventory::renderInventoryItems(sf::RenderTarget* target)
 {
-	int x = 50;
+	int x = 0;
 	for (auto& it : this->inventory_items) {
-		if (it->getInInventory()) {
+		if (it->inInventory()) {
 			it->setInventoryPosition(x += 50, 100);
 			it->render(target);
 		}
@@ -111,8 +119,24 @@ void Inventory::renderInventoryItems(sf::RenderTarget* target)
 void Inventory::renderMapItems(sf::RenderTarget* target)
 {
 	for (auto& it : this->items) {
-		if (!it.second->getInInventory()) {
+		if (!it.second->inInventory()) {
 			it.second->render(target);
+		}
+	}
+}
+
+//Equip Slot Functions
+void Inventory::initSlots()
+{
+	this->equip_slots["SLOT_MAINHAND"];
+	this->equip_slots["SLOT_BACK"];
+}
+
+void Inventory::equipItem(Item* item)
+{
+	if (this->equip_slots["SLOT_MAINHAND"]->getGlobalBounds().intersects(item->getGlobalBounds())) {
+		if (item->inInventory()) {
+			//DO SOMETHING
 		}
 	}
 }

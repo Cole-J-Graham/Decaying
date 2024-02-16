@@ -25,7 +25,12 @@ void Skills::render(sf::RenderTarget* target)
 
 }
 
-void Skills::levelUp()
+void Skills::update()
+{
+	this->checkForLevelUp();
+}
+
+void Skills::checkForLevelUp()
 {
 	if (this->exp >= this->exp_next) {
 		this->level++;
@@ -41,4 +46,17 @@ void Skills::skillUp(float skill)
 		this->skill_point--;
 		skill++;
 	}
+}
+
+//Display Functions
+std::string& Skills::displayStats()
+{
+	display = "LVL[" + std::to_string(this->level) + "]\n" +
+			"SP[" + std::to_string(this->skill_point) + "]\n" +
+			"EXP[" + std::to_string(this->exp) + "/" + std::to_string(this->exp_next) + "]\n\n"
+			"STR[" + std::to_string(this->strength) + "]\n" + 
+			"AGI[" + std::to_string(this->agility) + "]\n" + 
+			"INT[" + std::to_string(this->intelligence) + "]\n";
+
+	return display;
 }

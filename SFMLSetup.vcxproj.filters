@@ -23,7 +23,7 @@
       <Filter>Assets</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
-      <Filter>Components</Filter>
+      <Filter>Character</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>Resources</Filter>
@@ -35,10 +35,13 @@
       <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="Skills.cpp">
-      <Filter>Components</Filter>
+      <Filter>Character</Filter>
     </ClCompile>
     <ClCompile Include="PlayerGUI.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="EquipSlot.cpp">
+      <Filter>Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,7 +64,7 @@
       <Filter>Assets</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
-      <Filter>Components</Filter>
+      <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>Resources</Filter>
@@ -73,10 +76,13 @@
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="Skills.h">
-      <Filter>Components</Filter>
+      <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="PlayerGUI.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipSlot.h">
+      <Filter>Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -89,9 +95,6 @@
     <Filter Include="Source">
       <UniqueIdentifier>{5fb67664-b76e-4a4a-951c-e80791f5c0bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{b80448ff-6501-4f00-b856-6b898cf78d42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{444cc355-a3a1-45b9-a1f1-61ceb67aa9eb}</UniqueIdentifier>
     </Filter>
@@ -100,6 +103,9 @@
     </Filter>
     <Filter Include="GUI">
       <UniqueIdentifier>{3b87a209-6ac0-4f8e-9829-51c963d6ec01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{b80448ff-6501-4f00-b856-6b898cf78d42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
