@@ -1,28 +1,25 @@
 #include "Item.h"
 //Constructors and Destructors
-Item::Item(float map_x, float map_y, float inv_x, float inv_y, std::string item_name, 
-    std::string item_description, std::string texture_input, bool hidden, bool in_inventory,
-    enum item_type, enum item_rarity)
+Item::Item(float x, float y, std::string item_name, std::string item_description, 
+    std::string texture_input, bool hidden, bool in_inventory, enum item_type, enum item_rarity)
 {
     //Item on Map
     this->item_state = ITM_UNTOUCHED;
-    this->map_x = map_x;
-    this->map_y = map_y;
+    this->x = x;
+    this->y = y;
     this->in_inventory = in_inventory;
 
     //Item in Inventory
     this->item_inv_state = ITM_IDLE;
-    this->inv_x = inv_x;
-    this->inv_y = inv_y;
     this->texture_input = texture_input;
     this->item_name = item_name;
     this->item_description = item_description;
     this->item.setScale(3.f, 3.f);
     this->hidden = hidden;
 
-    if (this->in_inventory) { this->item.setPosition(inv_x, inv_y); };
+    //if (this->in_inventory) { this->item.setPosition(inv_x, inv_y); };
 
-    if (!this->in_inventory) { this->item.setPosition(map_x, map_y); };
+   // if (!this->in_inventory) { this->item.setPosition(map_x, map_y); };
 
     this->loadAsset();
     this->initRects();
@@ -131,15 +128,13 @@ void Item::setInventoryPosition(float x, float y)
 
 void Item::setMapPosition(sf::Vector2f position)
 {
-    this->item.setPosition(map_x += position.x, map_y += position.y);
-    std::cout << "map_x: " << map_x << "\n";
-    std::cout << "map_y: " << map_y << "\n";
+    this->item.setPosition(x += position.x, y += position.y);
 }
 
 void Item::moveItem(sf::Vector2f move)
 {
     if(!this->in_inventory)
-    this->item.setPosition(map_x += move.x, map_y += move.y);
+    this->item.setPosition(x += move.x, y += move.y);
 }
 
 //Accessors
@@ -185,7 +180,7 @@ void Item::renderRects(sf::RenderTarget* target)
 
 void Item::initRects()
 {
-    this->rectangles["POP_BOX"] = new Rectangle(this->inv_x + 525, this->inv_y, 250.f, 400.f, sf::Color::Black, sf::Color::White, 1.f, this->item_name + "\n\n" + this->item_description, 16.f, true);
+    this->rectangles["POP_BOX"] = new Rectangle(525, 100.f, 250.f, 400.f, sf::Color::Black, sf::Color::White, 1.f, this->item_name + "\n\n" + this->item_description, 16.f, true);
     this->rectangles["INTERACT_BOX"] = new Rectangle(10, 10, 150.f, 25.f, sf::Color::Black, sf::Color::White, 1.f, "[E] INTERACT", 16.f, true);
 }
 

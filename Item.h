@@ -16,9 +16,9 @@ class Item : public sf::Sprite
 
 public:
 	//Constructors and Destructors
-	Item(float map_x, float map_y, float inv_x, float inv_y, std::string item_name,
-		std::string item_description, std::string texture_input, bool hidden, bool in_inventory,
-		enum item_type, enum item_rarity);
+	Item(float x, float y, std::string item_name, std::string item_description, 
+		std::string texture_input, bool hidden, bool in_inventory, enum item_type, 
+		enum item_rarity);
 	~Item();
 
 	//Core Functions
@@ -60,10 +60,8 @@ private:
 	std::string item_name;
 	std::string texture_input;
 
-	float inv_x;
-	float inv_y;
-	float map_x;
-	float map_y;
+	float x;
+	float y;
 	bool hidden;
 	bool in_inventory;
 	bool colliding;

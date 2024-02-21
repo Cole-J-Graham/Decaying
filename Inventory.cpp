@@ -97,10 +97,10 @@ void Inventory::pickupItem()
 
 void Inventory::initItems()
 {
-	this->items["Staff"] = new Item(250.f, 250.f, 0.f, 100.f, "Staff",
+	this->items["Staff"] = new Item(250.f, 250.f, "Staff",
 		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.\n\nWEAPON\nCOMMON", "Assets/Items/zin_staff.png", true, false,
 		WEAPON, COMMON);
-	this->items["Eternal Dust"] = new Item(400.f, 400.f, 0.f, 100.f, "Eternal Dust",
+	this->items["Eternal Dust"] = new Item(400.f, 400.f, "Eternal Dust",
 		"A strange unending pile of\ndust, seeming capable\nof replenishing itself\n\nRELIC\nUNIQUE", "Assets/Items/eternal_dust.png", true, false,
 		RELIC, UNIQUE);
 }
