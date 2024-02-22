@@ -103,6 +103,12 @@ void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
 							for (auto& it : inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
 							}
+							for (auto& it : inventory->getWeapons()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
+							}
+							for (auto& it : inventory->getRelics()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
+							}
 						}
 						else
 						{
@@ -114,6 +120,12 @@ void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
 							}
 
 							for (auto& it : inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
+							}
+							for (auto& it : inventory->getWeapons()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
+							}
+							for (auto& it : inventory->getRelics()) {
 								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
 							}
 						}
@@ -130,7 +142,13 @@ void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
 							}
 
 							for (auto& it : inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y });
+							}
+							for (auto& it : inventory->getWeapons()) {
 								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y});
+							}
+							for (auto& it : inventory->getRelics()) {
+								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y });
 							}
 						}
 						else
@@ -143,6 +161,12 @@ void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
 							}
 
 							for (auto& it : inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
+							}
+							for (auto& it : inventory->getWeapons()) {
+								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
+							}
+							for (auto& it : inventory->getRelics()) {
 								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
 							}
 						}
@@ -178,9 +202,7 @@ void TileMap::detectMovement(Inventory* inventory)
 	}
 
 	//Move Items with map
-	for (auto& it : inventory->getItems()) {
-		it.second->moveItem(velocity);
-	}
+	this->moveItems(inventory);
 }
 
 void TileMap::detectWalk()
@@ -215,7 +237,22 @@ void TileMap::detectDodgeRoll()
 }
 
 //Item Functions
-void TileMap::renderMapItems(sf::RenderTarget* target)
+void TileMap::moveItems(Inventory* inventory)
 {
+	for (auto& it : inventory->getItems()) { it.second->moveItem(velocity); }
+	for (auto& it : inventory->getWeapons()) {it.second->moveItem(velocity);}
+	for (auto& it : inventory->getRelics()) {it.second->moveItem(velocity);}
+}
 
+void TileMap::holdItemPosition(Inventory* inventory)
+{
+	for (auto& it : inventory->getItems()) {
+		it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
+	}
+	for (auto& it : inventory->getWeapons()) {
+		it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
+	}
+	for (auto& it : inventory->getRelics()) {
+		it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
+	}
 }

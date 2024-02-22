@@ -29,7 +29,8 @@ public:
 	void detectDodgeRoll();
 
 	//Item Functions
-	void renderMapItems(sf::RenderTarget* target);
+	void moveItems(Inventory* inventory);
+	void holdItemPosition(Inventory* inventory);
 
 private:
 	//Core Map

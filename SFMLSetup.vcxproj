@@ -165,11 +165,13 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlayerGUI.cpp" />
     <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Relic.cpp" />
     <ClCompile Include="Skills.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TravelState.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
@@ -180,11 +182,13 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="PlayerGUI.h" />
     <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Relic.h" />
     <ClInclude Include="Skills.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TravelState.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

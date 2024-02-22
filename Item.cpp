@@ -1,5 +1,10 @@
 #include "Item.h"
 //Constructors and Destructors
+Item::Item()
+{
+    this->initRects();
+}
+
 Item::Item(float x, float y, std::string item_name, std::string item_description, 
     std::string texture_input, bool hidden, bool in_inventory, enum item_type, enum item_rarity)
 {
@@ -16,10 +21,6 @@ Item::Item(float x, float y, std::string item_name, std::string item_description
     this->item_description = item_description;
     this->item.setScale(3.f, 3.f);
     this->hidden = hidden;
-
-    //if (this->in_inventory) { this->item.setPosition(inv_x, inv_y); };
-
-   // if (!this->in_inventory) { this->item.setPosition(map_x, map_y); };
 
     this->loadAsset();
     this->initRects();

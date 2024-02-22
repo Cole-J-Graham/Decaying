@@ -16,6 +16,7 @@ class Item : public sf::Sprite
 
 public:
 	//Constructors and Destructors
+	Item();
 	Item(float x, float y, std::string item_name, std::string item_description, 
 		std::string texture_input, bool hidden, bool in_inventory, enum item_type, 
 		enum item_rarity);

@@ -43,6 +43,12 @@
     <ClCompile Include="EquipSlot.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="Relic.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -83,6 +89,12 @@
     </ClInclude>
     <ClInclude Include="EquipSlot.h">
       <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Relic.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
