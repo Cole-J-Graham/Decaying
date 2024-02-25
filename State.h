@@ -21,7 +21,7 @@ class State
 {
 public:
 	//Constructors and Destructors
-	State(sf::RenderWindow* window);
+	State(sf::RenderWindow* window, std::stack<State*>* states);
 	virtual ~State();
 
 	const bool& getQuit() const;
@@ -41,6 +41,7 @@ public:
 	sf::Vector2f getMousePosView() { return this->mousePosView; };
 
 private:
+	std::stack<State*>* states;
 	std::vector<sf::Texture> textures;
 	bool quit;
 

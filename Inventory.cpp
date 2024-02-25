@@ -40,6 +40,7 @@ void Inventory::update(sf::Sprite sprite, const sf::Vector2f mousePos)
 	//Update Relics
 	for (auto& it : this->relics) {it.second->update(sprite, mousePos);}
 
+	this->GUI->update(mousePos);
 	this->skills->update();
 }
 
@@ -57,6 +58,7 @@ void Inventory::checkForTab()
 			for (auto& it : GUI->getRectangles()) {
 				it.second->setShown();
 				GUI->getRectangles()["SKILLS_MENU"]->setString(skills->displayStats());
+				GUI->getButtons()["RELIC_POUCH"]->setShown();
 			}
 			//Show all items
 			for (auto& it : this->items) { it.second->setShown(); }
@@ -66,6 +68,7 @@ void Inventory::checkForTab()
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && !GUI->getRectangles()["INV_BORDER"]->getHidden()) {
 			for (auto& it : GUI->getRectangles()) { it.second->setHidden(); }
+			GUI->getButtons()["RELIC_POUCH"]->setHidden();
 			//Hide all items
 			for (auto& it : this->items) { it.second->setHidden(); }
 			for (auto& it : this->weapons) { it.second->setHidden(); }

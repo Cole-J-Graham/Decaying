@@ -16,10 +16,12 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 	this->sheetY;
 
 	//Movement
+	this->stamina = 100;
 	this->movementSpeed = 1.5f;
 	this->velocity.x = 0;
 	this->velocity.y = 0;
 	this->colliding = false;
+	this->colliding_entrance = false;
 
 	this->loadMapData();
 	this->loadMap(tile_sheet);
@@ -42,21 +44,40 @@ void TileMap::loadMap(sf::Texture& tile_sheet)
 			this->tile_map[x][y].setPosition(x * grid_size_f + this->x, y * grid_size_f + this->y);
 			this->tile_map[x][y].setTexture(tile_sheet);
 
-			if (this->tile_map_data[x][y] == 0) {
+			//Fill in data depending on the case found in the map file
+			switch (this->tile_map_data[x][y]) {
+			case 0:
 				this->sheetX = 0;
 				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-			}
-			else if (this->tile_map_data[x][y] == 1) {
+				break;
+			case 1:
 				this->sheetX = 16;
 				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-			}
-			else if (this->tile_map_data[x][y] == 2) {
+				break;
+			case 2:
 				this->sheetX = 32;
 				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-			}
-			else if (this->tile_map_data[x][y] == 3) {
+				break;
+			case 3:
 				this->sheetX = 48;
 				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				break;
+			case 4:
+				this->sheetX = 64;
+				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				break;
+			case 5:
+				this->sheetX = 80;
+				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				break;
+			case 6:
+				this->sheetX = 96;
+				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				break;
+			case 7:
+				this->sheetX = 112;
+				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+				break;
 			}
 		}
 	}
@@ -74,7 +95,7 @@ void TileMap::loadMapData()
 		}
 	}
 	else {
-		std::cout << "ERROR LOADING FILE..." << "\n";
+		std::cout << "ERROR LOADING TILEMAP FILE..." << "\n";
 	}
 
 	map_data.close();
@@ -85,7 +106,7 @@ void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
 	//Collision Function
 	for (int x = 0; x < tile_map.size(); x++) {
 		for (int y = 0; y < tile_map.size(); y++) {
-			if (tile_map_data[x][y] == 1) {
+			if (tile_map_data[x][y] == 0) {
 				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
 				{
 					// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
@@ -177,6 +198,20 @@ void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
 	}
 }
 
+void TileMap::detectEntrance(sf::Sprite& in_sprite)
+{
+	for (int x = 0; x < tile_map.size(); x++) {
+		for (int y = 0; y < tile_map.size(); y++) {
+			if (tile_map_data[x][y] == 1 || tile_map_data[x][y] == 2) {
+				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
+				{
+					this->colliding_entrance = true;
+				}
+			}
+		}
+	}
+}
+
 //State Functions
 void TileMap::render(sf::RenderTarget* target)
 {
@@ -193,6 +228,7 @@ void TileMap::detectMovement(Inventory* inventory)
 	//Detect Movement
 	this->detectWalk();
 	this->detectDodgeRoll();
+	this->detectSprint();
 
 	//Move based on movement function
 	for (int x = 0; x < col; x++) {
@@ -232,6 +268,16 @@ void TileMap::detectDodgeRoll()
 		dodge_timer.restart();
 	}
 	else if (dodge_elapsed.asSeconds() >= 0.4) {
+		movementSpeed = 1.5f;
+	}
+}
+
+void TileMap::detectSprint()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && this->stamina > 0) {
+		movementSpeed += 2.5;
+	}
+	else if (this->stamina < 0) {
 		movementSpeed = 1.5f;
 	}
 }

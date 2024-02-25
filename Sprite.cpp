@@ -179,14 +179,11 @@ void Sprite::animateRoll(sf::Texture& roll_up, sf::Texture& roll_down, sf::Textu
 {
 	//Set rolling to true if able to roll time wise
 	dodge_elapsed = dodge_timer.getElapsedTime();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= 0.5) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= 0.5 && this->player_walking) {
 		dodge_timer.restart();
 		//Reset Animation Frame
 		this->animationFrame = -1;
 		this->player_rolling = true;
-	}
-	else if (!this->player_rolling && dodge_elapsed.asSeconds() >= 0.4) {
-		this->sheet_roll_x = 0;
 	}
 
 	//Animate the roll if rolling is true

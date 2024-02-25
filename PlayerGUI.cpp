@@ -3,6 +3,8 @@
 PlayerGUI::PlayerGUI()
 {
 	this->initRects();
+	this->initButtons();
+	font.loadFromFile("Assets/Fonts/tickerbit font/Tickerbit-regular.otf");
 }
 
 PlayerGUI::~PlayerGUI()
@@ -12,12 +14,24 @@ PlayerGUI::~PlayerGUI()
 	for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
 		delete ir->second;
 	}
+
+	//Deconstruct Buttons
+	auto ib = this->buttons.begin();
+	for (ib = this->buttons.begin(); ib != this->buttons.end(); ++ib) {
+		delete ib->second;
+	}
 }
 
 //Core Functions
+void PlayerGUI::update(const sf::Vector2f mousePos)
+{
+	this->updateButtons(mousePos);
+}
+
 void PlayerGUI::render(sf::RenderTarget* target)
 {
 	this->renderRects(target);
+	this->renderButtons(target);
 }
 
 //Rectangle Functions
@@ -42,5 +56,26 @@ void PlayerGUI::renderRects(sf::RenderTarget* target)
 {
 	for (auto& it : this->rectangles) {
 		it.second->render(target);
+	}
+}
+
+//Button Functions
+void PlayerGUI::initButtons()
+{
+	this->buttons["RELIC_POUCH"] = new Button(350, 702, 100, 50, font,
+		"relic\nPouch", sf::Color(70, 70, 70, 70), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 70), true);
+}
+
+void PlayerGUI::renderButtons(sf::RenderTarget* target)
+{
+	for (auto& it : this->buttons) {
+		it.second->render(target);
+	}
+}
+
+void PlayerGUI::updateButtons(const sf::Vector2f mousePos)
+{
+	for (auto& it : this->buttons) {
+		it.second->update(mousePos);
 	}
 }

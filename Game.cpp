@@ -50,8 +50,8 @@ void Game::initWindow()
 
 void Game::initStates()
 {
-	this->states.push(new GameState(window));
-	this->states.push(new TravelState(window));
+	this->states.push(new GameState(window, &states));
+	this->states.push(new ForestState(window, &states));
 }
 
 //Update

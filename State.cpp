@@ -1,8 +1,9 @@
 #include "State.h"
 
 //Contructors and Destructors
-State::State(sf::RenderWindow* window)
+State::State(sf::RenderWindow* window, std::stack<State*>* states)
 {
+	this->states = states;
 	this->window = window;
 	this->quit = false;
 }

@@ -1,6 +1,6 @@
-#include "TravelState.h"
+#include "ForestState.h"
 //Constructors and Destructors
-TravelState::TravelState(sf::RenderWindow* window) : State(window)
+ForestState::ForestState(sf::RenderWindow* window, std::stack<State*>* states) : State(window, states)
 {
 	//State
 	this->window = window;
@@ -18,7 +18,7 @@ TravelState::TravelState(sf::RenderWindow* window) : State(window)
 	this->inventory["PLAYER_INVENTORY"] = new Inventory();
 }
 
-TravelState::~TravelState()
+ForestState::~ForestState()
 {
 	//Deconstruct Sprites
 	auto is = this->sprites.begin();
@@ -39,13 +39,13 @@ TravelState::~TravelState()
 	}
 }
 
-void TravelState::endState()
+void ForestState::endState()
 {
 
 }
 
 //Core Travel Functions
-void TravelState::setLocation()
+void ForestState::setLocation()
 {
 	switch (this->location) {
 	case 0:
@@ -59,7 +59,7 @@ void TravelState::setLocation()
 }
 
 //State Functions
-void TravelState::updateKeybinds(const float& dt)
+void ForestState::updateKeybinds(const float& dt)
 {
 	this->sprites["ZIN"]->animateMovement();
 	this->inventory["PLAYER_INVENTORY"]->checkForInput();
@@ -67,7 +67,7 @@ void TravelState::updateKeybinds(const float& dt)
 	this->checkForQuit();
 }
 
-void TravelState::update(const float& dt)
+void ForestState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
 	this->tile_maps["FOREST"]->detectCollision(this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
@@ -76,7 +76,7 @@ void TravelState::update(const float& dt)
 	this->inventory["PLAYER_INVENTORY"]->pickupItem();
 }
 
-void TravelState::render(sf::RenderTarget* target)
+void ForestState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
 	this->renderInventory(target);
@@ -84,12 +84,12 @@ void TravelState::render(sf::RenderTarget* target)
 }
 
 //Sprite Functions
-void TravelState::initSprites()
+void ForestState::initSprites()
 {
 	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin);
 }
 
-void TravelState::renderSprites(sf::RenderTarget* target)
+void ForestState::renderSprites(sf::RenderTarget* target)
 {
 	for (auto& it : this->sprites) {
 		it.second->render(target);
@@ -97,12 +97,12 @@ void TravelState::renderSprites(sf::RenderTarget* target)
 }
 
 //TileMap Functions
-void TravelState::initTileMaps()
+void ForestState::initTileMaps()
 {
 	this->tile_maps["FOREST"] = new TileMap(0.f, 0.f, 30, 30, 64.f, forest_sheet, "Assets/SpriteData/forest.txt");
 }
 
-void TravelState::renderTileMaps(sf::RenderTarget* target)
+void ForestState::renderTileMaps(sf::RenderTarget* target)
 {
 	for (auto& it : this->tile_maps) {
 		it.second->render(target);
@@ -110,7 +110,7 @@ void TravelState::renderTileMaps(sf::RenderTarget* target)
 }
 
 //Inventory Functions
-void TravelState::renderInventory(sf::RenderTarget* target)
+void ForestState::renderInventory(sf::RenderTarget* target)
 {
 	for (auto& it : this->inventory) {
 		it.second->render(target);
@@ -118,7 +118,7 @@ void TravelState::renderInventory(sf::RenderTarget* target)
 }
 
 //Assets
-void TravelState::loadAssets()
+void ForestState::loadAssets()
 {
 	this->forest_sheet.loadFromFile("Assets/SpriteSheets/landSpriteSheet.png");
 

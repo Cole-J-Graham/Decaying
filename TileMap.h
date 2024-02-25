@@ -18,7 +18,7 @@ public:
 	void loadMap(sf::Texture& tile_sheet);
 	void loadMapData();
 	void detectCollision(Inventory* inventory, sf::Sprite& in_sprite);
-	void resetPosition();
+	void detectEntrance(sf::Sprite& in_sprite);
 
 	//State Fucntions
 	void render(sf::RenderTarget* target);
@@ -27,6 +27,7 @@ public:
 	void detectMovement(Inventory* inventory);
 	void detectWalk();
 	void detectDodgeRoll();
+	void detectSprint();
 
 	//Item Functions
 	void moveItems(Inventory* inventory);
@@ -47,11 +48,13 @@ private:
 	int sheetX;
 	int sheetY;
 	bool colliding;
+	bool colliding_entrance;
 	int current_map_data;
 
 	//Movement
-	sf::Vector2f velocity;
+	float stamina;
 	float movementSpeed;
+	sf::Vector2f velocity;
 	sf::Clock dodge_timer;
 	sf::Time dodge_elapsed;
 

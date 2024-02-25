@@ -1,7 +1,7 @@
 #include "GameState.h"
 
 //Constructors and Destructors
-GameState::GameState(sf::RenderWindow* window) : State(window)
+GameState::GameState(sf::RenderWindow* window, std::stack<State*>* states) : State(window, states)
 {
 	this->window = window;
 }

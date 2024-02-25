@@ -5,12 +5,13 @@
 #include"TileMap.h"
 #include"Sprite.h"
 
-class TravelState : public State
+class ForestState : public State
 {
 public:
 	//Constructors and Destructors
-	TravelState(sf::RenderWindow* window);
-	~TravelState();
+	ForestState(sf::RenderWindow* window,
+		std::stack<State*>* states);
+	~ForestState();
 
 	//Core Travel Functions
 	void setLocation();
