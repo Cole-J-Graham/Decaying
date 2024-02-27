@@ -23,7 +23,7 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 	this->colliding = false;
 	this->colliding_entrance = false;
 
-	this->loadMapData();
+	this->loadMapData(map_data_string);
 	this->loadMap(tile_sheet);
 
 }
@@ -83,9 +83,9 @@ void TileMap::loadMap(sf::Texture& tile_sheet)
 	}
 }
 
-void TileMap::loadMapData()
+void TileMap::loadMapData(std::string input)
 {
-	map_data.open(map_data_string);
+	map_data.open(input);
 
 	if (map_data.is_open()) {
 		for (int x = 0; x < col; x++) {
@@ -99,6 +99,14 @@ void TileMap::loadMapData()
 	}
 
 	map_data.close();
+}
+
+//Detection Functions
+void TileMap::detectMap(Inventory* inventory, sf::Sprite& in_sprite)
+{
+	this->detectCollision(inventory, in_sprite);
+	this->detectEntrance(in_sprite);
+	this->detectMovement(inventory);
 }
 
 void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
@@ -202,10 +210,14 @@ void TileMap::detectEntrance(sf::Sprite& in_sprite)
 {
 	for (int x = 0; x < tile_map.size(); x++) {
 		for (int y = 0; y < tile_map.size(); y++) {
-			if (tile_map_data[x][y] == 1 || tile_map_data[x][y] == 2) {
+			if (tile_map_data[x][y] == 1) {
 				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
 				{
+					std::cout << "Colliding With Entrance" << "\n";
 					this->colliding_entrance = true;
+				}
+				else {
+					this->colliding_entrance = false;
 				}
 			}
 		}

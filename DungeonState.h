@@ -4,17 +4,19 @@
 //Assets
 #include"TileMap.h"
 #include"Sprite.h"
+//Modules
+#include"CombatModule.h"
 
-class CastleState : public State
+class DungeonState : public State
 {
 public:
 	//Constructors and Destructors
-	CastleState(sf::RenderWindow* window,
+	DungeonState(sf::RenderWindow* window,
 		std::stack<State*>* states);
-	~CastleState();
+	~DungeonState();
 
 	//Core Travel Functions
-	void setLocation();
+	void generateNewLocation();
 
 	//State Functions
 	void endState();
@@ -44,11 +46,14 @@ private:
 
 	std::map<std::string, TileMap*> tile_maps;
 	std::map<std::string, Sprite*> sprites;
-
 	std::map<std::string, Inventory*> inventory;
 
+	CombatModule combat;
+
 	//Assets
-	sf::Texture castle_sheet;
+	sf::Texture dungeon_sheet;
 	sf::Texture map_image;
 	sf::Texture zin;
+
+
 };

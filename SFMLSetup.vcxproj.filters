@@ -46,11 +46,14 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="ForestState.cpp">
-      <Filter>MapStates</Filter>
+    <ClCompile Include="DungeonState.cpp">
+      <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="CastleState.cpp">
-      <Filter>MapStates</Filter>
+    <ClCompile Include="CombatModule.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="TavernState.cpp">
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,11 +99,14 @@
     <ClInclude Include="Weapon.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="ForestState.h">
-      <Filter>MapStates</Filter>
+    <ClInclude Include="DungeonState.h">
+      <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="CastleState.h">
-      <Filter>MapStates</Filter>
+    <ClInclude Include="CombatModule.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="TavernState.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,8 +131,8 @@
     <Filter Include="Character">
       <UniqueIdentifier>{b80448ff-6501-4f00-b856-6b898cf78d42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MapStates">
-      <UniqueIdentifier>{17232b1f-5691-41f6-946a-7cbfaeb364c0}</UniqueIdentifier>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{fb9c61cc-becb-48a0-a107-8d94ecd8b54d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

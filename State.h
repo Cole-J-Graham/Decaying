@@ -35,13 +35,13 @@ public:
 	virtual void update(const float& dt) = 0;
 	virtual void render(sf::RenderTarget* target = nullptr) = 0;
 
-	sf::RenderWindow* window;
-
 	//Getters
 	sf::Vector2f getMousePosView() { return this->mousePosView; };
 
-private:
+	sf::RenderWindow* window;
 	std::stack<State*>* states;
+
+private:
 	std::vector<sf::Texture> textures;
 	bool quit;
 

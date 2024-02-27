@@ -2,6 +2,7 @@
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include"fstream"
+#include<random>
 #include<map>
 //Components
 #include"Inventory.h"
@@ -16,7 +17,10 @@ public:
 
 	//Core Functions
 	void loadMap(sf::Texture& tile_sheet);
-	void loadMapData();
+	void loadMapData(std::string input);
+
+	//Detection Functions
+	void detectMap(Inventory* inventory, sf::Sprite& in_sprite);
 	void detectCollision(Inventory* inventory, sf::Sprite& in_sprite);
 	void detectEntrance(sf::Sprite& in_sprite);
 
@@ -32,6 +36,8 @@ public:
 	//Item Functions
 	void moveItems(Inventory* inventory);
 	void holdItemPosition(Inventory* inventory);
+
+	const bool getCollidingEntrance()& { return this->colliding_entrance; };
 
 private:
 	//Core Map

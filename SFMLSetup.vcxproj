@@ -157,7 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="CastleState.cpp" />
+    <ClCompile Include="CombatModule.cpp" />
     <ClCompile Include="EquipSlot.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -170,13 +170,14 @@
     <ClCompile Include="Skills.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="TavernState.cpp" />
     <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="ForestState.cpp" />
+    <ClCompile Include="DungeonState.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
-    <ClInclude Include="CastleState.h" />
+    <ClInclude Include="CombatModule.h" />
     <ClInclude Include="EquipSlot.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
@@ -188,8 +189,9 @@
     <ClInclude Include="Skills.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="TavernState.h" />
     <ClInclude Include="TileMap.h" />
-    <ClInclude Include="ForestState.h" />
+    <ClInclude Include="DungeonState.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

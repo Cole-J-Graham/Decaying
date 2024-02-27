@@ -40,6 +40,7 @@ void Inventory::update(sf::Sprite sprite, const sf::Vector2f mousePos)
 	//Update Relics
 	for (auto& it : this->relics) {it.second->update(sprite, mousePos);}
 
+	this->pickupItem();
 	this->GUI->update(mousePos);
 	this->skills->update();
 }

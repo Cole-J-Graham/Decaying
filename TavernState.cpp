@@ -1,6 +1,6 @@
-#include "ForestState.h"
+#include "TavernState.h"
 //Constructors and Destructors
-ForestState::ForestState(sf::RenderWindow* window, std::stack<State*>* states) : State(window, states)
+TavernState::TavernState(sf::RenderWindow* window, std::stack<State*>* states) : State(window, states)
 {
 	//State
 	this->window = window;
@@ -14,11 +14,11 @@ ForestState::ForestState(sf::RenderWindow* window, std::stack<State*>* states) :
 
 	//Assets
 	this->loadAssets();
-
 	this->inventory["PLAYER_INVENTORY"] = new Inventory();
+
 }
 
-ForestState::~ForestState()
+TavernState::~TavernState()
 {
 	//Deconstruct Sprites
 	auto is = this->sprites.begin();
@@ -39,27 +39,19 @@ ForestState::~ForestState()
 	}
 }
 
-void ForestState::endState()
+void TavernState::endState()
 {
 
 }
 
-//Core Travel Functions
-void ForestState::setLocation()
+//Core Tavern Functions
+void TavernState::enterDungeon()
 {
-	switch (this->location) {
-	case 0:
-		
-		break;
-	case 1:
-		break;
-	case 2:
-		break;
-	}
+	this->states->push(new DungeonState(this->window, this->states));
 }
 
 //State Functions
-void ForestState::updateKeybinds(const float& dt)
+void TavernState::updateKeybinds(const float& dt)
 {
 	this->sprites["ZIN"]->animateMovement();
 	this->inventory["PLAYER_INVENTORY"]->checkForInput();
@@ -67,29 +59,27 @@ void ForestState::updateKeybinds(const float& dt)
 	this->checkForQuit();
 }
 
-void ForestState::update(const float& dt)
+void TavernState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
-	this->tile_maps["FOREST"]->detectCollision(this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
-	this->tile_maps["FOREST"]->detectMovement(this->inventory["PLAYER_INVENTORY"]);
+	this->tile_maps["TAVERN"]->detectMap(this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
 	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
-	this->inventory["PLAYER_INVENTORY"]->pickupItem();
+	if (this->tile_maps["TAVERN"]->getCollidingEntrance()) { this->enterDungeon(); };
 }
 
-void ForestState::render(sf::RenderTarget* target)
+void TavernState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
-	this->renderInventory(target);
 	this->renderSprites(target);
 }
 
 //Sprite Functions
-void ForestState::initSprites()
+void TavernState::initSprites()
 {
 	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin);
 }
 
-void ForestState::renderSprites(sf::RenderTarget* target)
+void TavernState::renderSprites(sf::RenderTarget* target)
 {
 	for (auto& it : this->sprites) {
 		it.second->render(target);
@@ -97,30 +87,22 @@ void ForestState::renderSprites(sf::RenderTarget* target)
 }
 
 //TileMap Functions
-void ForestState::initTileMaps()
+void TavernState::initTileMaps()
 {
-	this->tile_maps["FOREST"] = new TileMap(0.f, 0.f, 30, 30, 64.f, forest_sheet, "Assets/SpriteData/forest.txt");
+	this->tile_maps["TAVERN"] = new TileMap(0.f, 0.f, 30, 30, 64.f, tavern_sheet, "Assets/SpriteData/dungeon.txt");
 }
 
-void ForestState::renderTileMaps(sf::RenderTarget* target)
+void TavernState::renderTileMaps(sf::RenderTarget* target)
 {
 	for (auto& it : this->tile_maps) {
 		it.second->render(target);
 	}
 }
 
-//Inventory Functions
-void ForestState::renderInventory(sf::RenderTarget* target)
+//Asset Functions
+void TavernState::loadAssets()
 {
-	for (auto& it : this->inventory) {
-		it.second->render(target);
-	}
-}
-
-//Assets
-void ForestState::loadAssets()
-{
-	this->forest_sheet.loadFromFile("Assets/SpriteSheets/landSpriteSheet.png");
+	this->tavern_sheet.loadFromFile("Assets/SpriteSheets/TavernTileSheet.png");
 
 	this->zin.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
 }

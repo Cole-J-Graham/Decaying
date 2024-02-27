@@ -1,20 +1,21 @@
 #pragma once
 //States
 #include"State.h"
+#include"DungeonState.h"
 //Assets
 #include"TileMap.h"
 #include"Sprite.h"
 
-class ForestState : public State
+class TavernState : public State
 {
 public:
 	//Constructors and Destructors
-	ForestState(sf::RenderWindow* window,
+	TavernState(sf::RenderWindow* window,
 		std::stack<State*>* states);
-	~ForestState();
+	~TavernState();
 
 	//Core Travel Functions
-	void setLocation();
+	void enterDungeon();
 
 	//State Functions
 	void endState();
@@ -30,9 +31,6 @@ public:
 	void initTileMaps();
 	void renderTileMaps(sf::RenderTarget* target);
 
-	//Inventory && Item Functions
-	void renderInventory(sf::RenderTarget* target);
-
 	//Assets
 	void loadAssets();
 
@@ -44,11 +42,12 @@ private:
 
 	std::map<std::string, TileMap*> tile_maps;
 	std::map<std::string, Sprite*> sprites;
-
 	std::map<std::string, Inventory*> inventory;
 
 	//Assets
-	sf::Texture forest_sheet;
+	sf::Texture tavern_sheet;
 	sf::Texture map_image;
 	sf::Texture zin;
+
+
 };
