@@ -51,7 +51,7 @@ void Game::initWindow()
 void Game::initStates()
 {
 	this->states.push(new GameState(window, &states));
-	this->states.push(new TavernState(window, &states));
+	this->states.push(new DungeonState(window, &states));
 }
 
 //Update

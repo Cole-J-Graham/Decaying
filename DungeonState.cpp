@@ -16,11 +16,14 @@ DungeonState::DungeonState(sf::RenderWindow* window, std::stack<State*>* states)
 	this->loadAssets();
 
 	this->inventory["PLAYER_INVENTORY"] = new Inventory();
+	this->combat = new CombatModule();
 	
 }
 
 DungeonState::~DungeonState()
 {
+	delete this->combat;
+
 	//Deconstruct Sprites
 	auto is = this->sprites.begin();
 	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
@@ -77,7 +80,7 @@ void DungeonState::updateKeybinds(const float& dt)
 	this->inventory["PLAYER_INVENTORY"]->checkForInput();
 	this->updateMousePositions();
 	this->checkForQuit();
-	this->combat.detectUnsheathe(this->getMousePosView());
+	this->combat->detectCombatKeybinds(this->getMousePosView(), this->sprites["ZIN"]->getSprite());
 }
 
 void DungeonState::update(const float& dt)
@@ -93,6 +96,7 @@ void DungeonState::render(sf::RenderTarget* target)
 	this->renderTileMaps(target);
 	this->renderInventory(target);
 	this->renderSprites(target);
+	this->combat->renderAttacks(target);
 }
 
 //Sprite Functions

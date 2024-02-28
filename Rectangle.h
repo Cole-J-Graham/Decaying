@@ -1,7 +1,7 @@
 #pragma once
 #include<SFML/Graphics.hpp>
 
-class Rectangle
+class Rectangle : sf::RectangleShape
 {
 public:
 	//Constructors and Destructors
@@ -24,6 +24,7 @@ public:
 	//Setters
 	bool& setHidden() { return this->hidden = true; };
 	bool& setShown() { return this->hidden = false; };
+	sf::FloatRect getGlobalBounds()& { return this->shape.getGlobalBounds(); };
 
 private:
 

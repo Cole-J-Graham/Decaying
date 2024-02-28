@@ -48,7 +48,7 @@ private:
 	std::map<std::string, Sprite*> sprites;
 	std::map<std::string, Inventory*> inventory;
 
-	CombatModule combat;
+	CombatModule* combat;
 
 	//Assets
 	sf::Texture dungeon_sheet;
