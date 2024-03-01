@@ -94,30 +94,32 @@ void Item::updateInventory(sf::Vector2f mousePos)
     /*Update the booleans for inventory item state */
 
     //Idle
-    this->item_inv_state = ITM_IDLE;
-    if (this->item.getGlobalBounds().contains(mousePos)) {
-        //Hover
-        this->item_inv_state = ITM_HOVER;
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            //Pressed
-            this->item_inv_state = ITM_ACTIVE;
+    if (this->in_inventory) {
+        this->item_inv_state = ITM_IDLE;
+        if (this->item.getGlobalBounds().contains(mousePos)) {
+            //Hover
+            this->item_inv_state = ITM_HOVER;
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                //Pressed
+                this->item_inv_state = ITM_ACTIVE;
+            }
         }
-    }
 
-    switch (this->item_inv_state) {
-    case ITM_IDLE:
-        this->rectangles["POP_BOX"]->setHidden();
-        this->item.setColor(sf::Color(255, 255, 255, 255));
-        break;
-    case ITM_HOVER:
-        this->rectangles["POP_BOX"]->setShown();
-        this->item.setColor(sf::Color(255, 255, 255, 155));
-        break;
-    case ITM_ACTIVE:
-        std::cout << "Item Active in inventory..." << "\n";
-        break;
-    default:
-        break;
+        switch (this->item_inv_state) {
+        case ITM_IDLE:
+            this->rectangles["POP_BOX"]->setHidden();
+            this->item.setColor(sf::Color(255, 255, 255, 255));
+            break;
+        case ITM_HOVER:
+            this->rectangles["POP_BOX"]->setShown();
+            this->item.setColor(sf::Color(255, 255, 255, 155));
+            break;
+        case ITM_ACTIVE:
+            std::cout << "Item Active in inventory..." << "\n";
+            break;
+        default:
+            break;
+        }
     }
 }
 

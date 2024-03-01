@@ -4,8 +4,8 @@
 //Assets
 #include"TileMap.h"
 #include"Sprite.h"
-//Modules
-#include"CombatModule.h"
+//Character
+#include"Character.h"
 
 class DungeonState : public State
 {
@@ -48,7 +48,7 @@ private:
 	std::map<std::string, Sprite*> sprites;
 	std::map<std::string, Inventory*> inventory;
 
-	CombatModule* combat;
+	Character* character;
 
 	//Assets
 	sf::Texture dungeon_sheet;

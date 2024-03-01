@@ -53,7 +53,7 @@ void TavernState::enterDungeon()
 //State Functions
 void TavernState::updateKeybinds(const float& dt)
 {
-	this->sprites["ZIN"]->animateMovement();
+	//this->sprites["ZIN"]->animateMovement();
 	this->inventory["PLAYER_INVENTORY"]->checkForInput();
 	this->updateMousePositions();
 	this->checkForQuit();

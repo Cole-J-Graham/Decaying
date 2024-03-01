@@ -37,7 +37,6 @@ void CombatModule::detectCombatKeybinds(const sf::Vector2f mousePos, sf::Sprite&
 {
 	this->detectUnsheathe(mousePos);
 	this->detectAttack(mousePos, sprite);
-	this->detectOctMousePosition(mousePos);
 }
 
 void CombatModule::detectUnsheathe(const sf::Vector2f mousePos)
@@ -66,13 +65,6 @@ void CombatModule::detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite)
 			player_projectile.setPosition(sprite.getPosition().x, sprite.getPosition().y);
 			this->attacking = false;
 		}
-	}
-}
-
-void CombatModule::detectOctMousePosition(const sf::Vector2f mousePos)
-{
-	if (this->rectangles["Quad1"]->getGlobalBounds().contains(mousePos)) {
-		std::cout << "In quad 1" << "\n";
 	}
 }
 

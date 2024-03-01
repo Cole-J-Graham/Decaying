@@ -156,7 +156,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationModule.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="CombatModule.cpp" />
     <ClCompile Include="EquipSlot.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -176,7 +178,9 @@
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationModule.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="CombatModule.h" />
     <ClInclude Include="EquipSlot.h" />
     <ClInclude Include="Game.h" />

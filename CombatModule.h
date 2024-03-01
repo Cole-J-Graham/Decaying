@@ -17,7 +17,6 @@ public:
 	void detectCombatKeybinds(const sf::Vector2f mousePos, sf::Sprite& sprite);
 	void detectUnsheathe(const sf::Vector2f mousePos);
 	void detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite);
-	void detectOctMousePosition(const sf::Vector2f mousePos);
 
 	//Asset Functions
 	void loadAssets();
@@ -25,6 +24,10 @@ public:
 	//Rectangle Functions
 	void initRects();
 	void renderRects(sf::RenderTarget* target);
+
+	//Getters
+	const bool& getSheathed() { return this->sheathed; };
+	std::map<std::string, Rectangle*>& getRectangles() { return this->rectangles; };
 
 private:
 	sf::Clock clock;

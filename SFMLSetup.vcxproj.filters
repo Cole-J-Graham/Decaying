@@ -55,6 +55,12 @@
     <ClCompile Include="TavernState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationModule.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -107,6 +113,12 @@
     </ClInclude>
     <ClInclude Include="TavernState.h">
       <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationModule.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
