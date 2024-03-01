@@ -17,8 +17,6 @@ DungeonState::DungeonState(sf::RenderWindow* window, std::stack<State*>* states)
 
 	this->inventory["PLAYER_INVENTORY"] = new Inventory();
 	this->character = new Character(&this->sprites["ZIN"]->getSprite());
-	std::cout << &this->sprites["ZIN"]->getSprite() << "\n";
-	
 }
 
 DungeonState::~DungeonState()

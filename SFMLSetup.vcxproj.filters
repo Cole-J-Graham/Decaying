@@ -146,8 +146,5 @@
     <Filter Include="Modules">
       <UniqueIdentifier>{fb9c61cc-becb-48a0-a107-8d94ecd8b54d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Mobs">
-      <UniqueIdentifier>{70f46e1c-2441-447f-b482-b3ca9d6d3862}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

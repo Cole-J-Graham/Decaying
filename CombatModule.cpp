@@ -55,14 +55,23 @@ void CombatModule::detectUnsheathe(const sf::Vector2f mousePos)
 void CombatModule::detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite)
 {
 	if (!this->sheathed) {
+		//Algorithm for mouse position
 		this->proj = atan2(mousePos.y - sprite.getPosition().y, mousePos.x - sprite.getPosition().x);
+		//Make projectile rotate towards mouse
+		sf::Vector2f curPos = player_projectile.getPosition();
+		float dx = curPos.x - mousePos.x;
+		float dy = curPos.y - mousePos.y;
+		float rotation = (atan2(dy, dx)) * 180 / pie;
+		
+		
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			player_projectile.move(this->projectile_speed * cos(this->proj),
 				this->projectile_speed * sin(this->proj));
 			this->attacking = true;
 		}
 		else {
-			player_projectile.setPosition(sprite.getPosition().x, sprite.getPosition().y);
+			player_projectile.setRotation(rotation);
+			player_projectile.setPosition(sprite.getPosition().x + 30, sprite.getPosition().y + 30);
 			this->attacking = false;
 		}
 	}

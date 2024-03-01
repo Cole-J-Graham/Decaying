@@ -8,7 +8,6 @@ Character::Character(sf::Sprite* sprite)
 	this->zin = sprite;
 	this->animation = new AnimationModule(this->zin);
 	this->combat = new CombatModule();
-	std::cout << this->zin << "\n";
 }
 
 Character::~Character()
@@ -29,7 +28,6 @@ void Character::updateCharacter(const sf::Vector2f mousePos)
 //Detection Functions
 void Character::detectOctMousePosition(const sf::Vector2f mousePos)
 {
-	std::cout << combat->getSheathed() << "\n";
 	if (!combat->getSheathed()) {
 		if (combat->getRectangles()["Quad1"]->getGlobalBounds().contains(mousePos)) {
 			this->zin->setTexture(this->zin_walk_diagnol_left_up);

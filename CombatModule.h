@@ -36,6 +36,7 @@ private:
 
 	bool sheathed;
 	bool attacking;
+	const float pie = 3.14159265;
 	float proj;
 	float projectile_speed;
 	sf::FloatRect area;

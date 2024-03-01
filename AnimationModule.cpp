@@ -27,7 +27,6 @@ AnimationModule::AnimationModule(sf::Sprite* sprite)
 
 	this->frame = 0;
 	this->frameInit = false;
-	std::cout << this->sprite << "\n";
 }
 
 AnimationModule::~AnimationModule()

@@ -41,6 +41,9 @@ public:
 	sf::RenderWindow* window;
 
 private:
+	sf::Clock fps_clock;
+	sf::Time fps_time;
+
 	//Core Variables
 	int location;
 
