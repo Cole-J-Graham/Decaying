@@ -67,7 +67,7 @@ void Game::updateDt()
 	/*Updates the dt variable with the time it takes to update and render one frame.*/
 
 	this->dt = this->dtClock.restart().asMilliseconds();
-	std::cout << this->dt << "\n";
+	//std::cout << this->dt << "\n";
 }
 
 void Game::updateSFMLEvents()

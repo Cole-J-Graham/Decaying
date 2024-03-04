@@ -9,8 +9,8 @@ public:
 	~AnimationModule();
 
 	//Core Functions
-	void animateSheet(float speed, bool movement, int sheet_x);
-	void animateTimer(float speed);
+	void animateSheet(float speed, bool action, int offset, int sheet, int maxFrame);
+	void animateTimer(int maxFrame, float speed);
 
 	//Core Movement
 	void animateMovement(sf::Texture& walk_up, sf::Texture& walk_down,
@@ -28,9 +28,6 @@ private:
 	//Animation Variables
 	sf::Sprite* sprite;
 
-	int frame;
-	bool frameInit;
-
 	bool last_key_w;
 	bool last_key_a;
 	bool last_key_s;
@@ -39,35 +36,14 @@ private:
 	bool player_rolling;
 
 	int animationFrame;
-	int sheet_walk_x;
-	int sheet_walk_y;
-	int sheet_roll_x;
-	int sheet_roll_y;
 
 	float movementSpeed;
 
 	sf::Vector2f velocity;
 
-	sf::Clock timer;
-	sf::Time elapsed;
+	sf::Clock animationTimer;
+	sf::Time animationElapsed;
 	sf::Clock dodge_timer;
 	sf::Time dodge_elapsed;
-
-	//Assets
-	sf::Texture walk_up;
-	sf::Texture walk_down;
-	sf::Texture walk_left;
-	sf::Texture walk_right;
-	sf::Texture walk_diagnol_left_down;
-	sf::Texture walk_diagnol_right_down;
-	sf::Texture walk_diagnol_left_up;
-	sf::Texture walk_diagnol_right_up;
-
-	sf::Texture roll_up;
-	sf::Texture roll_down;
-	sf::Texture roll_left;
-	sf::Texture roll_right;
-
-
 };
 
