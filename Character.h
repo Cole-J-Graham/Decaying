@@ -15,6 +15,11 @@ public:
 	//Detection Functions
 	void detectOctMousePosition(const sf::Vector2f mousePos);
 
+	//Animation Functions
+	void initAnimations();
+	void animateMovement();
+	void animateRoll();
+
 	//Asset Functions
 	void loadAssets();
 
@@ -29,6 +34,7 @@ private:
 	sf::Texture zin_walk_down;
 	sf::Texture zin_walk_left;
 	sf::Texture zin_walk_right;
+
 	sf::Texture zin_walk_diagnol_left_down;
 	sf::Texture zin_walk_diagnol_right_down;
 	sf::Texture zin_walk_diagnol_right_up;

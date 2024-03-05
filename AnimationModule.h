@@ -9,24 +9,80 @@ public:
 	~AnimationModule();
 
 	//Core Functions
-	void animateSheet(float speed, bool action, int offset, int sheet, int maxFrame);
-	void animateTimer(int maxFrame, float speed);
-
-	//Core Movement
-	void animateMovement(sf::Texture& walk_up, sf::Texture& walk_down,
-		sf::Texture& walk_left, sf::Texture& walk_right, sf::Texture& walk_diagnol_left_down,
-		sf::Texture& walk_diagnol_right_down, sf::Texture& walk_diagnol_right_up,
-		sf::Texture& walk_diagnol_left_up, sf::Texture& roll_up, sf::Texture& roll_down,
-		sf::Texture& roll_left, sf::Texture& roll_right);
-	void animateWalk(sf::Texture& walk_up, sf::Texture& walk_down,
-		sf::Texture& walk_left, sf::Texture& walk_right, sf::Texture& walk_diagnol_left_down,
-		sf::Texture& walk_diagnol_right_down, sf::Texture& walk_diagnol_right_up,
-		sf::Texture& walk_diagnol_left_up);
-	void animateRoll(sf::Texture& roll_up, sf::Texture& roll_down, sf::Texture& roll_left, sf::Texture& roll_right);
+	/*void animateSheet(float speed, bool action, int offset, int sheet, int maxFrame);
+	void animateTimer(int maxFrame, float speed);*/
+	void addAnimation(std::string key, sf::Texture& texture,
+		int maxFrame, float offset, float speed, int sheet);
+	void play(std::string key);
 
 private:
-	//Animation Variables
+	//Animation Class
+	class Animation
+	{
+	public:
+		//Constructors and Deconstructors
+		Animation(sf::Sprite* sprite, sf::Texture& texture, int maxFrame, float offset, float speed,
+			int sheet) : sprite(sprite), texture(texture)
+		{
+			this->sprite = sprite;
+			this->texture = texture;
+			this->animationFrame = 0;
+			this->maxFrame = maxFrame;
+			this->offset = offset;
+			this->speed = speed;
+			this->sheet = sheet;
+		}
+
+		//Core Functions
+		void animateTimer()
+		{
+			std::cout << animationFrame << "\n";
+			//Start animation timer
+			this->animationElapsed = this->animationTimer.getElapsedTime();
+			if (this->animationElapsed.asSeconds() >= speed)
+			{
+				//Animate frames at the speed
+				this->animationFrame++;
+				this->animationTimer.restart();
+			}
+			else if (this->animationFrame >= maxFrame)
+			{
+				//Reset if max frames has been reached
+				this->animationFrame = 0;
+			}
+		}
+		void animateSheet()
+		{
+			this->animateTimer();
+			if (this->animationFrame < maxFrame)
+			{
+				sheet = offset * this->animationFrame;
+			}
+			sprite->setTexture(texture);
+			sprite->setTextureRect(sf::IntRect(sheet, 0, 16, 16));
+		}
+
+	private:
+		sf::Texture& texture;
+		int animationFrame;
+		int maxFrame;
+		float offset;
+		float speed;
+		int sheet;
+
+		sf::Sprite* sprite;
+		sf::Clock animationTimer;
+		sf::Time animationElapsed;
+
+	};
+
+	//AnimationModule Variables
+	std::map<std::string, Animation*> animations;
 	sf::Sprite* sprite;
+
+	sf::Vector2f velocity;
+	sf::Clock dodge_timer;
+	sf::Time dodge_elapsed;
 
 	bool last_key_w;
 	bool last_key_a;
@@ -36,14 +92,7 @@ private:
 	bool player_rolling;
 
 	int animationFrame;
-
 	float movementSpeed;
 
-	sf::Vector2f velocity;
-
-	sf::Clock animationTimer;
-	sf::Time animationElapsed;
-	sf::Clock dodge_timer;
-	sf::Time dodge_elapsed;
 };
 
