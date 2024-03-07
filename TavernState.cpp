@@ -62,7 +62,7 @@ void TavernState::updateKeybinds(const float& dt)
 void TavernState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
-	this->tile_maps["TAVERN"]->detectMap(this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
+	//this->tile_maps["TAVERN"]->detectMap(this->character, this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
 	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
 	if (this->tile_maps["TAVERN"]->getCollidingEntrance()) { this->enterDungeon(); };
 }

@@ -6,6 +6,7 @@
 #include<map>
 //Components
 #include"Inventory.h"
+#include"Character.h"
 
 class TileMap
 {
@@ -20,7 +21,7 @@ public:
 	void loadMapData(std::string input);
 
 	//Detection Functions
-	void detectMap(Inventory* inventory, sf::Sprite& in_sprite);
+	void detectMap(Character* character, Inventory* inventory, sf::Sprite& in_sprite);
 	void detectCollision(Inventory* inventory, sf::Sprite& in_sprite);
 	void detectEntrance(sf::Sprite& in_sprite);
 
@@ -28,13 +29,10 @@ public:
 	void render(sf::RenderTarget* target);
 
 	//Movement Functions
-	void detectMovement(Inventory* inventory);
-	void detectWalk();
-	void detectDodgeRoll();
-	void detectSprint();
+	void detectMovement(Character* character, Inventory* inventory);
 
 	//Item Functions
-	void moveItems(Inventory* inventory);
+	void moveItems(Character* character, Inventory* inventory);
 	void holdItemPosition(Inventory* inventory);
 
 	const bool getCollidingEntrance()& { return this->colliding_entrance; };
@@ -56,13 +54,6 @@ private:
 	bool colliding;
 	bool colliding_entrance;
 	int current_map_data;
-
-	//Movement
-	float stamina;
-	float movementSpeed;
-	sf::Vector2f velocity;
-	sf::Clock dodge_timer;
-	sf::Time dodge_elapsed;
 
 	//Map data
 	sf::FloatRect area;

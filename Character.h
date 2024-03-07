@@ -15,26 +15,37 @@ public:
 	//Detection Functions
 	void detectOctMousePosition(const sf::Vector2f mousePos);
 
-	//Animation Functions
+	//Movement Functions
 	void initAnimations();
-	void animateMovement();
-	void animateWalk();
-	void animateRoll();
+	void characterMovement();
+	void walk();
+	void roll();
+	void sprint();
 
 	//Asset Functions
 	void loadAssets();
 
+	//Accessors
+	sf::Vector2f& getVelocity() { return this->velocity; };
+
 	CombatModule* combat;
 
 private:
+	//Movement
+	float stamina;
+	float movementSpeed;
+	float dodgeTime;
+
+	sf::Vector2f velocity;
+	sf::Clock dodge_timer;
+	sf::Time dodge_elapsed;
+
 	bool rolling;
 	bool walking;
 
 
 	AnimationModule* animation;
 	sf::Sprite* zin;
-	sf::Clock dodge_timer;
-	sf::Time dodge_elapsed;
 
 	//Assets
 	sf::Texture zin_walk_up;

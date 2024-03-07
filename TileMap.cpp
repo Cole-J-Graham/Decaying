@@ -15,11 +15,6 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 	this->sheetX;
 	this->sheetY;
 
-	//Movement
-	this->stamina = 100;
-	this->movementSpeed = 1.5f;
-	this->velocity.x = 0;
-	this->velocity.y = 0;
 	this->colliding = false;
 	this->colliding_entrance = false;
 
@@ -102,11 +97,11 @@ void TileMap::loadMapData(std::string input)
 }
 
 //Detection Functions
-void TileMap::detectMap(Inventory* inventory, sf::Sprite& in_sprite)
+void TileMap::detectMap(Character* character, Inventory* inventory, sf::Sprite& in_sprite)
 {
 	this->detectCollision(inventory, in_sprite);
 	this->detectEntrance(in_sprite);
-	this->detectMovement(inventory);
+	this->detectMovement(character, inventory);
 }
 
 void TileMap::detectCollision(Inventory* inventory, sf::Sprite& in_sprite)
@@ -235,71 +230,25 @@ void TileMap::render(sf::RenderTarget* target)
 }
 
 //Movement Functions
-void TileMap::detectMovement(Inventory* inventory)
+void TileMap::detectMovement(Character* character, Inventory* inventory)
 {
-	//Detect Movement
-	this->detectWalk();
-	this->detectDodgeRoll();
-	this->detectSprint();
-
 	//Move based on movement function
 	for (int x = 0; x < col; x++) {
 		for (int y = 0; y < row; y++) {
-			this->tile_map[x][y].move(velocity);
+			this->tile_map[x][y].move(character->getVelocity());
 		}
 	}
 
 	//Move Items with map
-	this->moveItems(inventory);
-}
-
-void TileMap::detectWalk()
-{
-	this->velocity.x = 0;
-	this->velocity.y = 0;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		velocity.y += movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		velocity.y += -movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		velocity.x += movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		velocity.x += -movementSpeed;
-	}
-}
-
-void TileMap::detectDodgeRoll()
-{
-	dodge_elapsed = dodge_timer.getElapsedTime();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= 0.4) {
-		movementSpeed += 5;
-		dodge_timer.restart();
-	}
-	else if (dodge_elapsed.asSeconds() >= 0.4) {
-		movementSpeed = 1.5;
-	}
-}
-
-void TileMap::detectSprint()
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && this->stamina > 0) {
-		movementSpeed += 2.5;
-	}
-	else if (this->stamina < 0) {
-		movementSpeed = 1.5f;
-	}
+	this->moveItems(character, inventory);
 }
 
 //Item Functions
-void TileMap::moveItems(Inventory* inventory)
+void TileMap::moveItems(Character* character, Inventory* inventory)
 {
-	for (auto& it : inventory->getItems()) { it.second->moveItem(velocity); }
-	for (auto& it : inventory->getWeapons()) {it.second->moveItem(velocity);}
-	for (auto& it : inventory->getRelics()) {it.second->moveItem(velocity);}
+	for (auto& it : inventory->getItems()) {it.second->moveItem(character->getVelocity());}
+	for (auto& it : inventory->getWeapons()) {it.second->moveItem(character->getVelocity());}
+	for (auto& it : inventory->getRelics()) {it.second->moveItem(character->getVelocity());}
 }
 
 void TileMap::holdItemPosition(Inventory* inventory)

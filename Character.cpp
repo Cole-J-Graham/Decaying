@@ -9,8 +9,15 @@ Character::Character(sf::Sprite* sprite)
 	this->combat = new CombatModule();
 	this->animation = new AnimationModule(this->zin);
 	this->initAnimations();
-	this->rolling = false;
 	
+	//Movement
+	this->rolling = false;
+
+	this->dodgeTime = 0.4;
+	this->stamina = 100;
+	this->movementSpeed = 1.5f;
+	this->velocity.x = 0;
+	this->velocity.y = 0;
 }
 
 Character::~Character()
@@ -22,8 +29,7 @@ Character::~Character()
 //Core Functions
 void Character::updateCharacter(const sf::Vector2f mousePos)
 {
-	
-	this->animateMovement();
+	this->characterMovement();
 	this->detectOctMousePosition(mousePos);
 }
 
@@ -58,7 +64,7 @@ void Character::detectOctMousePosition(const sf::Vector2f mousePos)
 	}
 }
 
-//Animation Functions
+//Movement Functions
 void Character::initAnimations()
 {
 	this->animation->addAnimation("WALKUP", zin_walk_up, 4, 16, 0.2, 0);
@@ -76,29 +82,36 @@ void Character::initAnimations()
 	this->animation->addAnimation("ROLLRIGHT", zin_roll_right, 4, 16, 0.1, 0);
 }
 
-void Character::animateMovement()
+void Character::characterMovement()
 {
-	this->animateWalk();
-	this->animateRoll();
+	this->walk();
+	this->roll();
+	this->sprint();
 }
 
-void Character::animateWalk()
+void Character::walk()
 {
 	//Animate Walking
+	this->velocity.x = 0;
+	this->velocity.y = 0;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 		this->animation->play("WALKUP");
+		velocity.y += movementSpeed;
 		this->walking = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		this->animation->play("WALKDOWN");
+		velocity.y += -movementSpeed;
 		this->walking = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		this->animation->play("WALKLEFT");
+		velocity.x += movementSpeed;
 		this->walking = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		this->animation->play("WALKRIGHT");
+		velocity.x += -movementSpeed;
 		this->walking = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
@@ -126,17 +139,19 @@ void Character::animateWalk()
 	}	
 }
 
-void Character::animateRoll()
+void Character::roll()
 {
 	//Set rolling to true if able to roll time wise
 	dodge_elapsed = dodge_timer.getElapsedTime();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= 0.4) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= this->dodgeTime) {
+		movementSpeed += 5;
 		dodge_timer.restart();
 		this->rolling = true;
 	}
-	else if (dodge_elapsed.asSeconds() >= 0.4) {
+	else if (dodge_elapsed.asSeconds() >= this->dodgeTime) {
 		//Reset roll after stopping
 		this->rolling = false;
+		movementSpeed = 1.5;
 		this->animation->reset("ROLLUP");
 		this->animation->reset("ROLLDOWN");
 		this->animation->reset("ROLLLEFT");
@@ -156,6 +171,18 @@ void Character::animateRoll()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			this->animation->play("ROLLRIGHT");
 		}
+	}
+}
+
+void Character::sprint()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && this->stamina > 0) {
+		this->stamina--;
+		this->movementSpeed += 2.5;
+	}
+	else if (this->stamina < 0) {
+		this->stamina++;
+		this->movementSpeed = 1.5f;
 	}
 }
 

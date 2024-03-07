@@ -4,8 +4,6 @@
 //Assets
 #include"TileMap.h"
 #include"Sprite.h"
-//Character
-#include"Character.h"
 
 class DungeonState : public State
 {
