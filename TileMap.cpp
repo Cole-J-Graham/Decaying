@@ -275,12 +275,12 @@ void TileMap::detectWalk()
 void TileMap::detectDodgeRoll()
 {
 	dodge_elapsed = dodge_timer.getElapsedTime();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= 0.5) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= 0.4) {
 		movementSpeed += 5;
 		dodge_timer.restart();
 	}
 	else if (dodge_elapsed.asSeconds() >= 0.4) {
-		movementSpeed = 1.5f;
+		movementSpeed = 1.5;
 	}
 }
 

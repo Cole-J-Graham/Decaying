@@ -18,6 +18,7 @@ public:
 	//Animation Functions
 	void initAnimations();
 	void animateMovement();
+	void animateWalk();
 	void animateRoll();
 
 	//Asset Functions
@@ -26,8 +27,14 @@ public:
 	CombatModule* combat;
 
 private:
+	bool rolling;
+	bool walking;
+
+
 	AnimationModule* animation;
 	sf::Sprite* zin;
+	sf::Clock dodge_timer;
+	sf::Time dodge_elapsed;
 
 	//Assets
 	sf::Texture zin_walk_up;

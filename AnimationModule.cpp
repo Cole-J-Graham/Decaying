@@ -1,5 +1,5 @@
 #include "AnimationModule.h"
-//COnsturctors and Destructors
+//Constructors and Destructors
 AnimationModule::AnimationModule(sf::Sprite* sprite)
 {
 	//Animation Variables
@@ -7,10 +7,6 @@ AnimationModule::AnimationModule(sf::Sprite* sprite)
 
 	this->movementSpeed = 1.5f;
 	this->animationFrame = 1;
-
-	this->player_walking = false;
-	this->player_rolling = false;
-
 }
 
 AnimationModule::~AnimationModule()
@@ -32,4 +28,9 @@ void AnimationModule::addAnimation(std::string key, sf::Texture& texture,
 void AnimationModule::play(std::string key)
 {
 	this->animations[key]->animateSheet();
+}
+
+void AnimationModule::reset(std::string key)
+{
+	this->animations[key]->reset();
 }

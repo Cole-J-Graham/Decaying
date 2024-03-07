@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include"Sprite.h"
+#include<stack>
 class AnimationModule
 {
 public:
@@ -9,11 +10,10 @@ public:
 	~AnimationModule();
 
 	//Core Functions
-	/*void animateSheet(float speed, bool action, int offset, int sheet, int maxFrame);
-	void animateTimer(int maxFrame, float speed);*/
 	void addAnimation(std::string key, sf::Texture& texture,
 		int maxFrame, float offset, float speed, int sheet);
 	void play(std::string key);
+	void reset(std::string key);
 
 private:
 	//Animation Class
@@ -36,7 +36,6 @@ private:
 		//Core Functions
 		void animateTimer()
 		{
-			std::cout << animationFrame << "\n";
 			//Start animation timer
 			this->animationElapsed = this->animationTimer.getElapsedTime();
 			if (this->animationElapsed.asSeconds() >= speed)
@@ -61,6 +60,11 @@ private:
 			sprite->setTexture(texture);
 			sprite->setTextureRect(sf::IntRect(sheet, 0, 16, 16));
 		}
+		void reset()
+		{
+			this->animationFrame = 0;
+			this->animationTimer.restart();
+		}
 
 	private:
 		sf::Texture& texture;
@@ -73,7 +77,6 @@ private:
 		sf::Sprite* sprite;
 		sf::Clock animationTimer;
 		sf::Time animationElapsed;
-
 	};
 
 	//AnimationModule Variables
@@ -83,13 +86,6 @@ private:
 	sf::Vector2f velocity;
 	sf::Clock dodge_timer;
 	sf::Time dodge_elapsed;
-
-	bool last_key_w;
-	bool last_key_a;
-	bool last_key_s;
-	bool last_key_d;
-	bool player_walking;
-	bool player_rolling;
 
 	int animationFrame;
 	float movementSpeed;
