@@ -15,7 +15,6 @@ DungeonState::DungeonState(sf::RenderWindow* window, std::stack<State*>* states)
 	//Assets
 	this->loadAssets();
 
-	this->inventory["PLAYER_INVENTORY"] = new Inventory();
 	this->character = new Character(&this->sprites["ZIN"]->getSprite());
 }
 
@@ -33,12 +32,6 @@ DungeonState::~DungeonState()
 	auto it = this->tile_maps.begin();
 	for (it = this->tile_maps.begin(); it != this->tile_maps.end(); ++it) {
 		delete it->second;
-	}
-
-	//Deconstruct Inventory
-	auto in = this->inventory.begin();
-	for (in = this->inventory.begin(); in != this->inventory.end(); ++in) {
-		delete in->second;
 	}
 }
 
@@ -75,8 +68,7 @@ void DungeonState::generateNewLocation()
 //State Functions
 void DungeonState::updateKeybinds(const float& dt)
 {
-	this->character->updateCharacter(this->getMousePosView());
-	this->inventory["PLAYER_INVENTORY"]->checkForInput();
+	this->character->update(this->getMousePosView());
 	this->updateMousePositions();
 	this->checkForQuit();
 	this->character->combat->detectCombatKeybinds(this->getMousePosView(), this->sprites["ZIN"]->getSprite());
@@ -85,17 +77,16 @@ void DungeonState::updateKeybinds(const float& dt)
 void DungeonState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
-	this->tile_maps["DUNGEON"]->detectMap(this->character, this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
-	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
+	this->tile_maps["DUNGEON"]->detectMap(this->character, this->sprites["ZIN"]->getSprite());
+	this->character->inventory->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
 	if (this->tile_maps["DUNGEON"]->getCollidingEntrance()) { this->generateNewLocation(); };
 }
 
 void DungeonState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
-	this->renderInventory(target);
 	this->renderSprites(target);
-	this->character->combat->renderAttacks(target);
+	this->character->render(target);
 }
 
 //Sprite Functions
@@ -120,14 +111,6 @@ void DungeonState::initTileMaps()
 void DungeonState::renderTileMaps(sf::RenderTarget* target)
 {
 	for (auto& it : this->tile_maps) {
-		it.second->render(target);
-	}
-}
-
-//Inventory Functions
-void DungeonState::renderInventory(sf::RenderTarget* target)
-{
-	for (auto& it : this->inventory) {
 		it.second->render(target);
 	}
 }

@@ -8,13 +8,16 @@ Character::Character(sf::Sprite* sprite)
 	this->loadAssets();
 	this->combat = new CombatModule();
 	this->animation = new AnimationModule(this->zin);
+	this->inventory = new Inventory();
 	this->initAnimations();
+	this->initRects();
 	
 	//Movement
 	this->rolling = false;
 
 	this->dodgeTime = 0.4;
 	this->stamina = 100;
+	this->staminaMax = 100;
 	this->movementSpeed = 1.5f;
 	this->velocity.x = 0;
 	this->velocity.y = 0;
@@ -24,13 +27,29 @@ Character::~Character()
 {
 	delete this->animation;
 	delete this->combat;
+	delete this->inventory;
+
+	//Deconstruct Rectangles
+	auto ir = this->rectangles.begin();
+	for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
+		delete ir->second;
+	}
 }
 
 //Core Functions
-void Character::updateCharacter(const sf::Vector2f mousePos)
+void Character::update(const sf::Vector2f mousePos)
 {
+	this->inventory->checkForInput();
 	this->characterMovement();
 	this->detectOctMousePosition(mousePos);
+	this->updateRects();
+}
+
+void Character::render(sf::RenderTarget* target)
+{
+	this->renderRects(target);
+	this->inventory->render(target);
+	combat->renderAttacks(target);
 }
 
 //Detection Functions
@@ -143,14 +162,16 @@ void Character::roll()
 {
 	//Set rolling to true if able to roll time wise
 	dodge_elapsed = dodge_timer.getElapsedTime();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= this->dodgeTime) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= this->dodgeTime && this->stamina >= 50) {
 		movementSpeed += 5;
+		this->stamina -= 49;
 		dodge_timer.restart();
 		this->rolling = true;
 	}
 	else if (dodge_elapsed.asSeconds() >= this->dodgeTime) {
 		//Reset roll after stopping
 		this->rolling = false;
+		if (this->stamina <= this->staminaMax) { this->stamina++; }
 		movementSpeed = 1.5;
 		this->animation->reset("ROLLUP");
 		this->animation->reset("ROLLDOWN");
@@ -180,8 +201,7 @@ void Character::sprint()
 		this->stamina--;
 		this->movementSpeed += 2.5;
 	}
-	else if (this->stamina < 0) {
-		this->stamina++;
+	else if (this->stamina <= 0) {
 		this->movementSpeed = 1.5f;
 	}
 }
@@ -202,4 +222,25 @@ void Character::loadAssets()
 	this->zin_roll_down.loadFromFile("Assets/SpriteSheets/zinDodgeRollSpriteSheet.png");
 	this->zin_roll_left.loadFromFile("Assets/SpriteSheets/zinDodgeRollSpriteSheetLeft.png");
 	this->zin_roll_right.loadFromFile("Assets/SpriteSheets/zinDodgeRollSpriteSheetRight.png");
+}
+
+//Rectangle Functions
+void Character::updateRects()
+{
+	for (auto& it : this->rectangles) {
+		it.second->update(this->stamina);
+	}
+}
+
+void Character::initRects()
+{
+	this->rectangles["STAMINABAR"] = new Rectangle(1700, 950, 100, 25, sf::Color::Black,
+		sf::Color::White, 1.f, "", 16, false, this->stamina);
+}
+
+void Character::renderRects(sf::RenderTarget* target)
+{
+	for (auto& it : this->rectangles) {
+		it.second->render(target);
+	}
 }

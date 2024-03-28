@@ -5,7 +5,6 @@
 #include<random>
 #include<map>
 //Components
-#include"Inventory.h"
 #include"Character.h"
 
 class TileMap
@@ -21,18 +20,18 @@ public:
 	void loadMapData(std::string input);
 
 	//Detection Functions
-	void detectMap(Character* character, Inventory* inventory, sf::Sprite& in_sprite);
-	void detectCollision(Inventory* inventory, sf::Sprite& in_sprite);
+	void detectMap(Character* character, sf::Sprite& in_sprite);
+	void detectCollision(Character* character, sf::Sprite& in_sprite);
 	void detectEntrance(sf::Sprite& in_sprite);
 
 	//State Fucntions
 	void render(sf::RenderTarget* target);
 
 	//Movement Functions
-	void detectMovement(Character* character, Inventory* inventory);
+	void detectMovement(Character* character);
 
 	//Item Functions
-	void moveItems(Character* character, Inventory* inventory);
+	void moveItems(Character* character);
 	void holdItemPosition(Inventory* inventory);
 
 	const bool getCollidingEntrance()& { return this->colliding_entrance; };

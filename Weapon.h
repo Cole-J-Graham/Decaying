@@ -37,4 +37,3 @@ private:
 	float attack_speed;
 
 };
-

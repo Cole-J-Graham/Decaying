@@ -30,9 +30,6 @@ public:
 	void initTileMaps();
 	void renderTileMaps(sf::RenderTarget* target);
 
-	//Inventory && Item Functions
-	void renderInventory(sf::RenderTarget* target);
-
 	//Assets
 	void loadAssets();
 
@@ -47,7 +44,6 @@ private:
 
 	std::map<std::string, TileMap*> tile_maps;
 	std::map<std::string, Sprite*> sprites;
-	std::map<std::string, Inventory*> inventory;
 
 	Character* character;
 

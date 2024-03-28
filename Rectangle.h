@@ -10,13 +10,18 @@ public:
 	Rectangle(float x, float y, float width, float height, sf::Color color,
 		sf::Color border_color, float border_thickness, std::string text, 
 		float text_size, bool hidden);
+	Rectangle(float x, float y, float width, float height, sf::Color color,
+		sf::Color border_color, float border_thickness, std::string text,
+		float text_size, bool hidden, int status);
 	~Rectangle();
 
 	//Core Functions
 	void render(sf::RenderTarget* target = nullptr);
+	void update(int& status);
 
 	//Modifiers
 	void setString(std::string input);
+	void updateStatusBar(int& status);
 
 	//Getters
 	bool& getHidden() { return this->hidden; };
@@ -29,9 +34,12 @@ public:
 private:
 
 	sf::RectangleShape shape;
+	sf::RectangleShape fillShape;
 	sf::Text text;
 	sf::Font font;
 
+	float width;
+	float height;
 	bool hidden;
 	float text_size;
 };

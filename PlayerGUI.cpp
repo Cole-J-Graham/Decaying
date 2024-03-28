@@ -63,7 +63,8 @@ void PlayerGUI::renderRects(sf::RenderTarget* target)
 void PlayerGUI::initButtons()
 {
 	this->buttons["RELIC_POUCH"] = new Button(350, 702, 100, 50, font,
-		"relic\nPouch", sf::Color(70, 70, 70, 70), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 70), true);
+		"relic\nPouch", sf::Color(70, 70, 70, 70), sf::Color(150, 150, 150, 255), 
+		sf::Color(20, 20, 20, 70), true);
 }
 
 void PlayerGUI::renderButtons(sf::RenderTarget* target)
