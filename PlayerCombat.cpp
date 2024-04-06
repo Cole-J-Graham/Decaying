@@ -1,6 +1,6 @@
-#include "CombatModule.h"
+#include "PlayerCombat.h"
 //Constructors and Destructors
-CombatModule::CombatModule()
+PlayerCombat::PlayerCombat()
 {
 	this->projectile_speed = 15;
 	this->player_projectile.setScale(3.0f, 3.0f);
@@ -12,7 +12,7 @@ CombatModule::CombatModule()
 	this->initRects();
 }
 
-CombatModule::~CombatModule()
+PlayerCombat::~PlayerCombat()
 {
 	//Deconstruct Rectangles
 	auto ir = this->rectangles.begin();
@@ -22,7 +22,7 @@ CombatModule::~CombatModule()
 }
 
 //Core Functions
-void CombatModule::renderAttacks(sf::RenderTarget* target)
+void PlayerCombat::renderAttacks(sf::RenderTarget* target)
 {
 	//Render Attacks
 	if(this->attacking)
@@ -33,13 +33,13 @@ void CombatModule::renderAttacks(sf::RenderTarget* target)
 }
 
 //Detection Functions
-void CombatModule::detectCombatKeybinds(const sf::Vector2f mousePos, sf::Sprite& sprite)
+void PlayerCombat::detectCombatKeybinds(const sf::Vector2f mousePos, sf::Sprite& sprite)
 {
 	this->detectUnsheathe(mousePos);
 	this->detectAttack(mousePos, sprite);
 }
 
-void CombatModule::detectUnsheathe(const sf::Vector2f mousePos)
+void PlayerCombat::detectUnsheathe(const sf::Vector2f mousePos)
 {
 	this->elapsed = this->clock.getElapsedTime();
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && this->sheathed && this->elapsed.asSeconds() > 0.2) {
@@ -52,7 +52,7 @@ void CombatModule::detectUnsheathe(const sf::Vector2f mousePos)
 	}
 }
 
-void CombatModule::detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite)
+void PlayerCombat::detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite)
 {
 	if (!this->sheathed) {
 		//Algorithm for mouse position
@@ -78,14 +78,14 @@ void CombatModule::detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite)
 }
 
 //Asset Functions
-void CombatModule::loadAssets()
+void PlayerCombat::loadAssets()
 {
 	this->player_projectile_tex.loadFromFile("Assets/Projectiles/test.png");
 	this->player_projectile.setTexture(player_projectile_tex);
 }
 
 //Rectangle Functions
-void CombatModule::initRects()
+void PlayerCombat::initRects()
 {
 	this->rectangles["Quad1"] = new Rectangle(0, 0, 640, 360, sf::Color::Blue,
 		sf::Color::White, 1.f, true);
@@ -105,7 +105,7 @@ void CombatModule::initRects()
 		sf::Color::White, 1.f, true);
 }
 
-void CombatModule::renderRects(sf::RenderTarget* target)
+void PlayerCombat::renderRects(sf::RenderTarget* target)
 {
 	for (auto& it : this->rectangles) {
 		it.second->render(target);

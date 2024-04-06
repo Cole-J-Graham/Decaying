@@ -5,8 +5,8 @@ Item::Item()
     this->initRects();
 }
 
-Item::Item(float x, float y, std::string item_name, std::string item_description, 
-    std::string texture_input, bool hidden, bool in_inventory, enum item_type, enum item_rarity)
+Item::Item(float x, float y, std::string item_name, std::string item_description,
+    std::string texture_input, bool hidden, bool in_inventory, enum item_rarity)
 {
     //Item on Map
     this->item_state = ITM_UNTOUCHED;
@@ -19,15 +19,22 @@ Item::Item(float x, float y, std::string item_name, std::string item_description
     this->texture_input = texture_input;
     this->item_name = item_name;
     this->item_description = item_description;
-    this->item.setScale(3.f, 3.f);
     this->hidden = hidden;
 
-    this->loadAsset();
+    //Initialization
     this->initRects();
+    this->item_texture.loadFromFile(texture_input);
+    this->item = new Sprite(x, y, 16.f, 16.f, 2.0f, this->item_texture);
+    this->item->setTextureRect(0, 0, 16, 16);
+    this->item->setScale(3.f, 3.f);
+    this->collision = new CollisionModule();
+    this->loadAsset();
 }
 
 Item::~Item()
 {
+    delete this->collision;
+    delete this->item;
     //Deconstruct Rectangles
     auto ir = this->rectangles.begin();
     for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
@@ -40,13 +47,13 @@ void Item::render(sf::RenderTarget* target)
 {
     //Draw if item is in inventory
     if (!this->hidden && this->in_inventory) {
-        target->draw(this->item);
+        this->item->render(target);
         this->renderRects(target);
     }
 
     //Draw if item is on ground
     if (!this->in_inventory) {
-        target->draw(this->item);
+        this->item->render(target);
         this->renderRects(target);
     }
 }
@@ -63,7 +70,7 @@ void Item::updateMapItems(sf::Sprite sprite)
 
     //Idle
     this->item_state = ITM_UNTOUCHED;
-    if (this->item.getGlobalBounds().intersects(sprite.getGlobalBounds())) {
+    if (this->item->getGlobalBounds().intersects(sprite.getGlobalBounds())) {
         //Hover
         this->item_state = ITM_COLLIDING;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
@@ -96,7 +103,7 @@ void Item::updateInventory(sf::Vector2f mousePos)
     //Idle
     if (this->in_inventory) {
         this->item_inv_state = ITM_IDLE;
-        if (this->item.getGlobalBounds().contains(mousePos)) {
+        if (this->item->getGlobalBounds().contains(mousePos)) {
             //Hover
             this->item_inv_state = ITM_HOVER;
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -108,11 +115,11 @@ void Item::updateInventory(sf::Vector2f mousePos)
         switch (this->item_inv_state) {
         case ITM_IDLE:
             this->rectangles["POP_BOX"]->setHidden();
-            this->item.setColor(sf::Color(255, 255, 255, 255));
+            this->item->setColor(sf::Color(255, 255, 255, 255));
             break;
         case ITM_HOVER:
             this->rectangles["POP_BOX"]->setShown();
-            this->item.setColor(sf::Color(255, 255, 255, 155));
+            this->item->setColor(sf::Color(255, 255, 255, 155));
             break;
         case ITM_ACTIVE:
             std::cout << "Item Active in inventory..." << "\n";
@@ -126,18 +133,13 @@ void Item::updateInventory(sf::Vector2f mousePos)
 //Modifiers
 void Item::setInventoryPosition(float x, float y)
 {
-    this->item.setPosition(x, y);
-}
-
-void Item::setMapPosition(sf::Vector2f position)
-{
-    this->item.setPosition(x += position.x, y += position.y);
+    this->item->setPosition(x, y);
 }
 
 void Item::moveItem(sf::Vector2f move)
 {
     if(!this->in_inventory)
-    this->item.setPosition(x += move.x, y += move.y);
+    this->item->setPosition(x += move.x, y += move.y);
 }
 
 //Accessors
@@ -191,5 +193,5 @@ void Item::initRects()
 void Item::loadAsset()
 {
     this->item_texture.loadFromFile(texture_input);
-    this->item.setTexture(item_texture);
+    this->item->setTexture(item_texture);
 }

@@ -3,12 +3,12 @@
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include<Math.h>
-class CombatModule
+class PlayerCombat
 {
 public:
 	//Constructors and Destructors
-	CombatModule();
-	~CombatModule();
+	PlayerCombat();
+	~PlayerCombat();
 
 	//Core Functions
 	void renderAttacks(sf::RenderTarget* target);

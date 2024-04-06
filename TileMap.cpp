@@ -20,12 +20,12 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 
 	this->loadMapData(map_data_string);
 	this->loadMap(tile_sheet);
-
+	this->collision = new CollisionModule();
 }
 
 TileMap::~TileMap()
 {
-
+	delete this->collision;
 }
 
 //Core Functions
@@ -97,108 +97,16 @@ void TileMap::loadMapData(std::string input)
 }
 
 //Detection Functions
-void TileMap::detectMap(Character* character, sf::Sprite& in_sprite)
+void TileMap::detectMap(Character* character, CombatComponent* combat, sf::Sprite& in_sprite)
 {
 	this->detectCollision(character, in_sprite);
 	this->detectEntrance(in_sprite);
-	this->detectMovement(character);
+	this->detectMovement(character, combat);
 }
 
 void TileMap::detectCollision(Character* character, sf::Sprite& in_sprite)
 {
-	//Collision Function
-	for (int x = 0; x < tile_map.size(); x++) {
-		for (int y = 0; y < tile_map.size(); y++) {
-			if (tile_map_data[x][y] == 0) {
-				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
-				{
-					// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
-					if (area.width > area.height)
-					{
-						if (area.contains({ area.left, tile_map[x][y].getPosition().y }))
-						{
-							//Down side crash
-							for (int x = 0; x < col; x++) {
-								for (int y = 0; y < row; y++) {
-									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y + area.height });
-								}
-							}
-
-							for (auto& it : character->inventory->getItems()) {
-								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
-							}
-							for (auto& it : character->inventory->getWeapons()) {
-								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
-							}
-							for (auto& it : character->inventory->getRelics()) {
-								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
-							}
-						}
-						else
-						{
-							//Up side crash
-							for (int x = 0; x < col; x++) {
-								for (int y = 0; y < row; y++) {
-									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y - area.height });
-								}
-							}
-
-							for (auto& it : character->inventory->getItems()) {
-								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
-							}
-							for (auto& it : character->inventory->getWeapons()) {
-								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
-							}
-							for (auto& it : character->inventory->getRelics()) {
-								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
-							}
-						}
-					}
-					else if (area.width < area.height)
-					{
-						if (area.contains({ tile_map[x][y].getPosition().x + tile_map[x][y].getGlobalBounds().width - 1.f, area.top + 1.f }))
-						{
-							//Left side crash
-							for (int x = 0; x < col; x++) {
-								for (int y = 0; y < row; y++) {
-									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x - area.width, tile_map[x][y].getPosition().y });
-								}
-							}
-
-							for (auto& it : character->inventory->getItems()) {
-								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y });
-							}
-							for (auto& it : character->inventory->getWeapons()) {
-								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y});
-							}
-							for (auto& it : character->inventory->getRelics()) {
-								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y });
-							}
-						}
-						else
-						{
-							//Right side crash
-							for (int x = 0; x < col; x++) {
-								for (int y = 0; y < row; y++) {
-									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x + area.width, tile_map[x][y].getPosition().y });
-								}
-							}
-
-							for (auto& it : character->inventory->getItems()) {
-								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
-							}
-							for (auto& it : character->inventory->getWeapons()) {
-								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
-							}
-							for (auto& it : character->inventory->getRelics()) {
-								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	this->collision->setMapCollision(in_sprite, tile_map, tile_map_data, area, col, row);
 }
 
 void TileMap::detectEntrance(sf::Sprite& in_sprite)
@@ -230,7 +138,7 @@ void TileMap::render(sf::RenderTarget* target)
 }
 
 //Movement Functions
-void TileMap::detectMovement(Character* character)
+void TileMap::detectMovement(Character* character, CombatComponent* combat)
 {
 	//Move based on movement function
 	for (int x = 0; x < col; x++) {
@@ -240,26 +148,12 @@ void TileMap::detectMovement(Character* character)
 	}
 
 	//Move Items with map
-	this->moveItems(character);
+	this->moveItems(character, combat);
 }
 
 //Item Functions
-void TileMap::moveItems(Character* character)
+void TileMap::moveItems(Character* character, CombatComponent* combat)
 {
-	for (auto& it : character->inventory->getItems()) {it.second->moveItem(character->getVelocity());}
-	for (auto& it : character->inventory->getWeapons()) {it.second->moveItem(character->getVelocity());}
-	for (auto& it : character->inventory->getRelics()) {it.second->moveItem(character->getVelocity());}
-}
-
-void TileMap::holdItemPosition(Inventory* inventory)
-{
-	for (auto& it : inventory->getItems()) {
-		it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
-	}
-	for (auto& it : inventory->getWeapons()) {
-		it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
-	}
-	for (auto& it : inventory->getRelics()) {
-		it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
-	}
+	for (auto& it : character->inventory->getItems()) { it.second->moveItem(character->getVelocity()); }
+	for (auto& it : combat->enemies) { it.second->moveEnemy(character->getVelocity()); }
 }

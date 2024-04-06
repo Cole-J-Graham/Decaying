@@ -4,8 +4,6 @@ Inventory::Inventory()
 {
 	//Init
 	this->initItems();
-	this->initWeapons();
-	this->initRelics();
 
 	this->skills = new Skills();
 	this->GUI = new PlayerGUI();
@@ -35,10 +33,6 @@ void Inventory::update(sf::Sprite sprite, const sf::Vector2f mousePos)
 {
 	//Update Items
 	for (auto& it : this->items) {it.second->update(sprite, mousePos);}
-	//Update Weapons
-	for (auto& it : this->weapons) {it.second->update(sprite, mousePos);}
-	//Update Relics
-	for (auto& it : this->relics) {it.second->update(sprite, mousePos);}
 
 	this->pickupItem();
 	this->GUI->update(mousePos);
@@ -63,8 +57,6 @@ void Inventory::checkForTab()
 			}
 			//Show all items
 			for (auto& it : this->items) { it.second->setShown(); }
-			for (auto& it : this->weapons) { it.second->setShown(); }
-			for (auto& it : this->relics) { it.second->setShown(); }
 			this->timer.restart();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && !GUI->getRectangles()["INV_BORDER"]->getHidden()) {
@@ -72,8 +64,6 @@ void Inventory::checkForTab()
 			GUI->getButtons()["RELIC_POUCH"]->setHidden();
 			//Hide all items
 			for (auto& it : this->items) { it.second->setHidden(); }
-			for (auto& it : this->weapons) { it.second->setHidden(); }
-			for (auto& it : this->relics) { it.second->setHidden(); }
 			this->timer.restart();
 		}
 	}
@@ -87,20 +77,6 @@ void Inventory::addItem(Item* item)
 	this->inventory_items.push_back(item);
 }
 
-void Inventory::addWeapon(Weapon* weapon)
-{
-	weapon->setHidden();
-	weapon->inInventory() = true;
-	this->inventory_weapons.push_back(weapon);
-}
-
-void Inventory::addRelic(Relic* relic)
-{
-	relic->setHidden();
-	relic->inInventory() = true;
-	this->inventory_relics.push_back(relic);
-}
-
 void Inventory::deleteItem(Item* item)
 {
 	//TEST TO SEE IF FUNCTIONAL
@@ -112,22 +88,19 @@ void Inventory::deleteItem(Item* item)
 //Item Functions
 void Inventory::initItems()
 {
-
+	this->items["Staff"] = new Item(250.f, 250.f, "Staff",
+		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.\n\nWEAPON\nCOMMON", "Assets/Items/zin_staff.png",
+		false, false, UNIQUE);
+	this->items["Eternal Dust"] = new Item(400.f, 400.f, "Eternal Dust",
+		"A strange unending pile of\ndust, seeming capable\nof replenishing itself\n\nRELIC\nUNIQUE", "Assets/Items/eternal_dust.png",
+		false, false, RARE);
 }
 
 void Inventory::pickupItem()
 {
-	//Pickup Generic Items
+	//Pickup Items
 	for (auto& it : this->items) {
 		if (it.second->isInteracted()) { this->addItem(it.second); }
-	}
-	//Pickup weapons
-	for (auto& it : this->weapons) {
-		if (it.second->isInteracted()) { this->addWeapon(it.second); }
-	}
-	//Pickup relics
-	for (auto& it : this->relics) {
-		if (it.second->isInteracted()) { this->addRelic(it.second); }
 	}
 }
 
@@ -140,19 +113,6 @@ void Inventory::renderInventoryItems(sf::RenderTarget* target)
 			it->render(target);
 		}
 	}
-	for (auto& it : this->inventory_weapons) {
-		if (it->inInventory()) {
-			it->setInventoryPosition(x += 50, 100);
-			it->render(target);
-		}
-	}
-	for (auto& it : this->inventory_relics) {
-		if (it->inInventory()) {
-			it->setInventoryPosition(x += 50, 100);
-			it->render(target);
-		}
-	}
-	
 }
 
 void Inventory::renderMapItems(sf::RenderTarget* target)
@@ -163,34 +123,6 @@ void Inventory::renderMapItems(sf::RenderTarget* target)
 			it.second->render(target);
 		}
 	}
-	//Render Weapons on map
-	for (auto& it : this->weapons) {
-		if (!it.second->inInventory()) {
-			it.second->render(target);
-		}
-	}
-	//Render Relics on map
-	for (auto& it : this->relics) {
-		if (!it.second->inInventory()) {
-			it.second->render(target);
-		}
-	}
-}
-
-//Weapon Functions
-void Inventory::initWeapons()
-{
-	this->weapons["Staff"] = new Weapon(250.f, 250.f, "Staff",
-		"Zin's staff, useful for a\nvariety of tasks such as self\ndefense.\n\nWEAPON\nCOMMON", "Assets/Items/zin_staff.png",
-		10.f, 1.f);
-}
-
-//relic Functions
-void Inventory::initRelics()
-{
-	this->relics["Eternal Dust"] = new Relic(400.f, 400.f, "Eternal Dust",
-		"A strange unending pile of\ndust, seeming capable\nof replenishing itself\n\nRELIC\nUNIQUE", "Assets/Items/eternal_dust.png",
-		100.f);
 }
 
 //Equip Slot Functions
@@ -202,9 +134,9 @@ void Inventory::initSlots()
 
 void Inventory::equipItem(Item* item)
 {
-	if (this->equip_slots["SLOT_MAINHAND"]->getGlobalBounds().intersects(item->getGlobalBounds())) {
-		if (item->inInventory()) {
-			//DO SOMETHING
-		}
-	}
+	//if (this->equip_slots["SLOT_MAINHAND"]->getGlobalBounds().intersects(item->getGlobalBounds())) {
+	//	if (item->inInventory()) {
+	//		//DO SOMETHING
+	//	}
+	//}
 }

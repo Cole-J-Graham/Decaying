@@ -6,7 +6,7 @@ Character::Character(sf::Sprite* sprite)
 
 	//Initialization
 	this->loadAssets();
-	this->combat = new CombatModule();
+	this->combat = new PlayerCombat();
 	this->animation = new AnimationModule(this->zin);
 	this->inventory = new Inventory();
 	this->initAnimations();
@@ -42,6 +42,7 @@ void Character::update(const sf::Vector2f mousePos)
 	this->inventory->checkForInput();
 	this->characterMovement();
 	this->detectOctMousePosition(mousePos);
+	this->priorityAnimations();
 	this->updateRects();
 }
 
@@ -104,8 +105,12 @@ void Character::initAnimations()
 void Character::characterMovement()
 {
 	this->walk();
-	this->roll();
 	this->sprint();
+}
+
+void Character::priorityAnimations()
+{
+	this->roll();
 }
 
 void Character::walk()

@@ -40,17 +40,8 @@
     <ClCompile Include="EquipSlot.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="Relic.cpp">
-      <Filter>Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Item</Filter>
-    </ClCompile>
     <ClCompile Include="DungeonState.cpp">
       <Filter>States</Filter>
-    </ClCompile>
-    <ClCompile Include="CombatModule.cpp">
-      <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="TavernState.cpp">
       <Filter>States</Filter>
@@ -60,6 +51,18 @@
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCombat.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionModule.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,17 +102,8 @@
     <ClInclude Include="EquipSlot.h">
       <Filter>Character</Filter>
     </ClInclude>
-    <ClInclude Include="Relic.h">
-      <Filter>Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Item</Filter>
-    </ClInclude>
     <ClInclude Include="DungeonState.h">
       <Filter>States</Filter>
-    </ClInclude>
-    <ClInclude Include="CombatModule.h">
-      <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="TavernState.h">
       <Filter>States</Filter>
@@ -119,6 +113,18 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCombat.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionModule.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +151,9 @@
     </Filter>
     <Filter Include="Modules">
       <UniqueIdentifier>{fb9c61cc-becb-48a0-a107-8d94ecd8b54d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{002af3f7-3fb9-4eb5-8128-3f6502052dff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

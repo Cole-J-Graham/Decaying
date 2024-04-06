@@ -22,10 +22,6 @@ public:
 	void update(const float& dt);
 	void render(sf::RenderTarget* target);
 
-	//Sprite Functions
-	void initSprites();
-	void renderSprites(sf::RenderTarget* target);
-
 	//TileMap Functions
 	void initTileMaps();
 	void renderTileMaps(sf::RenderTarget* target);
@@ -36,6 +32,8 @@ public:
 	sf::RenderWindow* window;
 
 private:
+	CombatComponent* combat;
+
 	sf::Clock fps_clock;
 	sf::Time fps_time;
 
@@ -43,14 +41,10 @@ private:
 	int location;
 
 	std::map<std::string, TileMap*> tile_maps;
-	std::map<std::string, Sprite*> sprites;
-
-	Character* character;
 
 	//Assets
 	sf::Texture dungeon_sheet;
 	sf::Texture map_image;
-	sf::Texture zin;
 
 
 };

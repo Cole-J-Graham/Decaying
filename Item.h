@@ -1,5 +1,7 @@
 #pragma once
 #include"Skills.h"
+#include"CollisionModule.h"
+#include"Sprite.h"
 #include<map>
 #include<iostream>
 #include<string>
@@ -7,18 +9,16 @@
 enum item_states { ITM_UNTOUCHED = 0, ITM_COLLIDING, ITM_INTERACTED };
 enum item_inv_states { ITM_IDLE = 0, ITM_HOVER, ITM_ACTIVE };
 //Item Definitions
-enum item_type { GENERIC, WEAPON, RELIC };
 enum item_rarity {COMMON, UNCOMMON, RARE, UNIQUE};
 
-class Item : public sf::Sprite
+class Item
 {
 
 public:
 	//Constructors and Destructors
 	Item();
-	Item(float x, float y, std::string item_name, std::string item_description, 
-		std::string texture_input, bool hidden, bool in_inventory, enum item_type, 
-		enum item_rarity);
+	Item(float x, float y, std::string item_name, std::string item_description,
+		std::string texture_input, bool hidden, bool in_inventory, enum item_rarity);
 	~Item();
 
 	//Core Functions
@@ -29,7 +29,6 @@ public:
 
 	//Modifiers
 	void setInventoryPosition(float x, float y);
-	void setMapPosition(sf::Vector2f position);
 	void moveItem(sf::Vector2f move);
 
 	//Accessors
@@ -50,20 +49,23 @@ public:
 	//Assets
 	void loadAsset();
 
+	CollisionModule* collision;
+
 private:
 
 	std::map<std::string, Rectangle*> rectangles;
 
-	sf::Sprite item;
+	Sprite* item;
+	float x;
+	float y;
+	bool hidden;
+	bool in_inventory;
+
 	sf::Texture item_texture;
 	std::string item_description;
 	std::string item_name;
 	std::string texture_input;
 
-	float x;
-	float y;
-	bool hidden;
-	bool in_inventory;
 	bool colliding;
 	short unsigned item_state;
 	short unsigned item_inv_state;

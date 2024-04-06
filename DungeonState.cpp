@@ -9,24 +9,17 @@ DungeonState::DungeonState(sf::RenderWindow* window, std::stack<State*>* states)
 	this->location = 0;
 
 	//Initialization
-	this->initSprites();
 	this->initTileMaps();
 
 	//Assets
 	this->loadAssets();
 
-	this->character = new Character(&this->sprites["ZIN"]->getSprite());
+	this->combat = new CombatComponent();
 }
 
 DungeonState::~DungeonState()
 {
-	delete this->character;
-
-	//Deconstruct Sprites
-	auto is = this->sprites.begin();
-	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
-		delete is->second;
-	}
+	delete this->combat;
 
 	//Deconstruct TileMaps
 	auto it = this->tile_maps.begin();
@@ -68,38 +61,23 @@ void DungeonState::generateNewLocation()
 //State Functions
 void DungeonState::updateKeybinds(const float& dt)
 {
-	this->character->update(this->getMousePosView());
 	this->updateMousePositions();
 	this->checkForQuit();
-	this->character->combat->detectCombatKeybinds(this->getMousePosView(), this->sprites["ZIN"]->getSprite());
 }
 
 void DungeonState::update(const float& dt)
 {
+	this->combat->update(this->getMousePosView());
 	this->updateKeybinds(dt);
-	this->tile_maps["DUNGEON"]->detectMap(this->character, this->sprites["ZIN"]->getSprite());
-	this->character->inventory->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
+	this->tile_maps["DUNGEON"]->detectMap(this->combat->character, this->combat, this->combat->sprites["ZIN"]->getSprite());
 	if (this->tile_maps["DUNGEON"]->getCollidingEntrance()) { this->generateNewLocation(); };
 }
 
 void DungeonState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
-	this->renderSprites(target);
-	this->character->render(target);
-}
-
-//Sprite Functions
-void DungeonState::initSprites()
-{
-	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin);
-}
-
-void DungeonState::renderSprites(sf::RenderTarget* target)
-{
-	for (auto& it : this->sprites) {
-		it.second->render(target);
-	}
+	this->combat->render(target);
+	this->combat->enemies["SLIME"]->render(target);
 }
 
 //TileMap Functions
@@ -119,6 +97,4 @@ void DungeonState::renderTileMaps(sf::RenderTarget* target)
 void DungeonState::loadAssets()
 {
 	this->dungeon_sheet.loadFromFile("Assets/SpriteSheets/DungeonTileSheet.png");
-
-	this->zin.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
 }

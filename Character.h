@@ -1,7 +1,7 @@
 #pragma once
 //Modules
 #include"Inventory.h"
-#include"CombatModule.h"
+#include"PlayerCombat.h"
 #include"AnimationModule.h"
 class Character
 {
@@ -20,6 +20,7 @@ public:
 	//Movement Functions
 	void initAnimations();
 	void characterMovement();
+	void priorityAnimations();
 	void walk();
 	void roll();
 	void sprint();
@@ -35,9 +36,9 @@ public:
 	//Accessors
 	sf::Vector2f& getVelocity() { return this->velocity; };
 
-	CombatModule* combat;
+	PlayerCombat* combat;
 	Inventory* inventory;
-
+	sf::Sprite* zin;
 private:
 	//Movement
 	int stamina;
@@ -54,7 +55,7 @@ private:
 
 	std::map<std::string, Rectangle*> rectangles;
 	AnimationModule* animation;
-	sf::Sprite* zin;
+	//sf::Sprite* zin;
 
 	//Assets
 	sf::Texture zin_walk_up;

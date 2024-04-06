@@ -5,7 +5,7 @@
 #include<random>
 #include<map>
 //Components
-#include"Character.h"
+#include"CombatComponent.h"
 
 class TileMap
 {
@@ -20,7 +20,7 @@ public:
 	void loadMapData(std::string input);
 
 	//Detection Functions
-	void detectMap(Character* character, sf::Sprite& in_sprite);
+	void detectMap(Character* character, CombatComponent* combat, sf::Sprite& in_sprite);
 	void detectCollision(Character* character, sf::Sprite& in_sprite);
 	void detectEntrance(sf::Sprite& in_sprite);
 
@@ -28,18 +28,20 @@ public:
 	void render(sf::RenderTarget* target);
 
 	//Movement Functions
-	void detectMovement(Character* character);
+	void detectMovement(Character* character, CombatComponent* combat);
 
 	//Item Functions
-	void moveItems(Character* character);
-	void holdItemPosition(Inventory* inventory);
+	void moveItems(Character* character, CombatComponent* combat);
 
 	const bool getCollidingEntrance()& { return this->colliding_entrance; };
 
 private:
+
 	//Core Map
 	std::vector<std::vector<sf::Sprite>> tile_map;
 	sf::Texture tile_sheet;
+
+	CollisionModule* collision;
 
 	//Core Map Variables
 	unsigned tileSize;
