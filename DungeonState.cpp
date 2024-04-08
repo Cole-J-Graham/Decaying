@@ -15,6 +15,9 @@ DungeonState::DungeonState(sf::RenderWindow* window, std::stack<State*>* states)
 	this->loadAssets();
 
 	this->combat = new CombatComponent();
+
+	this->combat->spawnSlime(200.f, 200.f);
+	this->combat->spawnSlime(400.f, 400.f);
 }
 
 DungeonState::~DungeonState()
@@ -77,7 +80,7 @@ void DungeonState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
 	this->combat->render(target);
-	this->combat->enemies["SLIME"]->render(target);
+	this->combat->render(target);
 }
 
 //TileMap Functions

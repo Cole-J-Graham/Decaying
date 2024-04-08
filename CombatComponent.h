@@ -18,6 +18,13 @@ public:
 	void detectPlayerDamage();
 	void detectPlayerAttack();
 
+	//Enemy Functions
+	void updateEnemies();
+	void renderEnemies(sf::RenderTarget* target);
+
+	//Spawn Functions
+	void spawnSlime(float x, float y);
+
 	//Sprite Functions
 	void initSprites();
 	void renderSprites(sf::RenderTarget* target);
@@ -29,7 +36,9 @@ public:
 
 	std::map<std::string, Sprite*> sprites;
 
-	std::map<std::string, Enemy*> enemies;
+	Enemy* enemy;
+
+	std::vector<Enemy*> enemies;
 
 private:
 

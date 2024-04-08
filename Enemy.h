@@ -7,8 +7,10 @@ class Enemy
 {
 public:
 	//Constructors and Deconstructors
-	Enemy(float x, float y, float hp, std::string texture, std::string enemy_walk_up, std::string enemy_walk_down,
-		std::string enemy_walk_left, std::string enemy_walk_right);
+	Enemy();
+	Enemy(float hp, float damage, std::string texture, 
+		std::string enemy_walk_up, std::string enemy_walk_down, std::string enemy_walk_left, 
+		std::string enemy_walk_right);
 	~Enemy();
 
 	//Core Functions
@@ -21,7 +23,13 @@ public:
 
 	//Modifiers
 	void moveEnemy(sf::Vector2f move);
+	void setPosition(float x, float y);
+
+	//Accessors
 	sf::FloatRect getGlobalBounds() { return this->enemy->getGlobalBounds(); }
+	int& getHp() { return this->hp; }
+	int& getDamage() { return this->damage; }
+
 	Sprite* enemy;
 
 private:
@@ -29,8 +37,10 @@ private:
 	AnimationModule* animation;
 	CollisionModule* collision;
 
-	float hp;
-	float hpMax;
+	int hp;
+	int hpMax;
+	int damage;
+
 	float moveSpeed;
 
 	float x;

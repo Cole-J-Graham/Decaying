@@ -1,7 +1,12 @@
 #include "Enemy.h"
 //Constructors and Deconstructors
-Enemy::Enemy(float x, float y, float hp, std::string texture, std::string enemy_walk_up, std::string enemy_walk_down,
-	std::string enemy_walk_left, std::string enemy_walk_right)
+Enemy::Enemy()
+{
+
+}
+
+Enemy::Enemy(float hp, float damage, std::string texture, std::string enemy_walk_up, 
+	std::string enemy_walk_down, std::string enemy_walk_left, std::string enemy_walk_right)
 {
 	this->enemyTexture.loadFromFile(texture);
 	this->enemy_walk_up.loadFromFile(enemy_walk_up);
@@ -11,10 +16,8 @@ Enemy::Enemy(float x, float y, float hp, std::string texture, std::string enemy_
 
 	this->hp = hp;
 	this->hpMax = hp;
+	this->damage = damage;
 	this->moveSpeed = 0.5;
-
-	this->x = x;
-	this->y = y;
 
 	//Initialization
 	this->enemy = new Sprite(x, y, 16.f, 16.f, 2.0f, this->enemyTexture);
@@ -41,6 +44,8 @@ void Enemy::render(sf::RenderTarget* target)
 {
 	this->enemy->render(target);
 }
+
+//Spawn Functions
 
 //Movement Functions
 void Enemy::walkTowardsPlayer(sf::Vector2f playerPos)
@@ -71,4 +76,11 @@ void Enemy::initAnimations()
 void Enemy::moveEnemy(sf::Vector2f move)
 {
 	this->enemy->setPosition(x += move.x, y += move.y);
+}
+
+void Enemy::setPosition(float x, float y)
+{
+	this->x = x;
+	this->y = y;
+	this->enemy->setPosition(x, y);
 }

@@ -12,6 +12,10 @@ Character::Character(sf::Sprite* sprite)
 	this->initAnimations();
 	this->initRects();
 	
+	//Variables
+	this->hp = 100;
+	this->hpMax = 100;
+
 	//Movement
 	this->rolling = false;
 

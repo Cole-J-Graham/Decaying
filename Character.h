@@ -40,8 +40,15 @@ public:
 	//Accessors
 	sf::Vector2f& getVelocity() { return this->velocity; };
 	sf::Sprite& getPlayerProjectile() { return this->combat->getPlayerProjectile(); }
+	int& getHp() { return this->hp; }
+	int& getDamage() { return this->damage; }
 
 private:
+	//Variables
+	int hp;
+	int hpMax;
+	int damage;
+
 	//Movement
 	int stamina;
 	int staminaMax;

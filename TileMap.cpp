@@ -155,5 +155,5 @@ void TileMap::detectMovement(Character* character, CombatComponent* combat)
 void TileMap::moveItems(Character* character, CombatComponent* combat)
 {
 	for (auto& it : character->inventory->getItems()) { it.second->moveItem(character->getVelocity()); }
-	for (auto& it : combat->enemies) { it.second->moveEnemy(character->getVelocity()); }
+	for (auto& it : combat->enemies) { it->moveEnemy(character->getVelocity()); }
 }
