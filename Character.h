@@ -33,12 +33,14 @@ public:
 	void updateRects();
 	void renderRects(sf::RenderTarget* target);
 
-	//Accessors
-	sf::Vector2f& getVelocity() { return this->velocity; };
-
 	PlayerCombat* combat;
 	Inventory* inventory;
 	sf::Sprite* zin;
+
+	//Accessors
+	sf::Vector2f& getVelocity() { return this->velocity; };
+	sf::Sprite& getPlayerProjectile() { return this->combat->getPlayerProjectile(); }
+
 private:
 	//Movement
 	int stamina;
@@ -55,7 +57,6 @@ private:
 
 	std::map<std::string, Rectangle*> rectangles;
 	AnimationModule* animation;
-	//sf::Sprite* zin;
 
 	//Assets
 	sf::Texture zin_walk_up;

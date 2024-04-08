@@ -27,6 +27,7 @@ public:
 
 	//Getters
 	const bool& getSheathed() { return this->sheathed; };
+	sf::Sprite& getPlayerProjectile() { return this->player_projectile; }
 	std::map<std::string, Rectangle*>& getRectangles() { return this->rectangles; };
 
 private:

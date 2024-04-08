@@ -22,9 +22,11 @@ CombatComponent::~CombatComponent()
 //Core Functions
 void CombatComponent::update(const sf::Vector2f mousePos)
 {
+	this->enemies["SLIME"]->update(this->character->zin->getPosition());
 	this->character->inventory->update(this->sprites["ZIN"]->getSprite(), mousePos);
 	this->character->update(mousePos);
 	this->character->combat->detectCombatKeybinds(mousePos, this->sprites["ZIN"]->getSprite());
+	this->detectCollision();
 }
 
 void CombatComponent::render(sf::RenderTarget* target)
@@ -33,12 +35,43 @@ void CombatComponent::render(sf::RenderTarget* target)
 	this->renderSprites(target);
 }
 
+//Detection Functions
+void CombatComponent::detectCollision()
+{
+	this->detectPlayerDamage();
+	this->detectPlayerAttack();
+}
+
+void CombatComponent::detectPlayerDamage()
+{
+	for (auto& it : this->enemies) {
+		if (this->sprites["ZIN"]->getSprite().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+			std::cout << "COLLISION, BABY" << "\n";
+		}
+		else {
+
+		}
+	}
+}
+
+void CombatComponent::detectPlayerAttack()
+{
+	for (auto& it : this->enemies) {
+		if (this->character->getPlayerProjectile().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+			std::cout << "HURT, BABY" << "\n";
+		}
+		else {
+
+		}
+	}
+}
+
 //Sprite Functions
 void CombatComponent::initSprites()
 {
 	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin);
 
-	this->enemies["SLIME"] = new Enemy("Assets/Enemies/slime-red.png", 
+	this->enemies["SLIME"] = new Enemy(100.f, 100.f, 100.f, "Assets/Enemies/slime-red.png", 
 		"Assets/Enemies/slime-red.png", "Assets/Enemies/slime-red.png", 
 		"Assets/Enemies/slime-red.png", "Assets/Enemies/slime-red.png");
 }

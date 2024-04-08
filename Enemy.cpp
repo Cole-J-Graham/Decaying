@@ -1,6 +1,6 @@
 #include "Enemy.h"
 //Constructors and Deconstructors
-Enemy::Enemy(std::string texture, std::string enemy_walk_up, std::string enemy_walk_down,
+Enemy::Enemy(float x, float y, float hp, std::string texture, std::string enemy_walk_up, std::string enemy_walk_down,
 	std::string enemy_walk_left, std::string enemy_walk_right)
 {
 	this->enemyTexture.loadFromFile(texture);
@@ -9,8 +9,12 @@ Enemy::Enemy(std::string texture, std::string enemy_walk_up, std::string enemy_w
 	this->enemy_walk_left.loadFromFile(enemy_walk_left);
 	this->enemy_walk_right.loadFromFile(enemy_walk_right);
 
-	this->x = 100;
-	this->y = 100;
+	this->hp = hp;
+	this->hpMax = hp;
+	this->moveSpeed = 0.5;
+
+	this->x = x;
+	this->y = y;
 
 	//Initialization
 	this->enemy = new Sprite(x, y, 16.f, 16.f, 2.0f, this->enemyTexture);
@@ -28,9 +32,9 @@ Enemy::~Enemy()
 }
 
 //Core Functions
-void Enemy::update()
+void Enemy::update(sf::Vector2f playerPos)
 {
-
+	this->walkTowardsPlayer(playerPos);
 }
 
 void Enemy::render(sf::RenderTarget* target)
@@ -39,10 +43,20 @@ void Enemy::render(sf::RenderTarget* target)
 }
 
 //Movement Functions
-void Enemy::walkTowardsPlayer()
+void Enemy::walkTowardsPlayer(sf::Vector2f playerPos)
 {
-	//Player at 900, 500
-
+	if (playerPos.x > this->enemy->getPosition().x) {
+		this->enemy->setPosition(x += this->moveSpeed, y);
+	}
+	if (playerPos.x < this->enemy->getPosition().x) {
+		this->enemy->setPosition(x -= this->moveSpeed, y);
+	}
+	if (playerPos.y > this->enemy->getPosition().y) {
+		this->enemy->setPosition(x, y += this->moveSpeed);
+	}
+	if (playerPos.y < this->enemy->getPosition().y) {
+		this->enemy->setPosition(x, y -= this->moveSpeed);
+	}
 }
 
 void Enemy::initAnimations()

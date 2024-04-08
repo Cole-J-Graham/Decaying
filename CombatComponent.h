@@ -13,6 +13,11 @@ public:
 	void update(const sf::Vector2f mousePos);
 	void render(sf::RenderTarget* target);
 
+	//Detection Functions
+	void detectCollision();
+	void detectPlayerDamage();
+	void detectPlayerAttack();
+
 	//Sprite Functions
 	void initSprites();
 	void renderSprites(sf::RenderTarget* target);
