@@ -91,19 +91,19 @@ void Character::detectOctMousePosition(const sf::Vector2f mousePos)
 //Movement Functions
 void Character::initAnimations()
 {
-	this->animation->addAnimation("WALKUP", zin_walk_up, 4, 16, 0.2, 0);
-	this->animation->addAnimation("WALKDOWN", zin_walk_down, 4, 16, 0.2, 0);
-	this->animation->addAnimation("WALKLEFT", zin_walk_left, 4, 16, 0.2, 0);
-	this->animation->addAnimation("WALKRIGHT", zin_walk_right, 4, 16, 0.2, 0);
-	this->animation->addAnimation("WALKLEFTDOWN", zin_walk_diagnol_left_down, 4, 16, 0.2, 0);
-	this->animation->addAnimation("WALKRIGHTDOWN", zin_walk_diagnol_right_down, 4, 16, 0.2, 0);
-	this->animation->addAnimation("WALKRIGHTUP", zin_walk_diagnol_right_up, 4, 16, 0.2, 0);
-	this->animation->addAnimation("WALKLEFTUP", zin_walk_diagnol_left_up, 4, 16, 0.2, 0);
+	this->animation->addAnimation("WALKUP", zin_walk_up, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKDOWN", zin_walk_down, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKLEFT", zin_walk_left, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKRIGHT", zin_walk_right, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKLEFTDOWN", zin_walk_diagnol_left_down, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKRIGHTDOWN", zin_walk_diagnol_right_down, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKRIGHTUP", zin_walk_diagnol_right_up, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKLEFTUP", zin_walk_diagnol_left_up, 4, 16, 0.2, 0, 0.f);
 
-	this->animation->addAnimation("ROLLUP", zin_roll_up, 4, 16, 0.1, 0);
-	this->animation->addAnimation("ROLLDOWN", zin_roll_down, 4, 16, 0.1, 0);
-	this->animation->addAnimation("ROLLLEFT", zin_roll_left, 4, 16, 0.1, 0);
-	this->animation->addAnimation("ROLLRIGHT", zin_roll_right, 4, 16, 0.1, 0);
+	this->animation->addAnimation("ROLLUP", zin_roll_up, 4, 16, 0.1, 0, 0.f);
+	this->animation->addAnimation("ROLLDOWN", zin_roll_down, 4, 16, 0.1, 0, 0.f);
+	this->animation->addAnimation("ROLLLEFT", zin_roll_left, 4, 16, 0.1, 0, 0.f);
+	this->animation->addAnimation("ROLLRIGHT", zin_roll_right, 4, 16, 0.1, 0, 0.f);
 }
 
 void Character::characterMovement()

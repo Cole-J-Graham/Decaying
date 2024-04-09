@@ -1,6 +1,5 @@
 #pragma once
 #include"Skills.h"
-#include"CollisionModule.h"
 #include"Sprite.h"
 #include<map>
 #include<iostream>
@@ -11,7 +10,7 @@ enum item_inv_states { ITM_IDLE = 0, ITM_HOVER, ITM_ACTIVE };
 //Item Definitions
 enum item_rarity {COMMON, UNCOMMON, RARE, UNIQUE};
 
-class Item
+class Item : public sf::Sprite
 {
 
 public:
@@ -29,6 +28,8 @@ public:
 
 	//Modifiers
 	void setInventoryPosition(float x, float y);
+	void setMapPosition(sf::Vector2f position);
+	void setPosition(float x, float y);
 	void moveItem(sf::Vector2f move);
 
 	//Accessors
@@ -38,8 +39,13 @@ public:
 	const bool isHovered() const;
 
 	//Rectangle Functions
+
 	void renderRects(sf::RenderTarget* target);
 	void initRects();
+
+	//Getters
+	float& getX() { return this->x; };
+	float& getY() { return this->y; };
 
 	//Setters
 	bool& setHidden() { return this->hidden = true; };
@@ -49,13 +55,11 @@ public:
 	//Assets
 	void loadAsset();
 
-	CollisionModule* collision;
-
 private:
 
+	sf::Sprite item;
 	std::map<std::string, Rectangle*> rectangles;
 
-	Sprite* item;
 	float x;
 	float y;
 	bool hidden;

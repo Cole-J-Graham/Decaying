@@ -61,9 +61,6 @@
     <ClCompile Include="CombatComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionModule.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h">
@@ -122,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="CombatComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionModule.h">
-      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

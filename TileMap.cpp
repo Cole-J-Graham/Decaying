@@ -20,12 +20,11 @@ TileMap::TileMap(float x, float y, int col, int row, float grid_size_f, sf::Text
 
 	this->loadMapData(map_data_string);
 	this->loadMap(tile_sheet);
-	this->collision = new CollisionModule();
 }
 
 TileMap::~TileMap()
 {
-	delete this->collision;
+
 }
 
 //Core Functions
@@ -99,14 +98,98 @@ void TileMap::loadMapData(std::string input)
 //Detection Functions
 void TileMap::detectMap(Character* character, CombatComponent* combat, sf::Sprite& in_sprite)
 {
-	this->detectCollision(character, in_sprite);
+	this->detectCollision(combat, in_sprite);
 	this->detectEntrance(in_sprite);
 	this->detectMovement(character, combat);
 }
 
-void TileMap::detectCollision(Character* character, sf::Sprite& in_sprite)
+void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 {
-	this->collision->setMapCollision(in_sprite, tile_map, tile_map_data, area, col, row);
+	//Collision Function
+	for (int x = 0; x < tile_map.size(); x++) {
+		for (int y = 0; y < tile_map.size(); y++) {
+			if (tile_map_data[x][y] == 0) {
+				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
+				{
+					// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
+					if (area.width > area.height)
+					{
+						if (area.contains({ area.left, tile_map[x][y].getPosition().y }))
+						{
+							//Down side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y + area.height });
+								}
+							}
+
+							//Must stay below this point
+							for (auto& it : combat->character->inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
+							}
+							for (int i = 0; i < combat->enemies.size(); i++) {
+								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x, combat->enemies[i]->getPosition().y + area.height });
+							}
+						}
+						else
+						{
+							//Up side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x, tile_map[x][y].getPosition().y - area.height });
+								}
+							}
+
+							//Must stay below this point
+							for (auto& it : combat->character->inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
+							}
+							for (int i = 0; i < combat->enemies.size(); i++) {
+								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x, combat->enemies[i]->getPosition().y - area.height });
+							}
+						}
+					}
+					else if (area.width < area.height)
+					{
+						if (area.contains({ tile_map[x][y].getPosition().x + tile_map[x][y].getGlobalBounds().width - 1.f, area.top + 1.f }))
+						{
+							//Left side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x - area.width, tile_map[x][y].getPosition().y });
+								}
+							}
+
+							//Must stay below this point
+							for (auto& it : combat->character->inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y });
+							}
+							for (int i = 0; i < combat->enemies.size(); i++) {
+								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x - area.width, combat->enemies[i]->getPosition().y});
+							}
+						}
+						else
+						{
+							//Right side crash
+							for (int x = 0; x < col; x++) {
+								for (int y = 0; y < row; y++) {
+									tile_map[x][y].setPosition({ tile_map[x][y].getPosition().x + area.width, tile_map[x][y].getPosition().y });
+								}
+							}
+
+							//Must stay below this point
+							for (auto& it : combat->character->inventory->getItems()) {
+								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
+							}
+							for (int i = 0; i < combat->enemies.size(); i++) {
+								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x + area.width, combat->enemies[i]->getPosition().y });
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void TileMap::detectEntrance(sf::Sprite& in_sprite)

@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<random>
 #include"Sprite.h"
 #include<stack>
 class AnimationModule
@@ -11,7 +12,7 @@ public:
 
 	//Core Functions
 	void addAnimation(std::string key, sf::Texture& texture,
-		int maxFrame, float offset, float speed, int sheet);
+		int maxFrame, float offset, float speed, int sheet, float rand);
 	void play(std::string key);
 	void reset(std::string key);
 
@@ -22,7 +23,7 @@ private:
 	public:
 		//Constructors and Deconstructors
 		Animation(sf::Sprite* sprite, sf::Texture& texture, int maxFrame, float offset, float speed,
-			int sheet) : sprite(sprite), texture(texture)
+			int sheet, float rand) : sprite(sprite), texture(texture)
 		{
 			this->sprite = sprite;
 			this->texture = texture;
@@ -31,14 +32,19 @@ private:
 			this->offset = offset;
 			this->speed = speed;
 			this->sheet = sheet;
+			this->rand = rand;
 		}
 
 		//Core Functions
 		void animateTimer()
 		{
+			//Get random number for randomized animations timing
+			std::random_device dev;
+			std::mt19937 rng(dev());
+			std::uniform_int_distribution<std::mt19937::result_type> random_number(0, this->rand);
 			//Start animation timer
 			this->animationElapsed = this->animationTimer.getElapsedTime();
-			if (this->animationElapsed.asSeconds() >= speed)
+			if (this->animationElapsed.asSeconds() >= speed + random_number(rng))
 			{
 				//Animate frames at the speed
 				this->animationFrame++;
@@ -72,6 +78,7 @@ private:
 		int maxFrame;
 		float offset;
 		float speed;
+		float rand;
 		int sheet;
 
 		sf::Sprite* sprite;

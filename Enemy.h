@@ -1,9 +1,8 @@
 #pragma once
 //Modules
 #include"AnimationModule.h"
-#include"CollisionModule.h"
 #include<iostream>
-class Enemy
+class Enemy : public sf::Sprite
 {
 public:
 	//Constructors and Deconstructors
@@ -24,18 +23,17 @@ public:
 	//Modifiers
 	void moveEnemy(sf::Vector2f move);
 	void setPosition(float x, float y);
+	void setMapPosition(sf::Vector2f position);
 
 	//Accessors
-	sf::FloatRect getGlobalBounds() { return this->enemy->getGlobalBounds(); }
 	int& getHp() { return this->hp; }
 	int& getDamage() { return this->damage; }
 
-	Sprite* enemy;
+	sf::Sprite enemy;
 
 private:
 	sf::Texture enemyTexture;
 	AnimationModule* animation;
-	CollisionModule* collision;
 
 	int hp;
 	int hpMax;

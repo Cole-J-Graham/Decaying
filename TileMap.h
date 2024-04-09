@@ -21,7 +21,7 @@ public:
 
 	//Detection Functions
 	void detectMap(Character* character, CombatComponent* combat, sf::Sprite& in_sprite);
-	void detectCollision(Character* character, sf::Sprite& in_sprite);
+	void detectCollision(CombatComponent* combat, sf::Sprite& in_sprite);
 	void detectEntrance(sf::Sprite& in_sprite);
 
 	//State Fucntions
@@ -40,8 +40,6 @@ private:
 	//Core Map
 	std::vector<std::vector<sf::Sprite>> tile_map;
 	sf::Texture tile_sheet;
-
-	CollisionModule* collision;
 
 	//Core Map Variables
 	unsigned tileSize;

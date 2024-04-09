@@ -89,7 +89,7 @@ void CombatComponent::renderEnemies(sf::RenderTarget* target)
 void CombatComponent::spawnSlime(float x, float y)
 {
 	this->enemy = new Enemy(100.f, 2, "Assets/Enemies/slime-red.png",
-		"Assets/Enemies/slime-red.png", "Assets/Enemies/slime-red.png",
+		"Assets/Enemies/slime-red-idle.png", "Assets/Enemies/slime-red.png",
 		"Assets/Enemies/slime-red.png", "Assets/Enemies/slime-red.png");
 	this->enemy->setPosition(x, y);
 	this->enemies.push_back(this->enemy);

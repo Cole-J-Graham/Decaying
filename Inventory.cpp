@@ -121,6 +121,7 @@ void Inventory::renderMapItems(sf::RenderTarget* target)
 	for (auto& it : this->items) {
 		if (!it.second->inInventory()) {
 			it.second->render(target);
+
 		}
 	}
 }
