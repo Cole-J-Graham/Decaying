@@ -19,6 +19,7 @@ Character::Character(sf::Sprite* sprite)
 	//Movement
 	this->rolling = false;
 
+	this->damage = 10;
 	this->dodgeTime = 0.4;
 	this->stamina = 100;
 	this->staminaMax = 100;

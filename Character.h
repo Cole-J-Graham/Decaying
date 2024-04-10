@@ -43,6 +43,8 @@ public:
 	int& getHp() { return this->hp; }
 	int& getDamage() { return this->damage; }
 
+	sf::FloatRect getGlobalBounds() const { return this->zin->getGlobalBounds(); }
+
 private:
 	//Variables
 	int hp;

@@ -48,6 +48,7 @@ void CombatComponent::detectCollision()
 {
 	this->detectPlayerDamage();
 	this->detectPlayerAttack();
+	this->detectEnemyDeath();
 }
 
 void CombatComponent::detectPlayerDamage()
@@ -64,7 +65,18 @@ void CombatComponent::detectPlayerAttack()
 {
 	for (auto& it : this->enemies) {
 		if (this->character->getPlayerProjectile().getGlobalBounds().intersects(it->getGlobalBounds())) {
-			//std::cout << "HURT, BABY" << "\n";
+			it->getHp() -= this->character->getDamage();
+			std::cout << it->getHp() << "\n";
+		}
+	}
+}
+
+void CombatComponent::detectEnemyDeath()
+{
+	for (auto& it : this->enemies) {
+		if (it->getHp() <= 0) {
+			delete it;
+			this->enemies.pop_back();
 		}
 	}
 }

@@ -17,6 +17,7 @@ public:
 	void detectCollision();
 	void detectPlayerDamage();
 	void detectPlayerAttack();
+	void detectEnemyDeath();
 
 	//Enemy Functions
 	void updateEnemies();

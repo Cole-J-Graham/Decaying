@@ -25,6 +25,10 @@ public:
 	void setPosition(float x, float y);
 	void setMapPosition(sf::Vector2f position);
 
+	sf::FloatRect getGlobalBounds() const { return this->enemy.getGlobalBounds(); }
+
+
+
 	//Accessors
 	int& getHp() { return this->hp; }
 	int& getDamage() { return this->damage; }
