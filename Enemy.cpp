@@ -23,6 +23,7 @@ Enemy::Enemy(float hp, float damage, std::string texture, std::string enemy_walk
 	//this->enemy.setTextureRect(0, 0, 16, 16);
 	this->enemy.setScale(3.0f, 3.0f);
 	this->animation = new AnimationModule(&this->enemy);
+	this->hpRect = new Rectangle(x, y, 30, 10, sf::Color::Black, sf::Color::White, 1.f, std::to_string(this->hp), 8, false);
 	this->initAnimations();
 }
 
@@ -35,11 +36,13 @@ Enemy::~Enemy()
 void Enemy::update(sf::Vector2f playerPos)
 {
 	this->walkTowardsPlayer(playerPos);
+	this->updateRects();
 }
 
 void Enemy::render(sf::RenderTarget* target)
 {
 	target->draw(this->enemy);
+	this->hpRect->render(target);
 }
 
 //Spawn Functions
@@ -89,4 +92,11 @@ void Enemy::setPosition(float x, float y)
 void Enemy::setMapPosition(sf::Vector2f position)
 {
 	this->enemy.setPosition(x += position.x, y += position.y);
+}
+
+//Rectangle Functions
+void Enemy::updateRects()
+{
+	this->hpRect->setPosition(x, y - 15);
+	this->hpRect->setString(std::to_string(this->hp));
 }

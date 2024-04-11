@@ -19,10 +19,10 @@ CombatComponent::~CombatComponent()
 	}
 
 	//Deconstruct Enemies
-	for (auto ptr : this->enemies) {
+	/*for (auto ptr : this->enemies) {
 		delete ptr;
 	}
-	enemies.clear();
+	enemies.clear();*/
 }
 
 
@@ -54,9 +54,9 @@ void CombatComponent::detectCollision()
 void CombatComponent::detectPlayerDamage()
 {
 	for (auto& it : this->enemies) {
-		if (this->sprites["ZIN"]->getSprite().getGlobalBounds().intersects(it->getGlobalBounds())) {
+		if (this->sprites["ZIN"]->getSprite().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
 			std::cout << this->character->getHp() << "\n";
-			this->character->getHp() -= it->getDamage();
+			this->character->getHp() -= it.second->getDamage();
 		}
 	}
 }
@@ -64,28 +64,32 @@ void CombatComponent::detectPlayerDamage()
 void CombatComponent::detectPlayerAttack()
 {
 	for (auto& it : this->enemies) {
-		if (this->character->getPlayerProjectile().getGlobalBounds().intersects(it->getGlobalBounds())) {
-			it->getHp() -= this->character->getDamage();
-			std::cout << it->getHp() << "\n";
+		if (this->character->getPlayerProjectile().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+			it.second->getHp() -= this->character->getDamage();
+			std::cout << it.second->getHp() << "\n";
 		}
 	}
 }
 
 void CombatComponent::detectEnemyDeath()
 {
-	for (auto& it : this->enemies) {
-		if (it->getHp() <= 0) {
-			delete it;
-			this->enemies.pop_back();
+	for (auto it = this->enemies.begin(); it != this->enemies.end();) {
+		if (it->second->getHp() <= 0) {
+			delete it->second; // Delete the enemy object
+			it = this->enemies.erase(it); // Remove the enemy from the map and update the iterator
+		}
+		else {
+			++it; // Move to the next element
 		}
 	}
+	
 }
 
 //Enemy Functions
 void CombatComponent::updateEnemies()
 {
 	for (auto& it : this->enemies) {
-		it->update(this->character->zin->getPosition()); 
+		it.second->update(this->character->zin->getPosition());
 	}
 
 }
@@ -93,18 +97,17 @@ void CombatComponent::updateEnemies()
 void CombatComponent::renderEnemies(sf::RenderTarget* target)
 {
 	for (auto& it : this->enemies) {
-		it->render(target); 
+		it.second->render(target);
 	}
 }
 
 //Spawn Functions
-void CombatComponent::spawnSlime(float x, float y)
+void CombatComponent::spawnSlime(std::string key, float x, float y)
 {
-	this->enemy = new Enemy(100.f, 2, "Assets/Enemies/slime-red.png",
+	this->enemies[key] = new Enemy(100.f, 2, "Assets/Enemies/slime-red.png",
 		"Assets/Enemies/slime-red-idle.png", "Assets/Enemies/slime-red.png",
 		"Assets/Enemies/slime-red.png", "Assets/Enemies/slime-red.png");
-	this->enemy->setPosition(x, y);
-	this->enemies.push_back(this->enemy);
+	this->enemies[key]->setPosition(x, y);
 }
 
 //Sprite Functions

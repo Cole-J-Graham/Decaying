@@ -127,8 +127,8 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							for (auto& it : combat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
 							}
-							for (int i = 0; i < combat->enemies.size(); i++) {
-								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x, combat->enemies[i]->getPosition().y + area.height });
+							for (auto& it : combat->enemies) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
 							}
 						}
 						else
@@ -144,8 +144,8 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							for (auto& it : combat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
 							}
-							for (int i = 0; i < combat->enemies.size(); i++) {
-								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x, combat->enemies[i]->getPosition().y - area.height });
+							for (auto& it : combat->enemies) {
+								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
 							}
 						}
 					}
@@ -164,8 +164,8 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							for (auto& it : combat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y });
 							}
-							for (int i = 0; i < combat->enemies.size(); i++) {
-								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x - area.width, combat->enemies[i]->getPosition().y});
+							for (auto& it : combat->enemies) {
+								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y});
 							}
 						}
 						else
@@ -181,8 +181,8 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							for (auto& it : combat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
 							}
-							for (int i = 0; i < combat->enemies.size(); i++) {
-								combat->enemies[i]->setMapPosition({ combat->enemies[i]->getPosition().x + area.width, combat->enemies[i]->getPosition().y });
+							for (auto& it : combat->enemies) {
+								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
 							}
 						}
 					}
@@ -238,5 +238,5 @@ void TileMap::detectMovement(Character* character, CombatComponent* combat)
 void TileMap::moveItems(Character* character, CombatComponent* combat)
 {
 	for (auto& it : character->inventory->getItems()) { it.second->moveItem(character->getVelocity()); }
-	for (auto& it : combat->enemies) { it->moveEnemy(character->getVelocity()); }
+	for (auto& it : combat->enemies) { it.second->moveEnemy(character->getVelocity()); }
 }

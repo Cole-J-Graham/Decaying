@@ -24,7 +24,7 @@ public:
 	void renderEnemies(sf::RenderTarget* target);
 
 	//Spawn Functions
-	void spawnSlime(float x, float y);
+	void spawnSlime(std::string key, float x, float y);
 
 	//Sprite Functions
 	void initSprites();
@@ -39,7 +39,8 @@ public:
 
 	Enemy* enemy;
 
-	std::vector<Enemy*> enemies;
+	//std::vector<Enemy*> enemies;
+	std::map<std::string, Enemy*> enemies;
 
 private:
 

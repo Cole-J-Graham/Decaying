@@ -16,8 +16,8 @@ DungeonState::DungeonState(sf::RenderWindow* window, std::stack<State*>* states)
 
 	this->combat = new CombatComponent();
 
-	this->combat->spawnSlime(200.f, 200.f);
-	this->combat->spawnSlime(400.f, 400.f);
+	this->combat->spawnSlime("SLIME1", 200.f, 200.f);
+	this->combat->spawnSlime("SLIME2", 400.f, 400.f);
 }
 
 DungeonState::~DungeonState()

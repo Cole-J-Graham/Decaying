@@ -22,6 +22,7 @@ public:
 	//Modifiers
 	void setString(std::string input);
 	void updateStatusBar(int& status);
+	void setPosition(float x, float y);
 
 	//Getters
 	bool& getHidden() { return this->hidden; };

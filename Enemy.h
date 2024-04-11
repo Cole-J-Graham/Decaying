@@ -1,6 +1,7 @@
 #pragma once
 //Modules
 #include"AnimationModule.h"
+#include"Rectangle.h"
 #include<iostream>
 class Enemy : public sf::Sprite
 {
@@ -25,9 +26,10 @@ public:
 	void setPosition(float x, float y);
 	void setMapPosition(sf::Vector2f position);
 
+	//Rectangle Functions
+	void updateRects();
+
 	sf::FloatRect getGlobalBounds() const { return this->enemy.getGlobalBounds(); }
-
-
 
 	//Accessors
 	int& getHp() { return this->hp; }
@@ -36,6 +38,8 @@ public:
 	sf::Sprite enemy;
 
 private:
+	
+	Rectangle* hpRect;
 	sf::Texture enemyTexture;
 	AnimationModule* animation;
 

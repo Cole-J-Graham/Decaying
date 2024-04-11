@@ -87,3 +87,9 @@ void Rectangle::updateStatusBar(int& status)
 {
 	this->fillShape.setSize(sf::Vector2f(status, this->height));
 }
+
+void Rectangle::setPosition(float x, float y)
+{
+	this->shape.setPosition(x, y);
+	this->text.setPosition(x, y);
+}
