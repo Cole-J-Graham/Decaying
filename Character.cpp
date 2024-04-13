@@ -2,12 +2,12 @@
 //Constructors and Destructors
 Character::Character(sf::Sprite* sprite)
 {
-	this->zin = sprite;
+	this->player = sprite;
 
 	//Initialization
 	this->loadAssets();
 	this->combat = new PlayerCombat();
-	this->animation = new AnimationModule(this->zin);
+	this->animation = new AnimationModule(this->player);
 	this->inventory = new Inventory();
 	this->initAnimations();
 	this->initRects();
@@ -63,28 +63,28 @@ void Character::detectOctMousePosition(const sf::Vector2f mousePos)
 {
 	if (!combat->getSheathed()) {
 		if (combat->getRectangles()["Quad1"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_diagnol_left_up);
+			this->player->setTexture(this->player_walk_diagnol_left_up);
 		}
 		else if (combat->getRectangles()["Quad2"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_up);
+			this->player->setTexture(this->player_walk_up);
 		}
 		else if (combat->getRectangles()["Quad3"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_diagnol_right_up);
+			this->player->setTexture(this->player_walk_diagnol_right_up);
 		}
 		else if (combat->getRectangles()["Quad4"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_left);
+			this->player->setTexture(this->player_walk_left);
 		}
 		else if (combat->getRectangles()["Quad5"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_right);
+			this->player->setTexture(this->player_walk_right);
 		}
 		else if (combat->getRectangles()["Quad6"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_diagnol_left_down);
+			this->player->setTexture(this->player_walk_diagnol_left_down);
 		}
 		else if (combat->getRectangles()["Quad7"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_down);
+			this->player->setTexture(this->player_walk_down);
 		}
 		else if (combat->getRectangles()["Quad8"]->getGlobalBounds().contains(mousePos)) {
-			this->zin->setTexture(this->zin_walk_diagnol_right_down);
+			this->player->setTexture(this->player_walk_diagnol_right_down);
 		}
 	}
 }
@@ -92,19 +92,19 @@ void Character::detectOctMousePosition(const sf::Vector2f mousePos)
 //Movement Functions
 void Character::initAnimations()
 {
-	this->animation->addAnimation("WALKUP", zin_walk_up, 4, 16, 0.2, 0, 0.f);
-	this->animation->addAnimation("WALKDOWN", zin_walk_down, 4, 16, 0.2, 0, 0.f);
-	this->animation->addAnimation("WALKLEFT", zin_walk_left, 4, 16, 0.2, 0, 0.f);
-	this->animation->addAnimation("WALKRIGHT", zin_walk_right, 4, 16, 0.2, 0, 0.f);
-	this->animation->addAnimation("WALKLEFTDOWN", zin_walk_diagnol_left_down, 4, 16, 0.2, 0, 0.f);
-	this->animation->addAnimation("WALKRIGHTDOWN", zin_walk_diagnol_right_down, 4, 16, 0.2, 0, 0.f);
-	this->animation->addAnimation("WALKRIGHTUP", zin_walk_diagnol_right_up, 4, 16, 0.2, 0, 0.f);
-	this->animation->addAnimation("WALKLEFTUP", zin_walk_diagnol_left_up, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKUP", player_walk_up, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKDOWN", player_walk_down, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKLEFT", player_walk_left, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKRIGHT", player_walk_right, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKLEFTDOWN", player_walk_diagnol_left_down, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKRIGHTDOWN", player_walk_diagnol_right_down, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKRIGHTUP", player_walk_diagnol_right_up, 4, 16, 0.2, 0, 0.f);
+	this->animation->addAnimation("WALKLEFTUP", player_walk_diagnol_left_up, 4, 16, 0.2, 0, 0.f);
 
-	this->animation->addAnimation("ROLLUP", zin_roll_up, 4, 16, 0.1, 0, 0.f);
-	this->animation->addAnimation("ROLLDOWN", zin_roll_down, 4, 16, 0.1, 0, 0.f);
-	this->animation->addAnimation("ROLLLEFT", zin_roll_left, 4, 16, 0.1, 0, 0.f);
-	this->animation->addAnimation("ROLLRIGHT", zin_roll_right, 4, 16, 0.1, 0, 0.f);
+	this->animation->addAnimation("ROLLUP", player_roll_up, 4, 16, 0.1, 0, 0.f);
+	this->animation->addAnimation("ROLLDOWN", player_roll_down, 4, 16, 0.1, 0, 0.f);
+	this->animation->addAnimation("ROLLLEFT", player_roll_left, 4, 16, 0.1, 0, 0.f);
+	this->animation->addAnimation("ROLLRIGHT", player_roll_right, 4, 16, 0.1, 0, 0.f);
 }
 
 void Character::characterMovement()
@@ -163,7 +163,7 @@ void Character::walk()
 	//Character stops moving
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
 		!sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		this->zin->setTextureRect(sf::IntRect(0, 0, 16, 16));
+		this->player->setTextureRect(sf::IntRect(0, 0, 16, 16));
 		this->walking = false;
 	}	
 }
@@ -219,33 +219,34 @@ void Character::sprint()
 //Asset Functions
 void Character::loadAssets()
 {
-	this->zin_walk_up.loadFromFile("Assets/SpriteSheets/zinWalkUpSpriteSheet.png");
-	this->zin_walk_down.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
-	this->zin_walk_left.loadFromFile("Assets/SpriteSheets/zinWalkLeftSpriteSheet.png");
-	this->zin_walk_right.loadFromFile("Assets/SpriteSheets/zinWalkRightSpriteSheet.png");
-	this->zin_walk_diagnol_left_down.loadFromFile("Assets/SpriteSheets/zinWalkDiagnolAS.png");
-	this->zin_walk_diagnol_right_down.loadFromFile("Assets/SpriteSheets/zinWalkDiagnolDS.png");
-	this->zin_walk_diagnol_left_up.loadFromFile("Assets/SpriteSheets/zinWalkDiagnolAW.png");
-	this->zin_walk_diagnol_right_up.loadFromFile("Assets/SpriteSheets/zinWalkDiagnolDW.png");
+	this->player_walk_up.loadFromFile("Assets/SpriteSheets/Ode Walking W-Sheet.png");
+	this->player_walk_down.loadFromFile("Assets/SpriteSheets/Ode Walking S-Sheet.png");
+	this->player_walk_left.loadFromFile("Assets/SpriteSheets/Ode Walking A-Sheet.png");
+	this->player_walk_right.loadFromFile("Assets/SpriteSheets/Ode Walking D-Sheet.png");
+	this->player_walk_diagnol_left_down.loadFromFile("Assets/SpriteSheets/Ode Walking AS-Sheet.png");
+	this->player_walk_diagnol_right_down.loadFromFile("Assets/SpriteSheets/Ode Walking DS-Sheet.png");
+	this->player_walk_diagnol_left_up.loadFromFile("Assets/SpriteSheets/Ode Walking AW-Sheet.png");
+	this->player_walk_diagnol_right_up.loadFromFile("Assets/SpriteSheets/Ode Walking DW-Sheet.png");
 
-	this->zin_roll_up.loadFromFile("Assets/SpriteSheets/zinDodgeRollSpriteSheetUp.png");
-	this->zin_roll_down.loadFromFile("Assets/SpriteSheets/zinDodgeRollSpriteSheet.png");
-	this->zin_roll_left.loadFromFile("Assets/SpriteSheets/zinDodgeRollSpriteSheetLeft.png");
-	this->zin_roll_right.loadFromFile("Assets/SpriteSheets/zinDodgeRollSpriteSheetRight.png");
+	this->player_roll_up.loadFromFile("Assets/SpriteSheets/Ode Rolling W-Sheet.png");
+	this->player_roll_down.loadFromFile("Assets/SpriteSheets/Ode Rolling S-Sheet.png");
+	this->player_roll_left.loadFromFile("Assets/SpriteSheets/Ode Rolling A-Sheet.png");
+	this->player_roll_right.loadFromFile("Assets/SpriteSheets/Ode Rolling D-Sheet.png");
 }
 
 //Rectangle Functions
 void Character::updateRects()
 {
-	for (auto& it : this->rectangles) {
-		it.second->update(this->stamina);
-	}
+	this->rectangles["STAMINABAR"]->update(this->stamina);
+	this->rectangles["HEALTHBAR"]->update(this->hp);
 }
 
 void Character::initRects()
 {
 	this->rectangles["STAMINABAR"] = new Rectangle(1700, 950, 100, 25, sf::Color::Black,
 		sf::Color::White, 1.f, "", 16, false, this->stamina);
+	this->rectangles["HEALTHBAR"] = new Rectangle(150, 950, 100, 15, sf::Color::Black,
+		sf::Color::White, 1.f, "", 16, false, this->hp);
 }
 
 void Character::renderRects(sf::RenderTarget* target)

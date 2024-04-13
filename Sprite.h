@@ -5,7 +5,7 @@ class Sprite
 public:
 	//Constructors and Destructors
 	Sprite(float x, float y, float pixel_width, float pixel_height, 
-		float scale, sf::Texture& sprite_texture);
+		float scale, std::string inputTexture, bool hidden);
 	~Sprite();
 
 	//Core Functions
@@ -21,6 +21,8 @@ public:
 	void setPosition(float x, float y);
 	void setScale(float x, float y);
 	void setColor(const sf::Color& color);
+	bool& setHidden() { return this->hidden = true; };
+	bool& setShown() { return this->hidden = false; };
 
 	sf::Sprite& getSprite() { return this->sprite; };
 
@@ -36,5 +38,7 @@ private:
 	float scale;
 	float pixel_width;
 	float pixel_height;
+
+	bool hidden;
 };
 

@@ -6,10 +6,12 @@ PlayerCombat::PlayerCombat()
 	this->player_projectile.setScale(3.0f, 3.0f);
 	this->attacking = false;
 	this->sheathed = true;
+	this->moveSelection = 1;
 
 	//Initialization
 	this->loadAssets();
 	this->initRects();
+	this->initSprites();
 }
 
 PlayerCombat::~PlayerCombat()
@@ -18,6 +20,12 @@ PlayerCombat::~PlayerCombat()
 	auto ir = this->rectangles.begin();
 	for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
 		delete ir->second;
+	}
+
+	//Deconstruct Sprites
+	auto is = this->sprites.begin();
+	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
+		delete is->second;
 	}
 }
 
@@ -30,6 +38,7 @@ void PlayerCombat::renderAttacks(sf::RenderTarget* target)
 
 	//Render Everything Else
 	this->renderRects(target);
+	this->renderSprites(target);
 }
 
 //Detection Functions
@@ -37,6 +46,7 @@ void PlayerCombat::detectCombatKeybinds(const sf::Vector2f mousePos, sf::Sprite&
 {
 	this->detectUnsheathe(mousePos);
 	this->detectAttack(mousePos, sprite);
+	this->detectMoveSelect();
 }
 
 void PlayerCombat::detectUnsheathe(const sf::Vector2f mousePos)
@@ -55,29 +65,74 @@ void PlayerCombat::detectUnsheathe(const sf::Vector2f mousePos)
 void PlayerCombat::detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite)
 {
 	if (!this->sheathed) {
-		//Algorithm for mouse position
-		this->proj = atan2(mousePos.y - sprite.getPosition().y, mousePos.x - sprite.getPosition().x);
-		//Make projectile rotate towards mouse
-		sf::Vector2f curPos = player_projectile.getPosition();
-		float dx = curPos.x - mousePos.x;
-		float dy = curPos.y - mousePos.y;
-		float rotation = (atan2(dy, dx)) * 180 / pie;
-		
-		
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			player_projectile.move(this->projectile_speed * cos(this->proj),
-				this->projectile_speed * sin(this->proj));
-			this->attacking = true;
-		}
-		else {
-			player_projectile.setRotation(rotation);
-			player_projectile.setPosition(sprite.getPosition().x + 30, sprite.getPosition().y + 30);
-			this->attacking = false;
+		switch (this->moveSelection) {
+		case 1:
+			this->fireCrossbow(mousePos, sprite);
+			break;
+		case 2:
+			this->slashSword();
+			break;
 		}
 	}
 }
 
+void PlayerCombat::detectMoveSelect()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+		this->sprites["SWORDICON_UNSELECTED"]->setHidden();
+		this->sprites["SWORDICON_SELECTED"]->setShown();
+		this->moveSelection = 1;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+		this->moveSelection = 2;
+	}
+}
+
+//Attack Functions
+void PlayerCombat::fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite)
+{
+	//Algorithm for mouse position
+	this->proj = atan2(mousePos.y - sprite.getPosition().y, mousePos.x - sprite.getPosition().x);
+	//Make projectile rotate towards mouse
+	sf::Vector2f curPos = player_projectile.getPosition();
+	float dx = curPos.x - mousePos.x;
+	float dy = curPos.y - mousePos.y;
+	float rotation = (atan2(dy, dx)) * 180 / pie;
+
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		player_projectile.move(this->projectile_speed * cos(this->proj),
+			this->projectile_speed * sin(this->proj));
+		this->attacking = true;
+	}
+	else {
+		player_projectile.setRotation(rotation);
+		player_projectile.setPosition(sprite.getPosition().x + 30, sprite.getPosition().y + 30);
+		this->attacking = false;
+	}
+}
+
+void PlayerCombat::slashSword()
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		std::cout << "Slashing sword!" << "\n";
+	}
+}
+
 //Asset Functions
+void PlayerCombat::initSprites()
+{
+	this->sprites["SWORDICON_UNSELECTED"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon Unselected.png", false);
+	this->sprites["SWORDICON_SELECTED"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon Selected.png", true);
+}
+
+void PlayerCombat::renderSprites(sf::RenderTarget* target)
+{
+	for (auto& it : this->sprites) {
+		it.second->render(target);
+	}
+}
+
 void PlayerCombat::loadAssets()
 {
 	this->player_projectile_tex.loadFromFile("Assets/Projectiles/test.png");

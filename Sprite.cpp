@@ -1,12 +1,13 @@
 #include "Sprite.h"
 //Constructors and Destructors
 Sprite::Sprite(float x, float y, float pixel_width, float pixel_height, 
-	float scale, sf::Texture& sprite_texture)
+	float scale, std::string inputTexture, bool hidden)
 {
+	sprite_texture.loadFromFile(inputTexture);
 	this->sprite.setTexture(sprite_texture);
 	this->sprite.setPosition(x, y);
 	this->sprite.setScale(scale, scale);
-	this->sprite.setTextureRect(sf::IntRect(pixel_width, pixel_height, pixel_width, pixel_height));
+	this->hidden = hidden;
 }
 
 Sprite::~Sprite()
@@ -17,6 +18,7 @@ Sprite::~Sprite()
 //Core Functions
 void Sprite::render(sf::RenderTarget* target)
 {
+	if(!this->hidden)
 	target->draw(this->sprite);
 }
 

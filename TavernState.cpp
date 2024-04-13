@@ -53,7 +53,7 @@ void TavernState::enterDungeon()
 //State Functions
 void TavernState::updateKeybinds(const float& dt)
 {
-	//this->sprites["ZIN"]->animateMovement();
+	//this->sprites["player"]->animateMovement();
 	this->inventory["PLAYER_INVENTORY"]->checkForInput();
 	this->updateMousePositions();
 	this->checkForQuit();
@@ -62,8 +62,8 @@ void TavernState::updateKeybinds(const float& dt)
 void TavernState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
-	//this->tile_maps["TAVERN"]->detectMap(this->character, this->inventory["PLAYER_INVENTORY"], this->sprites["ZIN"]->getSprite());
-	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["ZIN"]->getSprite(), this->getMousePosView());
+	//this->tile_maps["TAVERN"]->detectMap(this->character, this->inventory["PLAYER_INVENTORY"], this->sprites["player"]->getSprite());
+	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["player"]->getSprite(), this->getMousePosView());
 	if (this->tile_maps["TAVERN"]->getCollidingEntrance()) { this->enterDungeon(); };
 }
 
@@ -76,7 +76,7 @@ void TavernState::render(sf::RenderTarget* target)
 //Sprite Functions
 void TavernState::initSprites()
 {
-	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin);
+	this->sprites["player"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, "Assets/SpriteSheets/playerWalkSpriteSheet.png", false);
 }
 
 void TavernState::renderSprites(sf::RenderTarget* target)
@@ -103,6 +103,4 @@ void TavernState::renderTileMaps(sf::RenderTarget* target)
 void TavernState::loadAssets()
 {
 	this->tavern_sheet.loadFromFile("Assets/SpriteSheets/TavernTileSheet.png");
-
-	this->zin.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
 }

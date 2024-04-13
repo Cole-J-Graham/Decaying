@@ -30,9 +30,6 @@ public:
 	void initSprites();
 	void renderSprites(sf::RenderTarget* target);
 
-	//Asset Functions
-	void loadAssets();
-
 	Character* character;
 
 	std::map<std::string, Sprite*> sprites;
@@ -43,9 +40,6 @@ public:
 	std::map<std::string, Enemy*> enemies;
 
 private:
-
-	//Assets
-	sf::Texture zin;
 
 };
 

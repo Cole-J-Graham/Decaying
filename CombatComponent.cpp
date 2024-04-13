@@ -2,9 +2,8 @@
 //Constructors and Deconstructors
 CombatComponent::CombatComponent()
 {
-	this->loadAssets();
 	this->initSprites();
-	this->character = new Character(&this->sprites["ZIN"]->getSprite());
+	this->character = new Character(&this->sprites["player"]->getSprite());
 }
 
 CombatComponent::~CombatComponent()
@@ -19,10 +18,10 @@ CombatComponent::~CombatComponent()
 	}
 
 	//Deconstruct Enemies
-	/*for (auto ptr : this->enemies) {
-		delete ptr;
+	auto ie = this->enemies.begin();
+	for (ie = this->enemies.begin(); ie != this->enemies.end(); ++ie) {
+		delete ie->second;
 	}
-	enemies.clear();*/
 }
 
 
@@ -30,9 +29,9 @@ CombatComponent::~CombatComponent()
 void CombatComponent::update(const sf::Vector2f mousePos)
 {
 	this->updateEnemies();
-	this->character->inventory->update(this->sprites["ZIN"]->getSprite(), mousePos);
+	this->character->inventory->update(this->sprites["player"]->getSprite(), mousePos);
 	this->character->update(mousePos);
-	this->character->combat->detectCombatKeybinds(mousePos, this->sprites["ZIN"]->getSprite());
+	this->character->combat->detectCombatKeybinds(mousePos, this->sprites["player"]->getSprite());
 	this->detectCollision();
 }
 
@@ -54,7 +53,7 @@ void CombatComponent::detectCollision()
 void CombatComponent::detectPlayerDamage()
 {
 	for (auto& it : this->enemies) {
-		if (this->sprites["ZIN"]->getSprite().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+		if (this->sprites["player"]->getSprite().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
 			std::cout << this->character->getHp() << "\n";
 			this->character->getHp() -= it.second->getDamage();
 		}
@@ -89,7 +88,7 @@ void CombatComponent::detectEnemyDeath()
 void CombatComponent::updateEnemies()
 {
 	for (auto& it : this->enemies) {
-		it.second->update(this->character->zin->getPosition());
+		it.second->update(this->character->player->getPosition());
 	}
 
 }
@@ -113,7 +112,7 @@ void CombatComponent::spawnSlime(std::string key, float x, float y)
 //Sprite Functions
 void CombatComponent::initSprites()
 {
-	this->sprites["ZIN"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, zin);
+	this->sprites["player"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, "Assets/SpriteSheets/Ode Walking S-Sheet.png", false);
 }
 
 void CombatComponent::renderSprites(sf::RenderTarget* target)
@@ -121,10 +120,4 @@ void CombatComponent::renderSprites(sf::RenderTarget* target)
 	for (auto& it : this->sprites) {
 		it.second->render(target);
 	}
-}
-
-//Asset Functions
-void CombatComponent::loadAssets()
-{
-	this->zin.loadFromFile("Assets/SpriteSheets/zinWalkSpriteSheet.png");
 }

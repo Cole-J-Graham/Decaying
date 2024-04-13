@@ -47,7 +47,6 @@ private:
 	//Assets
 	sf::Texture tavern_sheet;
 	sf::Texture map_image;
-	sf::Texture zin;
 
 
 };

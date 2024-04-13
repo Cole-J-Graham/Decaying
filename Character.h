@@ -35,7 +35,7 @@ public:
 
 	PlayerCombat* combat;
 	Inventory* inventory;
-	sf::Sprite* zin;
+	sf::Sprite* player;
 
 	//Accessors
 	sf::Vector2f& getVelocity() { return this->velocity; };
@@ -43,7 +43,7 @@ public:
 	int& getHp() { return this->hp; }
 	int& getDamage() { return this->damage; }
 
-	sf::FloatRect getGlobalBounds() const { return this->zin->getGlobalBounds(); }
+	sf::FloatRect getGlobalBounds() const { return this->player->getGlobalBounds(); }
 
 private:
 	//Variables
@@ -68,19 +68,19 @@ private:
 	AnimationModule* animation;
 
 	//Assets
-	sf::Texture zin_walk_up;
-	sf::Texture zin_walk_down;
-	sf::Texture zin_walk_left;
-	sf::Texture zin_walk_right;
+	sf::Texture player_walk_up;
+	sf::Texture player_walk_down;
+	sf::Texture player_walk_left;
+	sf::Texture player_walk_right;
 
-	sf::Texture zin_walk_diagnol_left_down;
-	sf::Texture zin_walk_diagnol_right_down;
-	sf::Texture zin_walk_diagnol_right_up;
-	sf::Texture zin_walk_diagnol_left_up;
+	sf::Texture player_walk_diagnol_left_down;
+	sf::Texture player_walk_diagnol_right_down;
+	sf::Texture player_walk_diagnol_right_up;
+	sf::Texture player_walk_diagnol_left_up;
 
-	sf::Texture zin_roll_up;
-	sf::Texture zin_roll_down;
-	sf::Texture zin_roll_left;
-	sf::Texture zin_roll_right;
+	sf::Texture player_roll_up;
+	sf::Texture player_roll_down;
+	sf::Texture player_roll_left;
+	sf::Texture player_roll_right;
 };
 
