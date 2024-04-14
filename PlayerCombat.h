@@ -43,6 +43,7 @@ private:
 	sf::Time elapsed;
 	std::map<std::string, Rectangle*> rectangles;
 	std::map<std::string, Sprite*> sprites;
+	Sprite* spriteOverlay;
 
 	int moveSelection;
 	bool sheathed;

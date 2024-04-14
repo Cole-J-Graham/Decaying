@@ -23,6 +23,7 @@ PlayerCombat::~PlayerCombat()
 	}
 
 	//Deconstruct Sprites
+	delete this->spriteOverlay;
 	auto is = this->sprites.begin();
 	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
 		delete is->second;
@@ -79,11 +80,11 @@ void PlayerCombat::detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite)
 void PlayerCombat::detectMoveSelect()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-		this->sprites["SWORDICON_UNSELECTED"]->setHidden();
-		this->sprites["SWORDICON_SELECTED"]->setShown();
+		this->spriteOverlay->setPosition(530.f, 950.f);
 		this->moveSelection = 1;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+		this->spriteOverlay->setPosition(600.f, 950.f);
 		this->moveSelection = 2;
 	}
 }
@@ -123,7 +124,7 @@ void PlayerCombat::slashSword()
 void PlayerCombat::initSprites()
 {
 	this->sprites["SWORDICON_UNSELECTED"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon Unselected.png", false);
-	this->sprites["SWORDICON_SELECTED"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon Selected.png", true);
+	this->spriteOverlay = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Icon Selected.png", false);
 }
 
 void PlayerCombat::renderSprites(sf::RenderTarget* target)
@@ -131,6 +132,7 @@ void PlayerCombat::renderSprites(sf::RenderTarget* target)
 	for (auto& it : this->sprites) {
 		it.second->render(target);
 	}
+	this->spriteOverlay->render(target);
 }
 
 void PlayerCombat::loadAssets()
