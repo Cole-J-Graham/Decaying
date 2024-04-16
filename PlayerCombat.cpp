@@ -12,10 +12,14 @@ PlayerCombat::PlayerCombat()
 	this->loadAssets();
 	this->initRects();
 	this->initSprites();
+	this->character = new Character(&this->sprites["player"]->getSprite());
 }
 
 PlayerCombat::~PlayerCombat()
 {
+	//Delete Character
+	delete this->character;
+
 	//Deconstruct Rectangles
 	auto ir = this->rectangles.begin();
 	for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
@@ -31,13 +35,21 @@ PlayerCombat::~PlayerCombat()
 }
 
 //Core Functions
-void PlayerCombat::renderAttacks(sf::RenderTarget* target)
+void PlayerCombat::update(const sf::Vector2f mousePos)
+{
+	this->character->update(mousePos);
+	this->detectOctMousePosition(mousePos);
+	this->character->priorityAnimations();
+}
+
+void PlayerCombat::render(sf::RenderTarget* target)
 {
 	//Render Attacks
 	if(this->attacking)
 		target->draw(this->player_projectile);
 
 	//Render Everything Else
+	this->character->render(target);
 	this->renderRects(target);
 	this->renderSprites(target);
 }
@@ -89,6 +101,36 @@ void PlayerCombat::detectMoveSelect()
 	}
 }
 
+void PlayerCombat::detectOctMousePosition(const sf::Vector2f mousePos)
+{
+	if (!this->sheathed) {
+		if (this->rectangles["Quad1"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKLEFTUP");
+		}
+		else if (this->rectangles["Quad2"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKUP");
+		}
+		else if (this->rectangles["Quad3"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKRIGHTUP");
+		}
+		else if (this->rectangles["Quad4"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKLEFT");
+		}
+		else if (this->rectangles["Quad5"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKRIGHT");
+		}
+		else if (this->rectangles["Quad6"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKLEFTDOWN");
+		}
+		else if (this->rectangles["Quad7"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKDOWN");
+		}
+		else if (this->rectangles["Quad8"]->getGlobalBounds().contains(mousePos)) {
+			this->character->animation->play("WALKRIGHTDOWN");
+		}
+	}
+}
+
 //Attack Functions
 void PlayerCombat::fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite)
 {
@@ -116,14 +158,16 @@ void PlayerCombat::fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite)
 void PlayerCombat::slashSword()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		std::cout << "Slashing sword!" << "\n";
+		this->character->animation->play("SLASHDOWN");
 	}
 }
 
 //Asset Functions
 void PlayerCombat::initSprites()
 {
-	this->sprites["SWORDICON_UNSELECTED"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon Unselected.png", false);
+	this->sprites["player"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, "Assets/SpriteSheets/Ode Walking S-Sheet.png", false);
+	this->sprites["SWORD_ICON"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon.png", false);
+	this->sprites["CROSSBOW_ICON"] = new Sprite(530.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Crossbow Icon.png", false);
 	this->spriteOverlay = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Icon Selected.png", false);
 }
 

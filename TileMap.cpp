@@ -124,7 +124,7 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							}
 
 							//Must stay below this point
-							for (auto& it : combat->character->inventory->getItems()) {
+							for (auto& it : combat->playerCombat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y + area.height });
 							}
 							for (auto& it : combat->enemies) {
@@ -141,7 +141,7 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							}
 
 							//Must stay below this point
-							for (auto& it : combat->character->inventory->getItems()) {
+							for (auto& it : combat->playerCombat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x, it.second->getPosition().y - area.height });
 							}
 							for (auto& it : combat->enemies) {
@@ -161,7 +161,7 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							}
 
 							//Must stay below this point
-							for (auto& it : combat->character->inventory->getItems()) {
+							for (auto& it : combat->playerCombat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x - area.width, it.second->getPosition().y });
 							}
 							for (auto& it : combat->enemies) {
@@ -178,7 +178,7 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 							}
 
 							//Must stay below this point
-							for (auto& it : combat->character->inventory->getItems()) {
+							for (auto& it : combat->playerCombat->character->inventory->getItems()) {
 								it.second->setMapPosition({ it.second->getPosition().x + area.width, it.second->getPosition().y });
 							}
 							for (auto& it : combat->enemies) {

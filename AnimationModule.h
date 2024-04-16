@@ -12,7 +12,7 @@ public:
 
 	//Core Functions
 	void addAnimation(std::string key, sf::Texture& texture,
-		int maxFrame, float offset, float speed, int sheet, float rand);
+		int maxFrame, float offset, float speed, int sheetSize, float rand);
 	void play(std::string key);
 	void reset(std::string key);
 
@@ -23,7 +23,7 @@ private:
 	public:
 		//Constructors and Deconstructors
 		Animation(sf::Sprite* sprite, sf::Texture& texture, int maxFrame, float offset, float speed,
-			int sheet, float rand) : sprite(sprite), texture(texture)
+			int sheetSize, float rand) : sprite(sprite), texture(texture)
 		{
 			this->sprite = sprite;
 			this->texture = texture;
@@ -31,7 +31,7 @@ private:
 			this->maxFrame = maxFrame;
 			this->offset = offset;
 			this->speed = speed;
-			this->sheet = sheet;
+			this->sheetSize = sheetSize;
 			this->rand = rand;
 		}
 
@@ -61,10 +61,10 @@ private:
 			this->animateTimer();
 			if (this->animationFrame < maxFrame)
 			{
-				sheet = offset * this->animationFrame;
+				currentOffset = offset * this->animationFrame;
 			}
 			sprite->setTexture(texture);
-			sprite->setTextureRect(sf::IntRect(sheet, 0, 16, 16));
+			sprite->setTextureRect(sf::IntRect(currentOffset, 0, sheetSize, sheetSize));
 		}
 		void reset()
 		{
@@ -79,7 +79,8 @@ private:
 		float offset;
 		float speed;
 		float rand;
-		int sheet;
+		int sheetSize;
+		int currentOffset;
 
 		sf::Sprite* sprite;
 		sf::Clock animationTimer;

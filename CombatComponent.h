@@ -1,7 +1,7 @@
 #pragma once
 //Entities
 #include"Enemy.h"
-#include"Character.h"
+#include"PlayerCombat.h"
 class CombatComponent
 {
 public:
@@ -26,15 +26,9 @@ public:
 	//Spawn Functions
 	void spawnSlime(std::string key, float x, float y);
 
-	//Sprite Functions
-	void initSprites();
-	void renderSprites(sf::RenderTarget* target);
-
-	Character* character;
-
-	std::map<std::string, Sprite*> sprites;
-
 	Enemy* enemy;
+
+	PlayerCombat* playerCombat;
 
 	//std::vector<Enemy*> enemies;
 	std::map<std::string, Enemy*> enemies;

@@ -72,7 +72,7 @@ void DungeonState::update(const float& dt)
 {
 	this->combat->update(this->getMousePosView());
 	this->updateKeybinds(dt);
-	this->tile_maps["DUNGEON"]->detectMap(this->combat->character, this->combat, this->combat->sprites["player"]->getSprite());
+	this->tile_maps["DUNGEON"]->detectMap(this->combat->playerCombat->character, this->combat, this->combat->playerCombat->sprites["player"]->getSprite());
 	if (this->tile_maps["DUNGEON"]->getCollidingEntrance()) { this->generateNewLocation(); };
 }
 

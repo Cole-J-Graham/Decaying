@@ -1,8 +1,6 @@
 #pragma once
-#include"Sprite.h"
+#include"Character.h"
 #include"Rectangle.h"
-#include<SFML/Graphics.hpp>
-#include<iostream>
 #include<Math.h>
 class PlayerCombat
 {
@@ -12,13 +10,15 @@ public:
 	~PlayerCombat();
 
 	//Core Functions
-	void renderAttacks(sf::RenderTarget* target);
+	void update(const sf::Vector2f mousePos);
+	void render(sf::RenderTarget* target);
 
 	//Detection Functions
 	void detectCombatKeybinds(const sf::Vector2f mousePos, sf::Sprite& sprite);
 	void detectUnsheathe(const sf::Vector2f mousePos);
 	void detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite);
 	void detectMoveSelect();
+	void detectOctMousePosition(const sf::Vector2f mousePos);
 
 	//Attack Functions
 	void fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite);
@@ -34,15 +34,14 @@ public:
 	void renderRects(sf::RenderTarget* target);
 
 	//Getters
-	const bool& getSheathed() { return this->sheathed; };
 	sf::Sprite& getPlayerProjectile() { return this->player_projectile; }
-	std::map<std::string, Rectangle*>& getRectangles() { return this->rectangles; };
+	std::map<std::string, Sprite*> sprites;
+	Character* character;
 
 private:
 	sf::Clock clock;
 	sf::Time elapsed;
 	std::map<std::string, Rectangle*> rectangles;
-	std::map<std::string, Sprite*> sprites;
 	Sprite* spriteOverlay;
 
 	int moveSelection;

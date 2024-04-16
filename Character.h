@@ -1,7 +1,6 @@
 #pragma once
 //Modules
 #include"Inventory.h"
-#include"PlayerCombat.h"
 #include"AnimationModule.h"
 class Character
 {
@@ -13,9 +12,6 @@ public:
 	//Core Functions
 	void update(const sf::Vector2f mousePos);
 	void render(sf::RenderTarget* target);
-
-	//Detection Functions
-	void detectOctMousePosition(const sf::Vector2f mousePos);
 
 	//Movement Functions
 	void initAnimations();
@@ -33,17 +29,18 @@ public:
 	void updateRects();
 	void renderRects(sf::RenderTarget* target);
 
-	PlayerCombat* combat;
 	Inventory* inventory;
 	sf::Sprite* player;
 
 	//Accessors
 	sf::Vector2f& getVelocity() { return this->velocity; };
-	sf::Sprite& getPlayerProjectile() { return this->combat->getPlayerProjectile(); }
 	int& getHp() { return this->hp; }
 	int& getDamage() { return this->damage; }
 
 	sf::FloatRect getGlobalBounds() const { return this->player->getGlobalBounds(); }
+
+	std::map<std::string, sf::Texture>& getPlayerAnimations(std::string key) { this->playerAnimations[key]; };
+	AnimationModule* animation;
 
 private:
 	//Variables
@@ -65,22 +62,8 @@ private:
 	bool walking;
 
 	std::map<std::string, Rectangle*> rectangles;
-	AnimationModule* animation;
 
 	//Assets
-	sf::Texture player_walk_up;
-	sf::Texture player_walk_down;
-	sf::Texture player_walk_left;
-	sf::Texture player_walk_right;
-
-	sf::Texture player_walk_diagnol_left_down;
-	sf::Texture player_walk_diagnol_right_down;
-	sf::Texture player_walk_diagnol_right_up;
-	sf::Texture player_walk_diagnol_left_up;
-
-	sf::Texture player_roll_up;
-	sf::Texture player_roll_down;
-	sf::Texture player_roll_left;
-	sf::Texture player_roll_right;
+	std::map<std::string, sf::Texture> playerAnimations;
 };
 

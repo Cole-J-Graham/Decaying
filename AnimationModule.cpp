@@ -20,9 +20,9 @@ AnimationModule::~AnimationModule()
 
 //Core Functions
 void AnimationModule::addAnimation(std::string key, sf::Texture& texture, 
-	int maxFrame, float offset, float speed, int sheet, float rand)
+	int maxFrame, float offset, float speed, int sheetSize, float rand)
 {
-	this->animations[key] = new Animation(this->sprite, texture, maxFrame, offset, speed, sheet, rand);
+	this->animations[key] = new Animation(this->sprite, texture, maxFrame, offset, speed, sheetSize, rand);
 }
 
 void AnimationModule::play(std::string key)
