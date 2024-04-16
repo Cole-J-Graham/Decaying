@@ -93,8 +93,8 @@ void CombatComponent::renderEnemies(sf::RenderTarget* target)
 //Spawn Functions
 void CombatComponent::spawnSlime(std::string key, float x, float y)
 {
-	this->enemies[key] = new Enemy(100.f, 2, "Assets/Enemies/slime-red.png",
-		"Assets/Enemies/slime-red-idle.png", "Assets/Enemies/slime-red.png",
-		"Assets/Enemies/slime-red.png", "Assets/Enemies/slime-red.png");
+	this->enemies[key] = new Enemy(100.f, 2, "Assets/Enemies/slime-red-idle.png",
+		"Assets/Enemies/slime-red-idle.png", "Assets/Enemies/slime-red-idle.png",
+		"Assets/Enemies/slime-red-idle.png", "Assets/Enemies/slime-red-idle.png");
 	this->enemies[key]->setPosition(x, y);
 }

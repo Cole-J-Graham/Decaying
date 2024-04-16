@@ -38,7 +38,7 @@ PlayerCombat::~PlayerCombat()
 void PlayerCombat::update(const sf::Vector2f mousePos)
 {
 	this->character->update(mousePos);
-	this->detectOctMousePosition(mousePos);
+	this->detectAnimationPos(mousePos);
 	this->character->priorityAnimations();
 }
 
@@ -101,7 +101,7 @@ void PlayerCombat::detectMoveSelect()
 	}
 }
 
-void PlayerCombat::detectOctMousePosition(const sf::Vector2f mousePos)
+void PlayerCombat::detectAnimationPos(const sf::Vector2f mousePos)
 {
 	if (!this->sheathed) {
 		if (this->rectangles["Quad1"]->getGlobalBounds().contains(mousePos)) {
@@ -165,7 +165,7 @@ void PlayerCombat::slashSword()
 //Asset Functions
 void PlayerCombat::initSprites()
 {
-	this->sprites["player"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, "Assets/SpriteSheets/Ode Walking S-Sheet.png", false);
+	this->sprites["player"] = new Sprite(884.f, 484.f, 32.f, 32.f, 4.0f, "Assets/SpriteSheets/Ode Walking S-Sheet.png", false);
 	this->sprites["SWORD_ICON"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon.png", false);
 	this->sprites["CROSSBOW_ICON"] = new Sprite(530.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Crossbow Icon.png", false);
 	this->spriteOverlay = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Icon Selected.png", false);

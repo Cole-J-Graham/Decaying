@@ -20,7 +20,6 @@ Enemy::Enemy(float hp, float damage, std::string texture, std::string enemy_walk
 	this->moveSpeed = 0.5;
 
 	//Initialization
-	//this->enemy.setTextureRect(0, 0, 16, 16);
 	this->enemy.setScale(3.0f, 3.0f);
 	this->animation = new AnimationModule(&this->enemy);
 	this->hpRect = new Rectangle(x, y, 30, 10, sf::Color::Black, sf::Color::White, 1.f, std::to_string(this->hp), 8, false);
@@ -70,10 +69,10 @@ void Enemy::walkTowardsPlayer(sf::Vector2f playerPos)
 
 void Enemy::initAnimations()
 {
-	this->animation->addAnimation("WALKUP", enemy_walk_up, 4, 16, 0.5, 0, 2.0f);
-	this->animation->addAnimation("WALKDOWN", enemy_walk_down, 4, 16, 0.2, 0, 2.f);
-	this->animation->addAnimation("WALKLEFT", enemy_walk_left, 4, 16, 0.2, 0, 2.f);
-	this->animation->addAnimation("WALKRIGHT", enemy_walk_right, 4, 16, 0.2, 0, 2.f);
+	this->animation->addAnimation("WALKUP", enemy_walk_up, 4, 32, 0.5, 32, 2.0f);
+	this->animation->addAnimation("WALKDOWN", enemy_walk_down, 4, 32, 0.2, 32, 2.f);
+	this->animation->addAnimation("WALKLEFT", enemy_walk_left, 4, 32, 0.2, 32, 2.f);
+	this->animation->addAnimation("WALKRIGHT", enemy_walk_right, 4, 32, 0.2, 32, 2.f);
 }
 
 //Modifiers
@@ -97,6 +96,6 @@ void Enemy::setMapPosition(sf::Vector2f position)
 //Rectangle Functions
 void Enemy::updateRects()
 {
-	this->hpRect->setPosition(x, y - 15);
+	this->hpRect->setPosition(x -10, y - 35);
 	this->hpRect->setString(std::to_string(this->hp));
 }

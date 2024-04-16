@@ -18,7 +18,7 @@ public:
 	void detectUnsheathe(const sf::Vector2f mousePos);
 	void detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite);
 	void detectMoveSelect();
-	void detectOctMousePosition(const sf::Vector2f mousePos);
+	void detectAnimationPos(const sf::Vector2f mousePos);
 
 	//Attack Functions
 	void fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite);

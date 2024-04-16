@@ -56,19 +56,19 @@ void Character::render(sf::RenderTarget* target)
 //Movement Functions
 void Character::initAnimations()
 {
-	this->animation->addAnimation("WALKUP", this->playerAnimations["WALK_UP"], 4, 16, 0.2, 16, 0.f);
-	this->animation->addAnimation("WALKDOWN", this->playerAnimations["WALK_DOWN"], 4, 16, 0.2, 16, 0.f);
-	this->animation->addAnimation("WALKLEFT", this->playerAnimations["WALK_LEFT"], 4, 16, 0.2, 16, 0.f);
-	this->animation->addAnimation("WALKRIGHT", this->playerAnimations["WALK_RIGHT"], 4, 16, 0.2, 16, 0.f);
-	this->animation->addAnimation("WALKLEFTDOWN", this->playerAnimations["WALK_LEFT_DOWN"], 4, 16, 0.2, 16, 0.f);
-	this->animation->addAnimation("WALKRIGHTDOWN", this->playerAnimations["WALK_RIGHT_DOWN"], 4, 16, 0.2, 16, 0.f);
-	this->animation->addAnimation("WALKLEFTUP", this->playerAnimations["WALK_LEFT_UP"], 4, 16, 0.2, 16, 0.f);
-	this->animation->addAnimation("WALKRIGHTUP", this->playerAnimations["WALK_RIGHT_UP"], 4, 16, 0.2, 16, 0.f);
+	this->animation->addAnimation("WALKUP", this->playerAnimations["WALK_UP"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKDOWN", this->playerAnimations["WALK_DOWN"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKLEFT", this->playerAnimations["WALK_LEFT"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKRIGHT", this->playerAnimations["WALK_RIGHT"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKLEFTDOWN", this->playerAnimations["WALK_LEFT_DOWN"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKRIGHTDOWN", this->playerAnimations["WALK_RIGHT_DOWN"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKLEFTUP", this->playerAnimations["WALK_LEFT_UP"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKRIGHTUP", this->playerAnimations["WALK_RIGHT_UP"], 4, 32, 0.2, 32, 0.f);
 
-	this->animation->addAnimation("ROLLUP", this->playerAnimations["ROLL_UP"], 4, 16, 0.1, 16, 0.f);
-	this->animation->addAnimation("ROLLDOWN", this->playerAnimations["ROLL_DOWN"], 4, 16, 0.1, 16, 0.f);
-	this->animation->addAnimation("ROLLLEFT", this->playerAnimations["ROLL_LEFT"], 4, 16, 0.1, 16, 0.f);
-	this->animation->addAnimation("ROLLRIGHT", this->playerAnimations["ROLL_RIGHT"], 4, 16, 0.1, 16, 0.f);
+	this->animation->addAnimation("ROLLUP", this->playerAnimations["ROLL_UP"], 4, 32, 0.1, 32, 0.f);
+	this->animation->addAnimation("ROLLDOWN", this->playerAnimations["ROLL_DOWN"], 4, 32, 0.1, 32, 0.f);
+	this->animation->addAnimation("ROLLLEFT", this->playerAnimations["ROLL_LEFT"], 4, 32, 0.1, 32, 0.f);
+	this->animation->addAnimation("ROLLRIGHT", this->playerAnimations["ROLL_RIGHT"], 4, 32, 0.1, 32, 0.f);
 
 	this->animation->addAnimation("SLASHDOWN", this->playerAnimations["SLASH_DOWN"], 4, 32, 0.1, 32, 0.f);
 }
@@ -129,7 +129,7 @@ void Character::walk()
 	//Character stops moving
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
 		!sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		//this->player->setTextureRect(sf::IntRect(0, 0, 16, 16));
+		this->player->setTextureRect(sf::IntRect(0, 0, 32, 32));
 		this->walking = false;
 	}	
 }
