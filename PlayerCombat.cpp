@@ -6,6 +6,7 @@ PlayerCombat::PlayerCombat()
 	this->player_projectile.setScale(3.0f, 3.0f);
 	this->attacking = false;
 	this->sheathed = true;
+	this->resetAnimation = false;
 	this->moveSelection = 1;
 
 	//Initialization
@@ -101,6 +102,7 @@ void PlayerCombat::detectMoveSelect()
 	}
 }
 
+//Animation Functions
 void PlayerCombat::detectAnimationPos(const sf::Vector2f mousePos)
 {
 	if (!this->sheathed) {
@@ -131,6 +133,22 @@ void PlayerCombat::detectAnimationPos(const sf::Vector2f mousePos)
 	}
 }
 
+void PlayerCombat::resetAnimationPos()
+{
+	//Reset Animation is used to ensure this function only plays when needed
+	if (!this->resetAnimation) {
+		this->character->animation->setAnimation("WALKDOWN", "Assets/SpriteSheets/Ode Walking S-Sheet.png");
+		this->character->animation->setAnimation("WALKUP", "Assets/SpriteSheets/Ode Walking W-Sheet.png");
+		this->character->animation->setAnimation("WALKLEFT", "Assets/SpriteSheets/Ode Walking A-Sheet.png");
+		this->character->animation->setAnimation("WALKRIGHT", "Assets/SpriteSheets/Ode Walking D-Sheet.png");
+		this->character->animation->setAnimation("WALKLEFTUP", "Assets/SpriteSheets/Ode Walking AW-Sheet.png");
+		this->character->animation->setAnimation("WALKRIGHTUP", "Assets/SpriteSheets/Ode Walking DW-Sheet.png");
+		this->character->animation->setAnimation("WALKLEFTDOWN", "Assets/SpriteSheets/Ode Walking AS-Sheet.png");
+		this->character->animation->setAnimation("WALKRIGHTDOWN", "Assets/SpriteSheets/Ode Walking DS-Sheet.png");
+		this->resetAnimation = true;
+	}
+}
+
 //Attack Functions
 void PlayerCombat::fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite)
 {
@@ -158,7 +176,11 @@ void PlayerCombat::fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite)
 void PlayerCombat::slashSword()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		this->character->animation->play("SLASHDOWN");
+		this->resetAnimation = false;
+		this->character->animation->setAnimation("WALKDOWN", "Assets/SpriteSheets/Ode Attack S-Sheet.png");
+	}
+	else {
+		this->resetAnimationPos();
 	}
 }
 
@@ -168,7 +190,7 @@ void PlayerCombat::initSprites()
 	this->sprites["player"] = new Sprite(884.f, 484.f, 32.f, 32.f, 4.0f, "Assets/SpriteSheets/Ode Walking S-Sheet.png", false);
 	this->sprites["SWORD_ICON"] = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Sword Icon.png", false);
 	this->sprites["CROSSBOW_ICON"] = new Sprite(530.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Crossbow Icon.png", false);
-	this->spriteOverlay = new Sprite(600.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Icon Selected.png", false);
+	this->spriteOverlay = new Sprite(530.f, 950.f, 16.f, 16.f, 4.0f, "Assets/Icons/Icon Selected.png", false);
 }
 
 void PlayerCombat::renderSprites(sf::RenderTarget* target)

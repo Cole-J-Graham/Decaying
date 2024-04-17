@@ -18,7 +18,10 @@ public:
 	void detectUnsheathe(const sf::Vector2f mousePos);
 	void detectAttack(const sf::Vector2f mousePos, sf::Sprite& sprite);
 	void detectMoveSelect();
+
+	//Animation Functions
 	void detectAnimationPos(const sf::Vector2f mousePos);
+	void resetAnimationPos();
 
 	//Attack Functions
 	void fireCrossbow(const sf::Vector2f mousePos, sf::Sprite& sprite);
@@ -44,6 +47,7 @@ private:
 	std::map<std::string, Rectangle*> rectangles;
 	Sprite* spriteOverlay;
 
+	bool resetAnimation;
 	int moveSelection;
 	bool sheathed;
 	bool attacking;

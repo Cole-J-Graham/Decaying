@@ -34,3 +34,8 @@ void AnimationModule::reset(std::string key)
 {
 	this->animations[key]->reset();
 }
+
+void AnimationModule::setAnimation(std::string key, std::string texture)
+{
+	this->animations[key]->setAnimation(texture);
+}

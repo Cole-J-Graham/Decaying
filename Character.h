@@ -39,7 +39,7 @@ public:
 
 	sf::FloatRect getGlobalBounds() const { return this->player->getGlobalBounds(); }
 
-	std::map<std::string, sf::Texture>& getPlayerAnimations(std::string key) { this->playerAnimations[key]; };
+	std::map<std::string, sf::Texture>& getPlayerAnimations() { return this->playerAnimations; };
 	AnimationModule* animation;
 
 private:

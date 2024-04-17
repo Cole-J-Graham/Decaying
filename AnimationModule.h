@@ -15,6 +15,7 @@ public:
 		int maxFrame, float offset, float speed, int sheetSize, float rand);
 	void play(std::string key);
 	void reset(std::string key);
+	void setAnimation(std::string key, std::string texture);
 
 private:
 	//Animation Class
@@ -70,6 +71,10 @@ private:
 		{
 			this->animationFrame = 0;
 			this->animationTimer.restart();
+		}
+		void setAnimation(std::string texture)
+		{
+			this->texture.loadFromFile(texture);
 		}
 
 	private:
