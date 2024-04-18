@@ -36,6 +36,8 @@ public:
 	sf::Vector2f& getVelocity() { return this->velocity; };
 	int& getHp() { return this->hp; }
 	int& getDamage() { return this->damage; }
+	bool& isRolling() { return this->rolling; };
+
 
 	sf::FloatRect getGlobalBounds() const { return this->player->getGlobalBounds(); }
 

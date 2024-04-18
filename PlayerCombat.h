@@ -10,7 +10,7 @@ public:
 	~PlayerCombat();
 
 	//Core Functions
-	void update(const sf::Vector2f mousePos);
+	void update(const sf::Vector2f mousePos, sf::Vector2f playerPos);
 	void render(sf::RenderTarget* target);
 
 	//Detection Functions
@@ -33,18 +33,19 @@ public:
 	void loadAssets();
 
 	//Rectangle Functions
+	void updateRects(sf::Vector2f playerPos);
 	void initRects();
 	void renderRects(sf::RenderTarget* target);
 
 	//Getters
 	sf::Sprite& getPlayerProjectile() { return this->player_projectile; }
 	std::map<std::string, Sprite*> sprites;
+	std::map<std::string, Rectangle*> rectangles;
 	Character* character;
 
 private:
 	sf::Clock clock;
 	sf::Time elapsed;
-	std::map<std::string, Rectangle*> rectangles;
 	Sprite* spriteOverlay;
 
 	bool resetAnimation;

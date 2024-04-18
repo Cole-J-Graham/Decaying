@@ -23,7 +23,7 @@ void CombatComponent::update(const sf::Vector2f mousePos)
 	this->updateEnemies();
 	this->playerCombat->character->inventory->update(this->playerCombat->sprites["player"]->getSprite(), mousePos);
 	this->playerCombat->detectCombatKeybinds(mousePos, this->playerCombat->sprites["player"]->getSprite());
-	this->playerCombat->update(mousePos);
+	this->playerCombat->update(mousePos, this->playerCombat->character->player->getPosition());
 	this->detectCollision();
 }
 
@@ -44,8 +44,7 @@ void CombatComponent::detectCollision()
 void CombatComponent::detectPlayerDamage()
 {
 	for (auto& it : this->enemies) {
-		if (this->playerCombat->sprites["player"]->getSprite().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
-			std::cout << this->playerCombat->character->getHp() << "\n";
+		if (this->playerCombat->rectangles["PLAYERCOLLISION"]->getGlobalBounds().intersects(it.second->rectangles["HITBOX"]->getGlobalBounds())) {
 			this->playerCombat->character->getHp() -= it.second->getDamage();
 		}
 	}
@@ -56,7 +55,6 @@ void CombatComponent::detectPlayerAttack()
 	for (auto& it : this->enemies) {
 		if (this->playerCombat->getPlayerProjectile().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
 			it.second->getHp() -= this->playerCombat->character->getDamage();
-			std::cout << it.second->getHp() << "\n";
 		}
 	}
 }
@@ -93,7 +91,7 @@ void CombatComponent::renderEnemies(sf::RenderTarget* target)
 //Spawn Functions
 void CombatComponent::spawnSlime(std::string key, float x, float y)
 {
-	this->enemies[key] = new Enemy(100.f, 2, "Assets/Enemies/slime-red-idle.png",
+	this->enemies[key] = new Enemy(100.f, 2, 24, "Assets/Enemies/slime-red-idle.png",
 		"Assets/Enemies/slime-red-idle.png", "Assets/Enemies/slime-red-idle.png",
 		"Assets/Enemies/slime-red-idle.png", "Assets/Enemies/slime-red-idle.png");
 	this->enemies[key]->setPosition(x, y);

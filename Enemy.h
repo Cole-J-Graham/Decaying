@@ -8,7 +8,7 @@ class Enemy : public sf::Sprite
 public:
 	//Constructors and Deconstructors
 	Enemy();
-	Enemy(float hp, float damage, std::string texture, 
+	Enemy(float hp, float damage, int colOffset, std::string texture,
 		std::string enemy_walk_up, std::string enemy_walk_down, std::string enemy_walk_left, 
 		std::string enemy_walk_right);
 	~Enemy();
@@ -27,6 +27,9 @@ public:
 	void setMapPosition(sf::Vector2f position);
 
 	//Rectangle Functions
+	//Rectangle Functions
+	void initRects();
+	void renderRects(sf::RenderTarget* target);
 	void updateRects();
 
 	sf::FloatRect getGlobalBounds() const { return this->enemy.getGlobalBounds(); }
@@ -37,8 +40,10 @@ public:
 
 	sf::Sprite enemy;
 
+	std::map<std::string, Rectangle*> rectangles;
+
 private:
-	
+
 	Rectangle* hpRect;
 	sf::Texture enemyTexture;
 	AnimationModule* animation;
@@ -51,6 +56,8 @@ private:
 
 	float x;
 	float y;
+
+	int colOffset;
 
 	//Assets
 	sf::Texture enemy_walk_up;

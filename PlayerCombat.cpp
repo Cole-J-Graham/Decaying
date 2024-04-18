@@ -36,11 +36,12 @@ PlayerCombat::~PlayerCombat()
 }
 
 //Core Functions
-void PlayerCombat::update(const sf::Vector2f mousePos)
+void PlayerCombat::update(const sf::Vector2f mousePos, sf::Vector2f playerPos)
 {
 	this->character->update(mousePos);
 	this->detectAnimationPos(mousePos);
 	this->character->priorityAnimations();
+	this->updateRects(playerPos);
 }
 
 void PlayerCombat::render(sf::RenderTarget* target)
@@ -137,14 +138,14 @@ void PlayerCombat::resetAnimationPos()
 {
 	//Reset Animation is used to ensure this function only plays when needed
 	if (!this->resetAnimation) {
-		this->character->animation->setAnimation("WALKDOWN", "Assets/SpriteSheets/Ode Walking S-Sheet.png");
-		this->character->animation->setAnimation("WALKUP", "Assets/SpriteSheets/Ode Walking W-Sheet.png");
-		this->character->animation->setAnimation("WALKLEFT", "Assets/SpriteSheets/Ode Walking A-Sheet.png");
-		this->character->animation->setAnimation("WALKRIGHT", "Assets/SpriteSheets/Ode Walking D-Sheet.png");
-		this->character->animation->setAnimation("WALKLEFTUP", "Assets/SpriteSheets/Ode Walking AW-Sheet.png");
-		this->character->animation->setAnimation("WALKRIGHTUP", "Assets/SpriteSheets/Ode Walking DW-Sheet.png");
-		this->character->animation->setAnimation("WALKLEFTDOWN", "Assets/SpriteSheets/Ode Walking AS-Sheet.png");
-		this->character->animation->setAnimation("WALKRIGHTDOWN", "Assets/SpriteSheets/Ode Walking DS-Sheet.png");
+		this->character->animation->setAnimation("WALKDOWN", "Assets/SpriteSheets/Ode Walking S-Sheet.png", 0.2);
+		this->character->animation->setAnimation("WALKUP", "Assets/SpriteSheets/Ode Walking W-Sheet.png", 0.2);
+		this->character->animation->setAnimation("WALKLEFT", "Assets/SpriteSheets/Ode Walking A-Sheet.png", 0.2);
+		this->character->animation->setAnimation("WALKRIGHT", "Assets/SpriteSheets/Ode Walking D-Sheet.png", 0.2);
+		this->character->animation->setAnimation("WALKLEFTUP", "Assets/SpriteSheets/Ode Walking AW-Sheet.png", 0.2);
+		this->character->animation->setAnimation("WALKRIGHTUP", "Assets/SpriteSheets/Ode Walking DW-Sheet.png", 0.2);
+		this->character->animation->setAnimation("WALKLEFTDOWN", "Assets/SpriteSheets/Ode Walking AS-Sheet.png", 0.2);
+		this->character->animation->setAnimation("WALKRIGHTDOWN", "Assets/SpriteSheets/Ode Walking DS-Sheet.png", 0.2);
 		this->resetAnimation = true;
 	}
 }
@@ -177,7 +178,14 @@ void PlayerCombat::slashSword()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		this->resetAnimation = false;
-		this->character->animation->setAnimation("WALKDOWN", "Assets/SpriteSheets/Ode Attack S-Sheet.png");
+		this->character->animation->setAnimation("WALKDOWN", "Assets/SpriteSheets/Ode Attack S-Sheet.png", 0.17);
+		this->character->animation->setAnimation("WALKLEFTDOWN", "Assets/SpriteSheets/Ode Attack AS-Sheet.png", 0.17);
+		this->character->animation->setAnimation("WALKRIGHTDOWN", "Assets/SpriteSheets/Ode Attack DS-Sheet.png", 0.17);
+		this->character->animation->setAnimation("WALKLEFTUP", "Assets/SpriteSheets/Ode Attack AW-Sheet.png", 0.17);
+		this->character->animation->setAnimation("WALKRIGHTUP", "Assets/SpriteSheets/Ode Attack DW-Sheet.png", 0.17);
+		this->character->animation->setAnimation("WALKUP", "Assets/SpriteSheets/Ode Attack W-Sheet.png", 0.17);
+		this->character->animation->setAnimation("WALKLEFT", "Assets/SpriteSheets/Ode Attack A-Sheet.png", 0.17);
+		this->character->animation->setAnimation("WALKRIGHT", "Assets/SpriteSheets/Ode Attack D-Sheet.png", 0.17);
 	}
 	else {
 		this->resetAnimationPos();
@@ -208,8 +216,20 @@ void PlayerCombat::loadAssets()
 }
 
 //Rectangle Functions
+void PlayerCombat::updateRects(sf::Vector2f playerPos)
+{
+	if (this->character->isRolling()) {
+		this->rectangles["PLAYERCOLLISION"]->setPosition(10000, 10000);
+	}
+	else {
+		this->rectangles["PLAYERCOLLISION"]->setPosition(playerPos.x + 35, playerPos.y + 35);
+	}
+}
+
 void PlayerCombat::initRects()
 {
+	this->rectangles["PLAYERCOLLISION"] = new Rectangle(0, 0, 55, 60, sf::Color::Blue,
+		sf::Color::White, 1.f, true);
 	this->rectangles["Quad1"] = new Rectangle(0, 0, 640, 360, sf::Color::Blue,
 		sf::Color::White, 1.f, true);
 	this->rectangles["Quad2"] = new Rectangle(640, 0, 640, 360, sf::Color::Red,

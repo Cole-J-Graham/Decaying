@@ -5,7 +5,7 @@ Enemy::Enemy()
 
 }
 
-Enemy::Enemy(float hp, float damage, std::string texture, std::string enemy_walk_up, 
+Enemy::Enemy(float hp, float damage, int colOffset, std::string texture, std::string enemy_walk_up, 
 	std::string enemy_walk_down, std::string enemy_walk_left, std::string enemy_walk_right)
 {
 	this->enemyTexture.loadFromFile(texture);
@@ -18,17 +18,24 @@ Enemy::Enemy(float hp, float damage, std::string texture, std::string enemy_walk
 	this->hpMax = hp;
 	this->damage = damage;
 	this->moveSpeed = 0.5;
+	this->colOffset = colOffset;
 
 	//Initialization
 	this->enemy.setScale(3.0f, 3.0f);
 	this->animation = new AnimationModule(&this->enemy);
-	this->hpRect = new Rectangle(x, y, 30, 10, sf::Color::Black, sf::Color::White, 1.f, std::to_string(this->hp), 8, false);
+	this->initRects();
 	this->initAnimations();
 }
 
 Enemy::~Enemy()
 {
 	delete this->animation;
+
+	//Deconstruct Rectangles
+	auto ir = this->rectangles.begin();
+	for (ir = this->rectangles.begin(); ir != this->rectangles.end(); ++ir) {
+		delete ir->second;
+	}
 }
 
 //Core Functions
@@ -41,10 +48,8 @@ void Enemy::update(sf::Vector2f playerPos)
 void Enemy::render(sf::RenderTarget* target)
 {
 	target->draw(this->enemy);
-	this->hpRect->render(target);
+	this->renderRects(target);
 }
-
-//Spawn Functions
 
 //Movement Functions
 void Enemy::walkTowardsPlayer(sf::Vector2f playerPos)
@@ -96,6 +101,20 @@ void Enemy::setMapPosition(sf::Vector2f position)
 //Rectangle Functions
 void Enemy::updateRects()
 {
-	this->hpRect->setPosition(x -10, y - 35);
-	this->hpRect->setString(std::to_string(this->hp));
+	this->rectangles["HITBOX"]->setPosition(x + this->colOffset, y + this->colOffset);
+	this->rectangles["HP_RECT"]->setPosition(x - 10, y - 35);
+	this->rectangles["HP_RECT"]->setString(std::to_string(this->hp));
+}
+
+void Enemy::initRects()
+{
+	this->rectangles["HITBOX"] = new Rectangle(x, y, 50, 50, sf::Color::Black, sf::Color::Transparent, 0.f, false);
+	this->rectangles["HP_RECT"] = new Rectangle(x, y, 30, 10, sf::Color::Black, sf::Color::White, 1.f, false);
+}
+
+void Enemy::renderRects(sf::RenderTarget* target)
+{
+	for (auto& it : this->rectangles) {
+		it.second->render(target);
+	}
 }
