@@ -39,7 +39,7 @@ PlayerCombat::~PlayerCombat()
 void PlayerCombat::update(const sf::Vector2f mousePos, sf::Vector2f playerPos)
 {
 	this->character->update(mousePos);
-	this->detectAnimationPos(mousePos);
+	this->detectAnimationPos(mousePos, playerPos);
 	this->character->priorityAnimations();
 	this->updateRects(playerPos);
 }
@@ -104,32 +104,51 @@ void PlayerCombat::detectMoveSelect()
 }
 
 //Animation Functions
-void PlayerCombat::detectAnimationPos(const sf::Vector2f mousePos)
+void PlayerCombat::detectAnimationPos(const sf::Vector2f mousePos, sf::Vector2f playerPos)
 {
 	if (!this->sheathed) {
-		if (this->rectangles["Quad1"]->getGlobalBounds().contains(mousePos)) {
-			this->character->animation->play("WALKLEFTUP");
+		// Inside your game loop:
+		sf::Vector2f direction = mousePos - playerPos;
+		direction /= std::sqrt(direction.x * direction.x + direction.y * direction.y); // Normalize
+
+		// Calculate the angle (in radians) from the positive x-axis
+		float angle = std::atan2(direction.y, direction.x);
+		float M_PI = 3.14159;
+		// Convert angle to degrees (0 to 360)
+		if (angle < 0) {
+			angle += 2 * M_PI;
 		}
-		else if (this->rectangles["Quad2"]->getGlobalBounds().contains(mousePos)) {
-			this->character->animation->play("WALKUP");
-		}
-		else if (this->rectangles["Quad3"]->getGlobalBounds().contains(mousePos)) {
-			this->character->animation->play("WALKRIGHTUP");
-		}
-		else if (this->rectangles["Quad4"]->getGlobalBounds().contains(mousePos)) {
-			this->character->animation->play("WALKLEFT");
-		}
-		else if (this->rectangles["Quad5"]->getGlobalBounds().contains(mousePos)) {
+		float degrees = angle * 180.0f / M_PI;
+
+		// Determine the quadrant based on the angle
+		this->quadrant = static_cast<int>((degrees + 22.5f) / 45.0f) % 8;
+
+		switch (this->quadrant) {
+		case 0: // RIGHT
 			this->character->animation->play("WALKRIGHT");
-		}
-		else if (this->rectangles["Quad6"]->getGlobalBounds().contains(mousePos)) {
-			this->character->animation->play("WALKLEFTDOWN");
-		}
-		else if (this->rectangles["Quad7"]->getGlobalBounds().contains(mousePos)) {
-			this->character->animation->play("WALKDOWN");
-		}
-		else if (this->rectangles["Quad8"]->getGlobalBounds().contains(mousePos)) {
+			break;
+		case 1: // BOTTOM-RIGHT
 			this->character->animation->play("WALKRIGHTDOWN");
+			break;
+		case 2: // BOTTOM
+			this->character->animation->play("WALKDOWN");
+			break;
+		case 3: // BOTTOM-LEfT
+			this->character->animation->play("WALKLEFTDOWN");
+			break;
+		case 4: // LEFT
+			this->character->animation->play("WALKLEFT");
+			break;
+		case 5: // TOP-LEFT
+			this->character->animation->play("WALKLEFTUP");
+			this->rectangles["PLAYERATTACK"]->setOrientation(20, 20, 20, 50);
+			break;
+		case 6: // TOP
+			this->character->animation->play("WALKUP");
+			break;
+		case 7: // TOP-RIGHT
+			this->character->animation->play("WALKRIGHTUP");
+			break;
 		}
 	}
 }
@@ -218,33 +237,21 @@ void PlayerCombat::loadAssets()
 //Rectangle Functions
 void PlayerCombat::updateRects(sf::Vector2f playerPos)
 {
-	if (this->character->isRolling()) {
+	if (this->character->isRolling())  { 
 		this->rectangles["PLAYERCOLLISION"]->setPosition(10000, 10000);
+
 	}
 	else {
 		this->rectangles["PLAYERCOLLISION"]->setPosition(playerPos.x + 35, playerPos.y + 35);
+		this->rectangles["PLAYERATTACK"]->setPosition(playerPos.x + 35, playerPos.y + 35);
 	}
 }
 
 void PlayerCombat::initRects()
 {
+	this->rectangles["PLAYERATTACK"] = new Rectangle(0, 0, 10, 10, sf::Color::Blue,
+		sf::Color::White, 1.f, false);
 	this->rectangles["PLAYERCOLLISION"] = new Rectangle(0, 0, 55, 60, sf::Color::Blue,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad1"] = new Rectangle(0, 0, 640, 360, sf::Color::Blue,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad2"] = new Rectangle(640, 0, 640, 360, sf::Color::Red,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad3"] = new Rectangle(1280, 0, 640, 360, sf::Color::Cyan,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad4"] = new Rectangle(0, 360, 640, 360, sf::Color::Magenta,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad5"] = new Rectangle(1280, 360, 640, 360, sf::Color::Red,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad6"] = new Rectangle(0, 720, 640, 360, sf::Color::Yellow,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad7"] = new Rectangle(640, 720, 640, 360, sf::Color::Green,
-		sf::Color::White, 1.f, true);
-	this->rectangles["Quad8"] = new Rectangle(1280, 720, 640, 360, sf::Color::White,
 		sf::Color::White, 1.f, true);
 }
 

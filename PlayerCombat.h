@@ -20,7 +20,7 @@ public:
 	void detectMoveSelect();
 
 	//Animation Functions
-	void detectAnimationPos(const sf::Vector2f mousePos);
+	void detectAnimationPos(const sf::Vector2f mousePos, sf::Vector2f playerPos);
 	void resetAnimationPos();
 
 	//Attack Functions
@@ -48,6 +48,7 @@ private:
 	sf::Time elapsed;
 	Sprite* spriteOverlay;
 
+	int quadrant;
 	bool resetAnimation;
 	int moveSelection;
 	bool sheathed;

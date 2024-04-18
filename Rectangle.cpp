@@ -93,3 +93,15 @@ void Rectangle::setPosition(float x, float y)
 	this->shape.setPosition(x, y);
 	this->text.setPosition(x, y);
 }
+
+void Rectangle::setSize(float width, float height)
+{
+	this->shape.setSize(sf::Vector2f(width, height));
+}
+
+void Rectangle::setOrientation(float x, float y, float width, float height)
+{
+	this->shape.setPosition(x, y);
+	this->shape.setSize(sf::Vector2f(width, height));
+	this->text.setPosition(x, y);
+}

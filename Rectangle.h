@@ -23,6 +23,8 @@ public:
 	void setString(std::string input);
 	void updateStatusBar(int& status);
 	void setPosition(float x, float y);
+	void setSize(float width, float height);
+	void setOrientation(float x, float y, float width, float height);
 
 	//Getters
 	bool& getHidden() { return this->hidden; };

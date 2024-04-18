@@ -108,7 +108,7 @@ void Enemy::updateRects()
 
 void Enemy::initRects()
 {
-	this->rectangles["HITBOX"] = new Rectangle(x, y, 50, 50, sf::Color::Black, sf::Color::Transparent, 0.f, false);
+	this->rectangles["HITBOX"] = new Rectangle(x, y, 50, 50, sf::Color::Black, sf::Color::Transparent, 0.f, true);
 	this->rectangles["HP_RECT"] = new Rectangle(x, y, 30, 10, sf::Color::Black, sf::Color::White, 1.f, false);
 }
 
