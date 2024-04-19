@@ -237,14 +237,8 @@ void PlayerCombat::loadAssets()
 //Rectangle Functions
 void PlayerCombat::updateRects(sf::Vector2f playerPos)
 {
-	if (this->character->isRolling())  { 
-		this->rectangles["PLAYERCOLLISION"]->setPosition(10000, 10000);
-
-	}
-	else {
-		this->rectangles["PLAYERCOLLISION"]->setPosition(playerPos.x + 35, playerPos.y + 35);
-		this->rectangles["PLAYERATTACK"]->setPosition(playerPos.x + 35, playerPos.y + 35);
-	}
+	this->rectangles["PLAYERCOLLISION"]->setPosition(playerPos.x + 35, playerPos.y + 35);
+	this->rectangles["PLAYERATTACK"]->setPosition(playerPos.x + 35, playerPos.y + 35);
 }
 
 void PlayerCombat::initRects()

@@ -30,51 +30,61 @@ TileMap::~TileMap()
 //Core Functions
 void TileMap::loadMap(sf::Texture& tile_sheet)
 {
-	//Draw a specific set texture tile based on which input is recieved from a tilemap vector
-	this->tile_map.resize(row, std::vector<sf::Sprite>(col));
-	for (int x = 0; x < col; x++) {
-		for (int y = 0; y < row; y++) {
-			this->tile_map[x][y].setScale(sf::Vector2f(4.0f, 4.0f));
-			this->tile_map[x][y].setPosition(x * grid_size_f + this->x, y * grid_size_f + this->y);
-			this->tile_map[x][y].setTexture(tile_sheet);
+	// Resize tile_map to match the specified dimensions
+    tile_map.resize(col, std::vector<sf::Sprite>(row));
 
-			//Fill in data depending on the case found in the map file
-			switch (this->tile_map_data[x][y]) {
-			case 0:
-				this->sheetX = 0;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			case 1:
-				this->sheetX = 16;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			case 2:
-				this->sheetX = 32;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			case 3:
-				this->sheetX = 48;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			case 4:
-				this->sheetX = 64;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			case 5:
-				this->sheetX = 80;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			case 6:
-				this->sheetX = 96;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			case 7:
-				this->sheetX = 112;
-				this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
-				break;
-			}
-		}
-	}
+    for (int x = 0; x < col; x++) {
+        for (int y = 0; y < row; y++) {
+            // Check if the tile_map_data vector has been properly initialized
+            if (x < tile_map_data.size() && y < tile_map_data[x].size()) {
+                // Load the tile sprite based on tile_map_data
+                tile_map[x][y].setScale(sf::Vector2f(4.0f, 4.0f));
+                tile_map[x][y].setPosition(x * grid_size_f + this->x, y * grid_size_f + this->y);
+                tile_map[x][y].setTexture(tile_sheet);
+
+                // Set the texture rectangle based on tile_map_data
+                switch (tile_map_data[x][y]) {
+				case 0:
+					this->sheetX = 0;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+				case 1:
+					this->sheetX = 16;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+				case 2:
+					this->sheetX = 32;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+				case 3:
+					this->sheetX = 48;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+				case 4:
+					this->sheetX = 64;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+				case 5:
+					this->sheetX = 80;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+				case 6:
+					this->sheetX = 96;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+				case 7:
+					this->sheetX = 112;
+					this->tile_map[x][y].setTextureRect(sf::IntRect(sheetX, sheetY, 16, 16));
+					break;
+                    // Handle different tile types
+                }
+            } else {
+                // Handle the case where tile_map_data is not properly initialized
+                std::cout << "ERROR: Tile map data is not properly initialized." << std::endl;
+                break;
+            }
+        }
+    }
 }
 
 void TileMap::loadMapData(std::string input)
@@ -82,34 +92,45 @@ void TileMap::loadMapData(std::string input)
 	map_data.open(input);
 
 	if (map_data.is_open()) {
+		// Resize tile_map_data to match the specified dimensions
+		tile_map_data.resize(col, std::vector<int>(row));
+
 		for (int x = 0; x < col; x++) {
 			for (int y = 0; y < row; y++) {
-				map_data >> tile_map_data[x][y];
+				// Check if there is more data to read
+				if (!map_data.eof()) {
+					map_data >> tile_map_data[x][y];
+				}
+				else {
+					// Handle the case where there is not enough data in the file
+					std::cout << "ERROR: Not enough data in the tilemap file." << std::endl;
+					break;
+				}
 			}
 		}
 	}
 	else {
-		std::cout << "ERROR LOADING TILEMAP FILE..." << "\n";
+		std::cout << "ERROR LOADING TILEMAP FILE..." << std::endl;
 	}
 
 	map_data.close();
 }
 
 //Detection Functions
-void TileMap::detectMap(Character* character, CombatComponent* combat, sf::Sprite& in_sprite)
+void TileMap::detectMap(Character* character, CombatComponent* combat, sf::FloatRect playerPos)
 {
-	this->detectCollision(combat, in_sprite);
-	this->detectEntrance(in_sprite);
+	this->detectCollision(combat, playerPos);
+	this->detectEntrance(playerPos);
 	this->detectMovement(character, combat);
 }
 
-void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
+void TileMap::detectCollision(CombatComponent* combat, sf::FloatRect playerPos)
 {
 	//Collision Function
 	for (int x = 0; x < tile_map.size(); x++) {
 		for (int y = 0; y < tile_map.size(); y++) {
 			if (tile_map_data[x][y] == 0) {
-				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
+				if (tile_map[x][y].getGlobalBounds().intersects(playerPos, area))
 				{
 					// Verifying if we need to apply collision to the vertical axis, else we apply to horizontal axis
 					if (area.width > area.height)
@@ -192,12 +213,12 @@ void TileMap::detectCollision(CombatComponent* combat, sf::Sprite& in_sprite)
 	}
 }
 
-void TileMap::detectEntrance(sf::Sprite& in_sprite)
+void TileMap::detectEntrance(sf::FloatRect playerPos)
 {
 	for (int x = 0; x < tile_map.size(); x++) {
 		for (int y = 0; y < tile_map.size(); y++) {
 			if (tile_map_data[x][y] == 1) {
-				if (tile_map[x][y].getGlobalBounds().intersects(in_sprite.getGlobalBounds(), area))
+				if (tile_map[x][y].getGlobalBounds().intersects(playerPos, area))
 				{
 					std::cout << "Colliding With Entrance" << "\n";
 					this->colliding_entrance = true;
