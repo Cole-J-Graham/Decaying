@@ -34,8 +34,9 @@ public:
 
 	//Accessors
 	sf::Vector2f& getVelocity() { return this->velocity; };
-	int& getHp() { return this->hp; }
-	int& getDamage() { return this->damage; }
+	int& getHp() { return this->hp; };
+	int& getDamage() { return this->damage; };
+	float& getIFrames() { return this->iFrames; };
 	bool& isRolling() { return this->rolling; };
 
 
@@ -55,6 +56,7 @@ private:
 	int staminaMax;
 	float movementSpeed;
 	float dodgeTime;
+	float iFrames;
 
 	sf::Vector2f velocity;
 	sf::Clock dodge_timer;

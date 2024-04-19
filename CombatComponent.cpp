@@ -44,10 +44,13 @@ void CombatComponent::detectCollision()
 void CombatComponent::detectPlayerDamage()
 {
 	for (auto& it : this->enemies) {
-		if (!this->playerCombat->character->isRolling()) {
+		if (this->playerCombat->character->getIFrames() <= 0) {
 			if (this->playerCombat->rectangles["PLAYERCOLLISION"]->getGlobalBounds().intersects(it.second->rectangles["HITBOX"]->getGlobalBounds())) {
 				this->playerCombat->character->getHp() -= it.second->getDamage();
 			}
+		}
+		else if (this->playerCombat->character->getIFrames() > 0) {
+			this->playerCombat->character->getIFrames()--;
 		}
 	}
 }

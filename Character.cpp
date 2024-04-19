@@ -25,6 +25,7 @@ Character::Character(sf::Sprite* sprite)
 	this->movementSpeed = 1.5f;
 	this->velocity.x = 0;
 	this->velocity.y = 0;
+	this->iFrames = 0;
 }
 
 Character::~Character()
@@ -141,6 +142,7 @@ void Character::roll()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && dodge_elapsed.asSeconds() >= this->dodgeTime && this->stamina >= 50) {
 		movementSpeed += 5;
 		this->stamina -= 49;
+		this->iFrames = 200;
 		dodge_timer.restart();
 		this->rolling = true;
 	}
