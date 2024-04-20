@@ -1,1 +1,7 @@
-A simple project with the purpose of keeping a simple yet effective startup solution for creating a game with the up to date SFML library. This will be for personal use and for whoever would like access to such a repository.
+# **PROJECT**
+
+This is a 2d RPG Game created from scratch using C++ and SFML.
+
+# **STRUCTURE**
+
+It's structure relies around each major component of the game running from various states being pushed and popped from a stack to effectively manage resources for optimized performance.
