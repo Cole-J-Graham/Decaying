@@ -39,6 +39,7 @@ public:
 
 	//Getters
 	sf::Sprite& getPlayerProjectile() { return this->player_projectile; }
+	bool& getAttacking() { return this->attacking; }
 	std::map<std::string, Sprite*> sprites;
 	std::map<std::string, Rectangle*> rectangles;
 	Character* character;
@@ -49,8 +50,8 @@ private:
 	Sprite* spriteOverlay;
 
 	int quadrant;
-	bool resetAnimation;
 	int moveSelection;
+	bool resetAnimation;
 	bool sheathed;
 	bool attacking;
 	const float pie = 3.14159265;

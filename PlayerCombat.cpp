@@ -126,28 +126,35 @@ void PlayerCombat::detectAnimationPos(const sf::Vector2f mousePos, sf::Vector2f 
 		switch (this->quadrant) {
 		case 0: // RIGHT
 			this->character->animation->play("WALKRIGHT");
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x + 65, playerPos.y + 15, 75, 95);
 			break;
 		case 1: // BOTTOM-RIGHT
 			this->character->animation->play("WALKRIGHTDOWN");
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x + 45, playerPos.y + 70, 95, 75);
 			break;
 		case 2: // BOTTOM
 			this->character->animation->play("WALKDOWN");
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x + 16, playerPos.y + 70, 95, 75);
 			break;
 		case 3: // BOTTOM-LEfT
 			this->character->animation->play("WALKLEFTDOWN");
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x - 13, playerPos.y + 70, 95, 75);
 			break;
 		case 4: // LEFT
 			this->character->animation->play("WALKLEFT");
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x - 20, playerPos.y + 15, 75, 95);
 			break;
 		case 5: // TOP-LEFT
 			this->character->animation->play("WALKLEFTUP");
-			this->rectangles["PLAYERATTACK"]->setOrientation(20, 20, 20, 50);
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x - 13, playerPos.y - 13, 95, 75);
 			break;
 		case 6: // TOP
 			this->character->animation->play("WALKUP");
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x + 16, playerPos.y - 10, 95, 75);
 			break;
 		case 7: // TOP-RIGHT
 			this->character->animation->play("WALKRIGHTUP");
+			this->rectangles["PLAYERATTACK"]->setOrientation(playerPos.x + 45, playerPos.y - 13, 95, 75);
 			break;
 		}
 	}
@@ -197,6 +204,7 @@ void PlayerCombat::slashSword()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		this->resetAnimation = false;
+		this->attacking = true;
 		this->character->animation->setAnimation("WALKDOWN", "Assets/SpriteSheets/Ode Attack S-Sheet.png", 0.17);
 		this->character->animation->setAnimation("WALKLEFTDOWN", "Assets/SpriteSheets/Ode Attack AS-Sheet.png", 0.17);
 		this->character->animation->setAnimation("WALKRIGHTDOWN", "Assets/SpriteSheets/Ode Attack DS-Sheet.png", 0.17);
@@ -208,6 +216,7 @@ void PlayerCombat::slashSword()
 	}
 	else {
 		this->resetAnimationPos();
+		this->attacking = false;
 	}
 }
 
@@ -238,13 +247,12 @@ void PlayerCombat::loadAssets()
 void PlayerCombat::updateRects(sf::Vector2f playerPos)
 {
 	this->rectangles["PLAYERCOLLISION"]->setPosition(playerPos.x + 35, playerPos.y + 35);
-	this->rectangles["PLAYERATTACK"]->setPosition(playerPos.x + 35, playerPos.y + 35);
 }
 
 void PlayerCombat::initRects()
 {
 	this->rectangles["PLAYERATTACK"] = new Rectangle(0, 0, 10, 10, sf::Color::Blue,
-		sf::Color::White, 1.f, false);
+		sf::Color::White, 1.f, true);
 	this->rectangles["PLAYERCOLLISION"] = new Rectangle(0, 0, 55, 60, sf::Color::Blue,
 		sf::Color::White, 1.f, true);
 }

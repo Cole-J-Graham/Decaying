@@ -82,11 +82,9 @@ void Item::updateMapItems(sf::Sprite sprite)
         break;
     case ITM_COLLIDING:
         this->rectangles["INTERACT_BOX"]->setShown();
-        std::cout << "Player Colliding with item..." << "\n";
         break;
     case ITM_INTERACTED:
         this->rectangles["INTERACT_BOX"]->setHidden();
-        std::cout << "Player Interacting with item..." << "\n";
         break;
     default:
         break;
@@ -119,7 +117,6 @@ void Item::updateInventory(sf::Vector2f mousePos)
             this->item.setColor(sf::Color(255, 255, 255, 155));
             break;
         case ITM_ACTIVE:
-            std::cout << "Item Active in inventory..." << "\n";
             break;
         default:
             break;

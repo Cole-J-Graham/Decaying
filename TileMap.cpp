@@ -220,7 +220,6 @@ void TileMap::detectEntrance(sf::FloatRect playerPos)
 			if (tile_map_data[x][y] == 1) {
 				if (tile_map[x][y].getGlobalBounds().intersects(playerPos, area))
 				{
-					std::cout << "Colliding With Entrance" << "\n";
 					this->colliding_entrance = true;
 				}
 				else {

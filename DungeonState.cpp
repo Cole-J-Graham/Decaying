@@ -44,7 +44,6 @@ void DungeonState::generateNewLocation()
 	std::mt19937 rng(dev());
 	std::uniform_int_distribution<std::mt19937::result_type> random_number(0, 2);
 	this->location = random_number(rng);
-	std::cout << this->location << "\n";
 
 	switch (this->location) {
 	case 0:

@@ -58,8 +58,14 @@ void CombatComponent::detectPlayerDamage()
 void CombatComponent::detectPlayerAttack()
 {
 	for (auto& it : this->enemies) {
-		if (this->playerCombat->getPlayerProjectile().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
-			it.second->getHp() -= this->playerCombat->character->getDamage();
+		if (this->playerCombat->getAttacking()) {
+			if (this->playerCombat->getPlayerProjectile().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+				it.second->getHp() -= this->playerCombat->character->getDamage();
+			}
+
+			if (this->playerCombat->rectangles["PLAYERATTACK"]->getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+				it.second->getHp() -= this->playerCombat->character->getDamage();
+			}
 		}
 	}
 }
