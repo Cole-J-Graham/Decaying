@@ -2,6 +2,7 @@
 //Entities
 #include"Enemy.h"
 #include"PlayerCombat.h"
+#include"Slime.h"
 class CombatComponent
 {
 public:
@@ -32,6 +33,7 @@ public:
 
 	//std::vector<Enemy*> enemies;
 	std::map<std::string, Enemy*> enemies;
+	std::map<std::string, Slime> slimes;
 
 private:
 

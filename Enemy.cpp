@@ -102,14 +102,14 @@ void Enemy::setMapPosition(sf::Vector2f position)
 void Enemy::updateRects()
 {
 	this->rectangles["HITBOX"]->setPosition(x + this->colOffset, y + this->colOffset);
-	this->rectangles["HP_RECT"]->setPosition(x - 10, y - 35);
+	this->rectangles["HP_RECT"]->setPosition(x + 25, y + 10);
 	this->rectangles["HP_RECT"]->setString(std::to_string(this->hp));
 }
 
 void Enemy::initRects()
 {
 	this->rectangles["HITBOX"] = new Rectangle(x, y, 50, 50, sf::Color::Black, sf::Color::Transparent, 0.f, true);
-	this->rectangles["HP_RECT"] = new Rectangle(x, y, 30, 10, sf::Color::Black, sf::Color::White, 1.f, false);
+	this->rectangles["HP_RECT"] = new Rectangle(x, y, 30, 10, sf::Color::Black, sf::Color::White, 1.f, "", 9, false);
 }
 
 void Enemy::renderRects(sf::RenderTarget* target)

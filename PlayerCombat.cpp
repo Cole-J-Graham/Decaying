@@ -251,9 +251,9 @@ void PlayerCombat::updateRects(sf::Vector2f playerPos)
 
 void PlayerCombat::initRects()
 {
-	this->rectangles["PLAYERATTACK"] = new Rectangle(0, 0, 10, 10, sf::Color::Blue,
-		sf::Color::White, 1.f, true);
 	this->rectangles["PLAYERCOLLISION"] = new Rectangle(0, 0, 55, 60, sf::Color::Blue,
+		sf::Color::White, 1.f, true);
+	this->rectangles["PLAYERATTACK"] = new Rectangle(0, 0, 10, 10, sf::Color::Blue,
 		sf::Color::White, 1.f, true);
 }
 

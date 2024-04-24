@@ -9,32 +9,27 @@ TavernState::TavernState(sf::RenderWindow* window, std::stack<State*>* states) :
 	this->location = 0;
 
 	//Initialization
-	this->initSprites();
 	this->initTileMaps();
 
 	//Assets
 	this->loadAssets();
-	this->inventory["PLAYER_INVENTORY"] = new Inventory();
-
+	this->combat = new CombatComponent();
+	this->initNpcs();
 }
 
 TavernState::~TavernState()
 {
-	//Deconstruct Sprites
-	auto is = this->sprites.begin();
-	for (is = this->sprites.begin(); is != this->sprites.end(); ++is) {
-		delete is->second;
-	}
-
+	delete this->combat;
+	
 	//Deconstruct TileMaps
 	auto it = this->tile_maps.begin();
 	for (it = this->tile_maps.begin(); it != this->tile_maps.end(); ++it) {
 		delete it->second;
 	}
 
-	//Deconstruct Inventory
-	auto in = this->inventory.begin();
-	for (in = this->inventory.begin(); in != this->inventory.end(); ++in) {
+	//Deconstruct Npcs
+	auto in = this->npcs.begin();
+	for (in = this->npcs.begin(); in != this->npcs.end(); ++in) {
 		delete in->second;
 	}
 }
@@ -53,35 +48,42 @@ void TavernState::enterDungeon()
 //State Functions
 void TavernState::updateKeybinds(const float& dt)
 {
-	//this->sprites["player"]->animateMovement();
-	this->inventory["PLAYER_INVENTORY"]->checkForInput();
 	this->updateMousePositions();
 	this->checkForQuit();
 }
 
 void TavernState::update(const float& dt)
 {
+	this->updateNpcs();
+	this->combat->update(this->getMousePosView());
 	this->updateKeybinds(dt);
-	//this->tile_maps["TAVERN"]->detectMap(this->character, this->inventory["PLAYER_INVENTORY"], this->sprites["player"]->getSprite());
-	this->inventory["PLAYER_INVENTORY"]->update(this->sprites["player"]->getSprite(), this->getMousePosView());
+	this->tile_maps["TAVERN"]->detectMap(this->combat->playerCombat->character, this->combat, this->combat->playerCombat->rectangles["PLAYERCOLLISION"]->getGlobalBounds());
 	if (this->tile_maps["TAVERN"]->getCollidingEntrance()) { this->enterDungeon(); };
 }
 
 void TavernState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
-	this->renderSprites(target);
+	this->combat->render(target);
+	this->renderNpcs(target);
 }
 
-//Sprite Functions
-void TavernState::initSprites()
+//Npc Functions
+void TavernState::updateNpcs()
 {
-	this->sprites["player"] = new Sprite(900.f, 500.f, 16.f, 16.f, 4.0f, "Assets/SpriteSheets/playerWalkSpriteSheet.png", false);
+	for (auto& it : this->npcs) {
+		it.second->update(this->combat->playerCombat->rectangles["PLAYERCOLLISION"]->getGlobalBounds());
+	}
 }
 
-void TavernState::renderSprites(sf::RenderTarget* target)
+void TavernState::initNpcs()
 {
-	for (auto& it : this->sprites) {
+	this->npcs["ZIN"] = new Npcs(800, 800, "Assets/SpriteSheets/ZinIdleAnimation.png");
+}
+
+void TavernState::renderNpcs(sf::RenderTarget* target)
+{
+	for (auto& it : this->npcs) {
 		it.second->render(target);
 	}
 }

@@ -20,6 +20,9 @@ CombatComponent::~CombatComponent()
 //Core Functions
 void CombatComponent::update(const sf::Vector2f mousePos)
 {
+	for (auto& it : this->slimes) {
+		it.second.update(mousePos);
+	}
 	this->updateEnemies();
 	this->playerCombat->character->inventory->update(this->playerCombat->sprites["player"]->getSprite(), mousePos);
 	this->playerCombat->detectCombatKeybinds(mousePos, this->playerCombat->sprites["player"]->getSprite());
@@ -81,7 +84,6 @@ void CombatComponent::detectEnemyDeath()
 			++it; // Move to the next element
 		}
 	}
-	
 }
 
 //Enemy Functions

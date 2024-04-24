@@ -79,7 +79,6 @@ void DungeonState::render(sf::RenderTarget* target)
 {
 	this->renderTileMaps(target);
 	this->combat->render(target);
-	this->combat->render(target);
 }
 
 //TileMap Functions

@@ -160,6 +160,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CombatComponent.cpp" />
+    <ClCompile Include="Npcs.cpp" />
     <ClCompile Include="PlayerCombat.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EquipSlot.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="PlayerGUI.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Skills.cpp" />
+    <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TavernState.cpp" />
@@ -182,6 +184,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CombatComponent.h" />
+    <ClInclude Include="Npcs.h" />
     <ClInclude Include="PlayerCombat.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EquipSlot.h" />
@@ -192,9 +195,11 @@
     <ClInclude Include="PlayerGUI.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Skills.h" />
+    <ClInclude Include="Slime.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TavernState.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="DungeonState.h" />
   </ItemGroup>

@@ -31,8 +31,7 @@ TileMap::~TileMap()
 void TileMap::loadMap(sf::Texture& tile_sheet)
 {
 	// Resize tile_map to match the specified dimensions
-    tile_map.resize(col, std::vector<sf::Sprite>(row));
-
+    tile_map.resize(col, std::vector<Tile>(row));
     for (int x = 0; x < col; x++) {
         for (int y = 0; y < row; y++) {
             // Check if the tile_map_data vector has been properly initialized

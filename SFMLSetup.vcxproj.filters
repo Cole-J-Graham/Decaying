@@ -52,14 +52,20 @@
     <ClCompile Include="Character.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Character</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerCombat.cpp">
       <Filter>Character</Filter>
     </ClCompile>
     <ClCompile Include="CombatComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Npcs.cpp">
+      <Filter>Npcs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,14 +117,23 @@
     <ClInclude Include="Character.h">
       <Filter>Character</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Character</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerCombat.h">
       <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="CombatComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Npcs.h">
+      <Filter>Npcs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +163,12 @@
     </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{002af3f7-3fb9-4eb5-8128-3f6502052dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{96c0d2bf-4b20-49c6-b4fd-93aaaf1fb5c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Npcs">
+      <UniqueIdentifier>{6bf8b93c-910f-42bd-be23-7f48e9c737c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

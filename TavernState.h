@@ -5,6 +5,8 @@
 //Assets
 #include"TileMap.h"
 #include"Sprite.h"
+#include"Npcs.h"
+#include"CombatComponent.h"
 
 class TavernState : public State
 {
@@ -23,9 +25,10 @@ public:
 	void update(const float& dt);
 	void render(sf::RenderTarget* target);
 
-	//Sprite Functions
-	void initSprites();
-	void renderSprites(sf::RenderTarget* target);
+	//Npc Functions
+	void updateNpcs();
+	void initNpcs();
+	void renderNpcs(sf::RenderTarget* target);
 
 	//TileMap Functions
 	void initTileMaps();
@@ -40,13 +43,14 @@ private:
 	//Core Variables
 	int location;
 
+	std::map<std::string, Npcs*> npcs;
 	std::map<std::string, TileMap*> tile_maps;
-	std::map<std::string, Sprite*> sprites;
-	std::map<std::string, Inventory*> inventory;
 
 	//Assets
 	sf::Texture tavern_sheet;
 	sf::Texture map_image;
+
+	CombatComponent* combat;
 
 
 };

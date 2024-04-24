@@ -4,6 +4,7 @@
 #include"fstream"
 #include<random>
 #include<map>
+#include"Tile.h"
 //Components
 #include"CombatComponent.h"
 
@@ -38,7 +39,7 @@ public:
 private:
 
 	//Core Map
-	std::vector<std::vector<sf::Sprite>> tile_map;
+	std::vector<std::vector<Tile>> tile_map;
 	sf::Texture tile_sheet;
 
 	//Core Map Variables
