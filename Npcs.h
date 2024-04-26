@@ -9,8 +9,9 @@ public:
 	~Npcs();
 
 	//Core Functions
-	void update(sf::FloatRect playerPos);
+	void update(sf::FloatRect playerPos, sf::Vector2f playerVelocity);
 	void render(sf::RenderTarget* target);
+	void moveNpcWithMap(sf::Vector2f playerVelocity);
 
 	//Detection Functions
 	void detectInteract(sf::FloatRect playerPos);
@@ -20,9 +21,9 @@ public:
 	void initAnimations();
 
 	//Rectangle Functions
-	//void initRects();
-	//void renderRects(sf::RenderTarget* target);
-	//void updateRects();
+	void initRects();
+	void renderRects(sf::RenderTarget* target);
+	void updateRects();
 
 private:
 	float x;

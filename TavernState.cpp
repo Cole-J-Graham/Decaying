@@ -72,7 +72,7 @@ void TavernState::render(sf::RenderTarget* target)
 void TavernState::updateNpcs()
 {
 	for (auto& it : this->npcs) {
-		it.second->update(this->combat->playerCombat->rectangles["PLAYERCOLLISION"]->getGlobalBounds());
+		it.second->update(this->combat->playerCombat->rectangles["PLAYERCOLLISION"]->getGlobalBounds(), this->combat->playerCombat->character->getVelocity());
 	}
 }
 

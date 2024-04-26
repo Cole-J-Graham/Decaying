@@ -13,6 +13,7 @@ Npcs::Npcs(float x, float y, std::string texture)
 	//Initialization
 	this->animation = new AnimationModule(&this->npc);
 	this->initAnimations();
+	this->initRects();
 }
 
 Npcs::~Npcs()
@@ -26,30 +27,37 @@ Npcs::~Npcs()
 }
 
 //Core Functions
-void Npcs::update(sf::FloatRect playerPos)
+void Npcs::update(sf::FloatRect playerPos, sf::Vector2f playerVelocity)
 {
 	this->updateAnimations();
-	//this->detectInteract(playerPos);
+	this->moveNpcWithMap(playerVelocity);
+	this->detectInteract(playerPos);
 }
 
 void Npcs::render(sf::RenderTarget* target)
 {
 	target->draw(this->npc);
-	//this->renderRects(target);
+	this->renderRects(target);
+}
+
+void Npcs::moveNpcWithMap(sf::Vector2f playerVelocity)
+{
+	this->npc.setPosition(x += playerVelocity.x, y += playerVelocity.y);
 }
 
 //Detection Functions
 void Npcs::detectInteract(sf::FloatRect playerPos)
 {
 	if (this->npc.getGlobalBounds().intersects(playerPos)) {
-		std::cout << "Colliding" << "\n";
+		this->rectangles["INTERACT_BOX"]->setShown();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-			std::cout << "Interacted" << "\n";
 			this->rectangles["DIALOGUE"]->setShown();
+			this->rectangles["INTERACT_BOX"]->setHidden();
 		}
 	}
 	else {
 		this->rectangles["DIALOGUE"]->setHidden();
+		this->rectangles["INTERACT_BOX"]->setHidden();
 	}
 }
 
@@ -62,4 +70,23 @@ void Npcs::updateAnimations()
 void Npcs::initAnimations()
 {
 	this->animation->addAnimation("IDLE", this->npcTexture, 4, 32, 5.2, 32, 0.f);
+}
+
+//Rectangle Functions
+void Npcs::updateRects()
+{
+	
+}
+
+void Npcs::initRects()
+{
+	this->rectangles["DIALOGUE"] = new Rectangle(x, y, 400, 100, sf::Color::Black, sf::Color::White, 1.f, true);
+	this->rectangles["INTERACT_BOX"] = new Rectangle(10, 10, 150.f, 25.f, sf::Color::Black, sf::Color::White, 1.f, "[E] INTERACT", 16.f, true);
+}
+
+void Npcs::renderRects(sf::RenderTarget* target)
+{
+	for (auto& it : this->rectangles) {
+		it.second->render(target);
+	}
 }
