@@ -15,6 +15,7 @@ public:
 
 	//Detection Functions
 	void detectInteract(sf::FloatRect playerPos);
+	void detectCollision(sf::FloatRect playerPos);
 
 	//Animation Functions
 	void updateAnimations();
@@ -25,9 +26,16 @@ public:
 	void renderRects(sf::RenderTarget* target);
 	void updateRects();
 
+	//Dialogue Functions
+	void addDialogue(std::string text);
+	void displayDialogue();
+
 private:
 	float x;
 	float y;
+
+	sf::Clock dialogueTimer;
+	sf::Time dialogueElapsed;
 
 	AnimationModule* animation;
 	std::map<std::string, sf::Texture> npcAnimations;

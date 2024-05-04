@@ -45,7 +45,7 @@ private:
 			std::uniform_int_distribution<std::mt19937::result_type> random_number(0, this->rand);
 			//Start animation timer
 			this->animationElapsed = this->animationTimer.getElapsedTime();
-			if (this->animationElapsed.asSeconds() >= speed + random_number(rng))
+			if (this->animationFrame < maxFrame && this->animationElapsed.asSeconds() >= speed + random_number(rng))
 			{
 				//Animate frames at the speed
 				this->animationFrame++;

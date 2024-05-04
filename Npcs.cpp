@@ -14,6 +14,7 @@ Npcs::Npcs(float x, float y, std::string texture)
 	this->animation = new AnimationModule(&this->npc);
 	this->initAnimations();
 	this->initRects();
+	this->addDialogue("INIT");
 }
 
 Npcs::~Npcs()
@@ -49,10 +50,13 @@ void Npcs::moveNpcWithMap(sf::Vector2f playerVelocity)
 void Npcs::detectInteract(sf::FloatRect playerPos)
 {
 	if (this->npc.getGlobalBounds().intersects(playerPos)) {
+		this->dialogueElapsed = this->dialogueTimer.getElapsedTime();
 		this->rectangles["INTERACT_BOX"]->setShown();
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && this->dialogueElapsed.asSeconds() >= 0.5) {
 			this->rectangles["DIALOGUE"]->setShown();
 			this->rectangles["INTERACT_BOX"]->setHidden();
+			this->displayDialogue();
+			this->dialogueTimer.restart();
 		}
 	}
 	else {
@@ -80,7 +84,7 @@ void Npcs::updateRects()
 
 void Npcs::initRects()
 {
-	this->rectangles["DIALOGUE"] = new Rectangle(x, y, 400, 100, sf::Color::Black, sf::Color::White, 1.f, true);
+	this->rectangles["DIALOGUE"] = new Rectangle(x, y, 400, 100, sf::Color::Black, sf::Color::White, 1.f, "Test from init", 16.f, true);
 	this->rectangles["INTERACT_BOX"] = new Rectangle(10, 10, 150.f, 25.f, sf::Color::Black, sf::Color::White, 1.f, "[E] INTERACT", 16.f, true);
 }
 
@@ -88,5 +92,21 @@ void Npcs::renderRects(sf::RenderTarget* target)
 {
 	for (auto& it : this->rectangles) {
 		it.second->render(target);
+	}
+}
+
+//Dialogue Functions
+void Npcs::addDialogue(std::string text)
+{
+	this->dialogue.push(text);
+}
+
+void Npcs::displayDialogue()
+{
+	if (!this->dialogue.empty()) {  // Check if the dialogue stack is not empty
+		this->dialogue.pop();
+		if (!this->dialogue.empty()) {  // Check again to ensure there's still content after popping
+			this->rectangles["DIALOGUE"]->setString(this->dialogue.top());
+		}
 	}
 }
