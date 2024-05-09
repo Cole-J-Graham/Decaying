@@ -12,6 +12,7 @@ public:
 	void update(sf::FloatRect playerPos, sf::Vector2f playerVelocity);
 	void render(sf::RenderTarget* target);
 	void moveNpcWithMap(sf::Vector2f playerVelocity);
+	void followPlayer(sf::FloatRect playerPos);
 
 	//Detection Functions
 	void detectInteract(sf::FloatRect playerPos);
@@ -33,6 +34,7 @@ public:
 private:
 	float x;
 	float y;
+	float moveSpeed;
 
 	sf::Clock dialogueTimer;
 	sf::Time dialogueElapsed;

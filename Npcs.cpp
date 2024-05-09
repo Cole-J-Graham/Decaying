@@ -9,6 +9,7 @@ Npcs::Npcs(float x, float y, std::string texture)
 	this->y = y;
 	this->npc.setPosition(this->x, this->y);
 	this->npc.setScale(4.0f, 4.0f);
+	this->moveSpeed = 1.5;
 
 	//Initialization
 	this->animation = new AnimationModule(&this->npc);
@@ -33,6 +34,7 @@ void Npcs::update(sf::FloatRect playerPos, sf::Vector2f playerVelocity)
 	this->updateAnimations();
 	this->moveNpcWithMap(playerVelocity);
 	this->detectInteract(playerPos);
+	this->followPlayer(playerPos);
 }
 
 void Npcs::render(sf::RenderTarget* target)
@@ -44,6 +46,31 @@ void Npcs::render(sf::RenderTarget* target)
 void Npcs::moveNpcWithMap(sf::Vector2f playerVelocity)
 {
 	this->npc.setPosition(x += playerVelocity.x, y += playerVelocity.y);
+}
+
+void Npcs::followPlayer(sf::FloatRect playerPos)
+{
+	if (!this->npc.getGlobalBounds().intersects(playerPos)) {
+		if (playerPos.getPosition().x > this->npc.getPosition().x) {
+			this->npc.setPosition(x += this->moveSpeed, y);
+			//this->animation->play("WALKUP");
+		}
+		if (playerPos.getPosition().x < this->npc.getPosition().x) {
+			this->npc.setPosition(x -= this->moveSpeed, y);
+			//this->animation->play("WALKUP");
+		}
+		if (playerPos.getPosition().y > this->npc.getPosition().y) {
+			this->npc.setPosition(x, y += this->moveSpeed);
+			//this->animation->play("WALKUP");
+		}
+		if (playerPos.getPosition().y < this->npc.getPosition().y) {
+			this->npc.setPosition(x, y -= this->moveSpeed);
+			//this->animation->play("WALKUP");
+		}
+	}
+	else {
+		std::cout << "npc is at player" << "\n";
+	}
 }
 
 //Detection Functions
