@@ -31,8 +31,8 @@ public:
 	void initRects();
 	void renderRects(sf::RenderTarget* target);
 	void updateRects();
-
 	sf::FloatRect getGlobalBounds() const { return this->enemy.getGlobalBounds(); }
+	sf::FloatRect getEnemyHitbox();
 
 	//Accessors
 	int& getHp() { return this->hp; }

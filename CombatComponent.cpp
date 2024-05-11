@@ -62,11 +62,11 @@ void CombatComponent::detectPlayerAttack()
 {
 	for (auto& it : this->enemies) {
 		if (this->playerCombat->getAttacking()) {
-			if (this->playerCombat->getPlayerProjectile().getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+			if (this->playerCombat->getPlayerProjectile().getGlobalBounds().intersects(it.second->getEnemyHitbox())) {
 				it.second->getHp() -= this->playerCombat->character->getDamage();
 			}
 
-			if (this->playerCombat->rectangles["PLAYERATTACK"]->getGlobalBounds().intersects(it.second->getGlobalBounds())) {
+			if (this->playerCombat->rectangles["PLAYERATTACK"]->getGlobalBounds().intersects(it.second->getEnemyHitbox())) {
 				it.second->getHp() -= this->playerCombat->character->getDamage();
 			}
 		}

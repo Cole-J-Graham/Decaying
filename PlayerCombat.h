@@ -43,6 +43,7 @@ public:
 	std::map<std::string, Sprite*> sprites;
 	std::map<std::string, Rectangle*> rectangles;
 	Character* character;
+	const sf::FloatRect& getPlayerPos() { return this->rectangles["PLAYERCOLLISION"]->getGlobalBounds(); }
 
 private:
 	sf::Clock clock;

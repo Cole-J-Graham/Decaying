@@ -72,13 +72,13 @@ void TavernState::render(sf::RenderTarget* target)
 void TavernState::updateNpcs()
 {
 	for (auto& it : this->npcs) {
-		it.second->update(this->combat->playerCombat->rectangles["PLAYERCOLLISION"]->getGlobalBounds(), this->combat->playerCombat->character->getVelocity());
+		it.second->update(this->combat->playerCombat->character->player->getPosition(), this->combat->playerCombat->character->getVelocity());
 	}
 }
 
 void TavernState::initNpcs()
 {
-	this->npcs["ZIN"] = new Npcs(800, 800, "Assets/SpriteSheets/ZinIdleAnimation.png");
+	this->npcs["ZIN"] = new Npcs(900, 500, "Assets/SpriteSheets/ZinIdleAnimation.png");
 }
 
 void TavernState::renderNpcs(sf::RenderTarget* target)

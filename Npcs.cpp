@@ -9,7 +9,7 @@ Npcs::Npcs(float x, float y, std::string texture)
 	this->y = y;
 	this->npc.setPosition(this->x, this->y);
 	this->npc.setScale(4.0f, 4.0f);
-	this->moveSpeed = 1.5;
+	this->moveSpeed = 100.0f;
 
 	//Initialization
 	this->animation = new AnimationModule(&this->npc);
@@ -29,7 +29,7 @@ Npcs::~Npcs()
 }
 
 //Core Functions
-void Npcs::update(sf::FloatRect playerPos, sf::Vector2f playerVelocity)
+void Npcs::update(sf::Vector2f playerPos, sf::Vector2f playerVelocity)
 {
 	this->updateAnimations();
 	this->moveNpcWithMap(playerVelocity);
@@ -48,35 +48,30 @@ void Npcs::moveNpcWithMap(sf::Vector2f playerVelocity)
 	this->npc.setPosition(x += playerVelocity.x, y += playerVelocity.y);
 }
 
-void Npcs::followPlayer(sf::FloatRect playerPos)
-{
-	if (!this->npc.getGlobalBounds().intersects(playerPos)) {
-		if (playerPos.getPosition().x > this->npc.getPosition().x) {
-			this->npc.setPosition(x += this->moveSpeed, y);
-			//this->animation->play("WALKUP");
-		}
-		if (playerPos.getPosition().x < this->npc.getPosition().x) {
-			this->npc.setPosition(x -= this->moveSpeed, y);
-			//this->animation->play("WALKUP");
-		}
-		if (playerPos.getPosition().y > this->npc.getPosition().y) {
-			this->npc.setPosition(x, y += this->moveSpeed);
-			//this->animation->play("WALKUP");
-		}
-		if (playerPos.getPosition().y < this->npc.getPosition().y) {
-			this->npc.setPosition(x, y -= this->moveSpeed);
-			//this->animation->play("WALKUP");
-		}
-	}
-	else {
-		std::cout << "npc is at player" << "\n";
+void Npcs::followPlayer(sf::Vector2f playerPos) {
+	// Retrieve NPC's current position
+	sf::Vector2f npcPosition = this->npc.getPosition();
+
+	// playerPos is already a Vector2f with x and y directly representing the position
+	sf::Vector2f direction = playerPos - npcPosition;
+	float length = std::sqrt(direction.x * direction.x * 2 + direction.y * direction.y * 2);
+
+	if (length > 40) { // Ensure some distance is maintained to avoid overlapping
+		direction /= length;  // Normalize the direction vector
+
+		// Adjust moveSpeed as needed; ensure moveSpeed is a float representing speed per frame or per second
+		sf::Vector2f newPosition = npcPosition + direction * this->moveSpeed;
+
+		// Update NPC position
+		this->npc.setPosition(x - newPosition.x - this->moveSpeed + 985, y - newPosition.y - this->moveSpeed + 575);
 	}
 }
 
+
 //Detection Functions
-void Npcs::detectInteract(sf::FloatRect playerPos)
+void Npcs::detectInteract(sf::Vector2f playerPos)
 {
-	if (this->npc.getGlobalBounds().intersects(playerPos)) {
+	if (this->npc.getGlobalBounds().contains(playerPos)) {
 		this->dialogueElapsed = this->dialogueTimer.getElapsedTime();
 		this->rectangles["INTERACT_BOX"]->setShown();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && this->dialogueElapsed.asSeconds() >= 0.5) {

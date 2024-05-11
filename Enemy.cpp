@@ -54,22 +54,29 @@ void Enemy::render(sf::RenderTarget* target)
 //Movement Functions
 void Enemy::walkTowardsPlayer(sf::Vector2f playerPos)
 {
-	if (playerPos.x > this->enemy.getPosition().x) {
-		this->enemy.setPosition(x += this->moveSpeed, y);
-		this->animation->play("WALKUP");
+	// Calculate direction towards the player
+	sf::Vector2f direction = playerPos - this->enemy.getPosition();
+
+	// Normalize the direction vector
+	float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+	if (distance > 0.1f) { // Avoid division by zero
+		direction /= distance;
 	}
-	if (playerPos.x < this->enemy.getPosition().x) {
-		this->enemy.setPosition(x -= this->moveSpeed, y);
-		this->animation->play("WALKUP");
+
+	// Adjust the move speed based on the distance
+	float moveSpeedAdjusted = this->moveSpeed;
+	if (distance < 50.0f) { // Decrease move speed when close to the player
+		moveSpeedAdjusted = this->moveSpeed * 0.5f;
 	}
-	if (playerPos.y > this->enemy.getPosition().y) {
-		this->enemy.setPosition(x, y += this->moveSpeed);
-		this->animation->play("WALKUP");
-	}
-	if (playerPos.y < this->enemy.getPosition().y) {
-		this->enemy.setPosition(x, y -= this->moveSpeed);
-		this->animation->play("WALKUP");
-	}
+
+	// Calculate the step size to move the enemy
+	sf::Vector2f step = direction * moveSpeedAdjusted;
+
+	// Update the enemy's position
+	this->enemy.move(x += step.x, y += step.y);
+
+	// Play animation
+	this->animation->play("WALKUP");
 }
 
 void Enemy::initAnimations()
@@ -118,3 +125,5 @@ void Enemy::renderRects(sf::RenderTarget* target)
 		it.second->render(target);
 	}
 }
+
+sf::FloatRect Enemy::getEnemyHitbox() { return this->rectangles["HITBOX"]->getGlobalBounds(); }

@@ -9,13 +9,13 @@ public:
 	~Npcs();
 
 	//Core Functions
-	void update(sf::FloatRect playerPos, sf::Vector2f playerVelocity);
+	void update(sf::Vector2f playerPos, sf::Vector2f playerVelocity);
 	void render(sf::RenderTarget* target);
 	void moveNpcWithMap(sf::Vector2f playerVelocity);
-	void followPlayer(sf::FloatRect playerPos);
+	void followPlayer(sf::Vector2f playerPos);
 
 	//Detection Functions
-	void detectInteract(sf::FloatRect playerPos);
+	void detectInteract(sf::Vector2f playerPos);
 	void detectCollision(sf::FloatRect playerPos);
 
 	//Animation Functions
