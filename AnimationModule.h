@@ -12,7 +12,7 @@ public:
 
 	//Core Functions
 	void addAnimation(std::string key, sf::Texture& texture,
-		int maxFrame, float offset, float speed, int sheetSize, float rand);
+		int maxFrame, float offset, float speed, int sheetSize, float rand, bool finish = NULL);
 	void play(std::string key);
 	void reset(std::string key);
 	void setAnimation(std::string key, std::string texture, float speed);
@@ -24,7 +24,7 @@ private:
 	public:
 		//Constructors and Deconstructors
 		Animation(sf::Sprite* sprite, sf::Texture& texture, int maxFrame, float offset, float speed,
-			int sheetSize, float rand) : sprite(sprite), texture(texture)
+			int sheetSize, float rand, bool finish = NULL) : sprite(sprite), texture(texture)
 		{
 			this->sprite = sprite;
 			this->texture = texture;
@@ -34,6 +34,7 @@ private:
 			this->speed = speed;
 			this->sheetSize = sheetSize;
 			this->rand = rand;
+			this->mustFinish = finish;
 		}
 
 		//Core Functions
@@ -50,11 +51,13 @@ private:
 				//Animate frames at the speed
 				this->animationFrame++;
 				this->animationTimer.restart();
+				this->playing = true;
 			}
 			else if (this->animationFrame >= maxFrame)
 			{
 				//Reset if max frames has been reached
 				this->animationFrame = 0;
+				this->playing = false;
 			}
 		}
 		void animateSheet()
@@ -77,7 +80,8 @@ private:
 			this->speed = speed;
 			this->texture.loadFromFile(texture);
 		}
-
+		bool& getPlaying() { return this->playing; }
+		bool& getMustFinish() { return this->mustFinish; }
 	private:
 		sf::Texture& texture;
 		int animationFrame;
@@ -87,6 +91,8 @@ private:
 		float rand;
 		int sheetSize;
 		int currentOffset;
+		bool playing;
+		bool mustFinish;
 
 		sf::Sprite* sprite;
 		sf::Clock animationTimer;

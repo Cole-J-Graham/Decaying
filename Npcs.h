@@ -15,8 +15,9 @@ public:
 	void followPlayer(sf::Vector2f playerPos);
 
 	//Detection Functions
+	void detectNpc(sf::Vector2f playerPos);
 	void detectInteract(sf::Vector2f playerPos);
-	void detectCollision(sf::FloatRect playerPos);
+	void detectFollow(sf::Vector2f playerPos);
 
 	//Animation Functions
 	void updateAnimations();
@@ -35,6 +36,7 @@ private:
 	float x;
 	float y;
 	float moveSpeed;
+	bool followingPlayer;
 
 	sf::Clock dialogueTimer;
 	sf::Time dialogueElapsed;

@@ -10,6 +10,7 @@ Npcs::Npcs(float x, float y, std::string texture)
 	this->npc.setPosition(this->x, this->y);
 	this->npc.setScale(4.0f, 4.0f);
 	this->moveSpeed = 100.0f;
+	this->followingPlayer = false;
 
 	//Initialization
 	this->animation = new AnimationModule(&this->npc);
@@ -33,8 +34,8 @@ void Npcs::update(sf::Vector2f playerPos, sf::Vector2f playerVelocity)
 {
 	this->updateAnimations();
 	this->moveNpcWithMap(playerVelocity);
-	this->detectInteract(playerPos);
-	this->followPlayer(playerPos);
+	this->detectNpc(playerPos);
+	if (this->followingPlayer) { this->followPlayer(playerPos); }
 }
 
 void Npcs::render(sf::RenderTarget* target)
@@ -69,6 +70,12 @@ void Npcs::followPlayer(sf::Vector2f playerPos) {
 
 
 //Detection Functions
+void Npcs::detectNpc(sf::Vector2f playerPos)
+{
+	this->detectInteract(playerPos);
+	this->detectFollow(playerPos);
+}
+
 void Npcs::detectInteract(sf::Vector2f playerPos)
 {
 	if (this->npc.getGlobalBounds().contains(playerPos)) {
@@ -84,6 +91,20 @@ void Npcs::detectInteract(sf::Vector2f playerPos)
 	else {
 		this->rectangles["DIALOGUE"]->setHidden();
 		this->rectangles["INTERACT_BOX"]->setHidden();
+	}
+}
+
+void Npcs::detectFollow(sf::Vector2f playerPos)
+{
+	if (this->npc.getGlobalBounds().contains(playerPos)) {
+		this->rectangles["INTERACT_FOLLOW"]->setShown();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+			this->followingPlayer = true;
+		}
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && this->followingPlayer) {
+		this->followingPlayer = false;
+		this->rectangles["INTERACT_FOLLOW"]->setHidden();
 	}
 }
 
@@ -108,6 +129,7 @@ void Npcs::initRects()
 {
 	this->rectangles["DIALOGUE"] = new Rectangle(x, y, 400, 100, sf::Color::Black, sf::Color::White, 1.f, "Test from init", 16.f, true);
 	this->rectangles["INTERACT_BOX"] = new Rectangle(10, 10, 150.f, 25.f, sf::Color::Black, sf::Color::White, 1.f, "[E] INTERACT", 16.f, true);
+	this->rectangles["INTERACT_FOLLOW"] = new Rectangle(10, 35, 150.f, 25.f, sf::Color::Black, sf::Color::White, 1.f, "[F] FOLLOW", 16.f, true);
 }
 
 void Npcs::renderRects(sf::RenderTarget* target)

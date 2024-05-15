@@ -20,7 +20,7 @@ AnimationModule::~AnimationModule()
 
 //Core Functions
 void AnimationModule::addAnimation(std::string key, sf::Texture& texture, 
-	int maxFrame, float offset, float speed, int sheetSize, float rand)
+	int maxFrame, float offset, float speed, int sheetSize, float rand, bool finish)
 {
 	this->animations[key] = new Animation(this->sprite, texture, maxFrame, offset, speed, sheetSize, rand);
 }

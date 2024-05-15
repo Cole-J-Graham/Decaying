@@ -57,21 +57,19 @@ void Character::render(sf::RenderTarget* target)
 //Movement Functions
 void Character::initAnimations()
 {
-	this->animation->addAnimation("WALKUP", this->playerAnimations["WALK_UP"], 4, 32, 0.2, 32, 0.f);
-	this->animation->addAnimation("WALKDOWN", this->playerAnimations["WALK_DOWN"], 4, 32, 0.2, 32, 0.f);
-	this->animation->addAnimation("WALKLEFT", this->playerAnimations["WALK_LEFT"], 4, 32, 0.2, 32, 0.f);
-	this->animation->addAnimation("WALKRIGHT", this->playerAnimations["WALK_RIGHT"], 4, 32, 0.2, 32, 0.f);
-	this->animation->addAnimation("WALKLEFTDOWN", this->playerAnimations["WALK_LEFT_DOWN"], 4, 32, 0.2, 32, 0.f);
-	this->animation->addAnimation("WALKRIGHTDOWN", this->playerAnimations["WALK_RIGHT_DOWN"], 4, 32, 0.2, 32, 0.f);
-	this->animation->addAnimation("WALKLEFTUP", this->playerAnimations["WALK_LEFT_UP"], 4, 32, 0.2, 32, 0.f);
-	this->animation->addAnimation("WALKRIGHTUP", this->playerAnimations["WALK_RIGHT_UP"], 4, 32, 0.2, 32, 0.f);
+	this->animation->addAnimation("WALKUP", this->playerAnimations["WALK_UP"], 4, 32, 0.2, 32, 0.f, true);
+	this->animation->addAnimation("WALKDOWN", this->playerAnimations["WALK_DOWN"], 4, 32, 0.2, 32, 0.f, true);
+	this->animation->addAnimation("WALKLEFT", this->playerAnimations["WALK_LEFT"], 4, 32, 0.2, 32, 0.f, true);
+	this->animation->addAnimation("WALKRIGHT", this->playerAnimations["WALK_RIGHT"], 4, 32, 0.2, 32, 0.f, true);
+	this->animation->addAnimation("WALKLEFTDOWN", this->playerAnimations["WALK_LEFT_DOWN"], 4, 32, 0.2, 32, 0.f, true);
+	this->animation->addAnimation("WALKRIGHTDOWN", this->playerAnimations["WALK_RIGHT_DOWN"], 4, 32, 0.2, 32, 0.f, true);
+	this->animation->addAnimation("WALKLEFTUP", this->playerAnimations["WALK_LEFT_UP"], 4, 32, 0.2, 32, 0.f, true);
+	this->animation->addAnimation("WALKRIGHTUP", this->playerAnimations["WALK_RIGHT_UP"], 4, 32, 0.2, 32, 0.f, true);
 
 	this->animation->addAnimation("ROLLUP", this->playerAnimations["ROLL_UP"], 4, 32, 0.1, 32, 0.f);
 	this->animation->addAnimation("ROLLDOWN", this->playerAnimations["ROLL_DOWN"], 4, 32, 0.1, 32, 0.f);
 	this->animation->addAnimation("ROLLLEFT", this->playerAnimations["ROLL_LEFT"], 4, 32, 0.1, 32, 0.f);
 	this->animation->addAnimation("ROLLRIGHT", this->playerAnimations["ROLL_RIGHT"], 4, 32, 0.1, 32, 0.f);
-
-	this->animation->addAnimation("SLASHDOWN", this->playerAnimations["SLASH_DOWN"], 4, 32, 0.1, 32, 0.f);
 }
 
 void Character::characterMovement()
@@ -201,8 +199,6 @@ void Character::loadAssets()
 	this->playerAnimations["ROLL_DOWN"].loadFromFile("Assets/SpriteSheets/Ode Rolling S-Sheet.png");
 	this->playerAnimations["ROLL_LEFT"].loadFromFile("Assets/SpriteSheets/Ode Rolling A-Sheet.png");
 	this->playerAnimations["ROLL_RIGHT"].loadFromFile("Assets/SpriteSheets/Ode Rolling D-Sheet.png");
-
-	this->playerAnimations["SLASH_DOWN"].loadFromFile("Assets/SpriteSheets/Ode Attack S-Sheet.png");
 }
 
 //Rectangle Functions
